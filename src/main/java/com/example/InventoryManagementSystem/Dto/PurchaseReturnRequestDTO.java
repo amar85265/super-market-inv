@@ -1,0 +1,21 @@
+package com.example.InventoryManagementSystem.Dto;
+
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PurchaseReturnRequestDTO {
+
+    private Integer purchaseReturnId;
+    private Integer purchaseId;
+    private Integer supplierId;
+    private LocalDateTime returnDate;
+    private BigDecimal totalAmount;
+    private String notes;
+}
