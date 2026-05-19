@@ -1,10 +1,9 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseRequestDto;
-import com.example.InventoryManagementSystem.Dto.PurchaseResponseDto;
+import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
+import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
 import com.example.InventoryManagementSystem.model.Purchase;
 import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
-import com.example.InventoryManagementSystem.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

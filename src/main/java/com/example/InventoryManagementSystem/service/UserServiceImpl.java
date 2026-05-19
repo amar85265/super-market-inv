@@ -1,12 +1,11 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.UserRequestDTO;
-import com.example.InventoryManagementSystem.Dto.UserResponseDTO;
+import com.example.InventoryManagementSystem.dto.UserRequestDTO;
+import com.example.InventoryManagementSystem.dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.model.Role;
 import com.example.InventoryManagementSystem.model.User;
 import com.example.InventoryManagementSystem.Repository.RoleRepository;
 import com.example.InventoryManagementSystem.Repository.UserRepository;
-import com.example.InventoryManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

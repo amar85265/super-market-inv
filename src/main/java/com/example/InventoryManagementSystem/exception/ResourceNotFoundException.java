@@ -1,4 +1,4 @@
-package com.example.InventoryManagementSystem.Exception;
+package com.example.InventoryManagementSystem.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseReturnItemRequestDTO;
-import com.example.InventoryManagementSystem.Dto.PurchaseReturnItemResponseDTO;
+import com.example.InventoryManagementSystem.dto.PurchaseReturnItemRequestDTO;
+import com.example.InventoryManagementSystem.dto.PurchaseReturnItemResponseDTO;
 import com.example.InventoryManagementSystem.service.PurchaseReturnItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

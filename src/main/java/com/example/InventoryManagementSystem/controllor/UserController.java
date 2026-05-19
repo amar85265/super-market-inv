@@ -1,8 +1,8 @@
 package
 com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.Dto.UserRequestDTO;
-import com.example.InventoryManagementSystem.Dto.UserResponseDTO;
+import com.example.InventoryManagementSystem.dto.UserRequestDTO;
+import com.example.InventoryManagementSystem.dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

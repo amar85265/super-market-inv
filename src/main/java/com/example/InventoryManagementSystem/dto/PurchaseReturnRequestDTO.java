@@ -1,4 +1,4 @@
-package com.example.InventoryManagementSystem.Dto;
+package com.example.InventoryManagementSystem.dto;
 
 import lombok.*;
 
@@ -10,17 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PurchaseReturnResponseDTO {
+public class PurchaseReturnRequestDTO {
 
     private Integer purchaseReturnId;
-
     private Integer purchaseId;
-
     private Integer supplierId;
-
     private LocalDateTime returnDate;
-
     private BigDecimal totalAmount;
-
     private String notes;
 }

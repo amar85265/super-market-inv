@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseReturnItemRequestDTO;
-import com.example.InventoryManagementSystem.Dto.PurchaseReturnItemResponseDTO;
+import com.example.InventoryManagementSystem.dto.PurchaseReturnItemRequestDTO;
+import com.example.InventoryManagementSystem.dto.PurchaseReturnItemResponseDTO;
 import com.example.InventoryManagementSystem.Repository.PurchaseReturnItemRepository;
 import com.example.InventoryManagementSystem.model.PurchaseReturnItem;
 import lombok.RequiredArgsConstructor;
