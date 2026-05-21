@@ -4,6 +4,8 @@ import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
 import com.example.InventoryManagementSystem.service.PurchaseItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,42 +15,62 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseItemController {
 
-    private final PurchaseItemService service;
+    private final PurchaseItemService purchaseItemService;
 
+    // CREATE
     @PostMapping
-    public PurchaseItemResponseDto createPurchaseItem(
-            @RequestBody PurchaseItemRequestDto dto) {
+    public ResponseEntity<PurchaseItemResponseDto>
+    createPurchaseItem(
+            @RequestBody PurchaseItemRequestDto request) {
 
-        return service.createPurchaseItem(dto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        purchaseItemService
+                                .createPurchaseItem(request));
     }
 
+    // GET ALL
     @GetMapping
-    public List<PurchaseItemResponseDto> getAllPurchaseItems() {
+    public ResponseEntity<List<PurchaseItemResponseDto>>
+    getAllPurchaseItems() {
 
-        return service.getAllPurchaseItems();
+        return ResponseEntity.ok(
+                purchaseItemService.getAllPurchaseItems());
     }
 
-    @GetMapping("/{id}")
-    public PurchaseItemResponseDto getPurchaseItemById(
-            @PathVariable Long id) {
+    // GET BY ID
+    @GetMapping("/{purchaseItemId}")
+    public ResponseEntity<PurchaseItemResponseDto>
+    getPurchaseItemById(
+            @PathVariable Long purchaseItemId) {
 
-        return service.getPurchaseItemById(id);
+        return ResponseEntity.ok(
+                purchaseItemService
+                        .getPurchaseItemById(purchaseItemId));
     }
 
-    @PutMapping("/{id}")
-    public PurchaseItemResponseDto updatePurchaseItem(
-            @PathVariable Long id,
-            @RequestBody PurchaseItemRequestDto dto) {
+    // UPDATE
+    @PutMapping("/{purchaseItemId}")
+    public ResponseEntity<PurchaseItemResponseDto>
+    updatePurchaseItem(
+            @PathVariable Long purchaseItemId,
+            @RequestBody PurchaseItemRequestDto request) {
 
-        return service.updatePurchaseItem(id, dto);
+        return ResponseEntity.ok(
+                purchaseItemService.updatePurchaseItem(
+                        purchaseItemId,
+                        request));
     }
 
-    @DeleteMapping("/{id}")
-    public String deletePurchaseItem(
-            @PathVariable Long id) {
+    // DELETE
+    @DeleteMapping("/{purchaseItemId}")
+    public ResponseEntity<String> deletePurchaseItem(
+            @PathVariable Long purchaseItemId) {
 
-        service.deletePurchaseItem(id);
+        purchaseItemService.deletePurchaseItem(
+                purchaseItemId);
 
-        return "Purchase Item deleted successfully";
+        return ResponseEntity.ok(
+                "Purchase Item deleted successfully");
     }
 }

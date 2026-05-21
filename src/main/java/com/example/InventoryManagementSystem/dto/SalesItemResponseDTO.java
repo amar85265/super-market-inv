@@ -5,17 +5,14 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class PurchaseItemRequestDto {
+public class SalesItemResponseDTO {
 
-    private Long purchaseId;
-
+    private Long saleItemId;
+    private Long saleId;
     private Long productId;
 
     private Integer quantity;
 
-    private BigDecimal purchasePrice;
-
-    private BigDecimal taxAmount;
-
+    private BigDecimal sellingPrice;
     private BigDecimal total;
 }

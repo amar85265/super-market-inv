@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "purchases")
@@ -12,26 +12,45 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchase_id")
     private Long purchaseId;
 
-    private Long supplierId;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplierId;
 
+    @Column(name = "invoice_number")
     private String invoiceNumber;
 
-    private OffsetDateTime purchaseDate;
+    @Column(name = "purchase_date")
+    private LocalDateTime purchaseDate;
 
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+    @Column(name = "tax")
+    private BigDecimal tax;
+
+    @Column(name = "payment_status")
     private String paymentStatus;
 
-    private Long createdBy;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
     @PrePersist
-    public void prePersist() {
-        this.purchaseDate = OffsetDateTime.now();
+    public void setDate() {
+        this.purchaseDate = LocalDateTime.now();
+    }
+
+    public void setSupplierId(Long supplierId) {
+    }
+
+    public void setCreatedBy(Long createdBy) {
     }
 }
