@@ -19,7 +19,7 @@ public class HoldInvoice {
     @Column(name = "hold_id")
     private Long holdId;
 
-    @Column(columnDefinition = "jsonb")
+    
     private String data;
 
     @Column(name = "created_at")
