@@ -52,5 +52,6 @@ public class Purchase {
     }
 
     public void setCreatedBy(Long createdBy) {
+
     }
 }
