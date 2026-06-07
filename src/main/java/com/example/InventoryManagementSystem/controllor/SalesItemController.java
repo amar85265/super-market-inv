@@ -16,22 +16,59 @@ public class SalesItemController {
 
     private final SalesItemService salesItemService;
 
-    // CREATE SALES ITEM
+    // CREATE
     @PostMapping
-    public ResponseEntity<SalesItemResponseDTO> create(@RequestBody SalesItemRequestDTO dto) {
-        return ResponseEntity.ok(salesItemService.createSalesItem(dto));
+    public ResponseEntity<SalesItemResponseDTO> create(
+            @RequestBody SalesItemRequestDTO dto) {
+
+        return ResponseEntity.ok(
+                salesItemService.createSalesItem(dto));
+    }
+
+    // GET ALL
+    @GetMapping
+    public ResponseEntity<List<SalesItemResponseDTO>> getAll() {
+
+        return ResponseEntity.ok(
+                salesItemService.getAllSalesItems());
+    }
+
+    // GET BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<SalesItemResponseDTO> getById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                salesItemService.getSalesItemById(id));
     }
 
     // GET BY SALE ID
     @GetMapping("/sale/{saleId}")
-    public ResponseEntity<List<SalesItemResponseDTO>> getBySaleId(@PathVariable Long saleId) {
-        return ResponseEntity.ok(salesItemService.getItemsBySaleId(saleId));
+    public ResponseEntity<List<SalesItemResponseDTO>> getBySaleId(
+            @PathVariable Long saleId) {
+
+        return ResponseEntity.ok(
+                salesItemService.getItemsBySaleId(saleId));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SalesItemResponseDTO> update(
+            @PathVariable Long id,
+            @RequestBody SalesItemRequestDTO dto) {
+
+        return ResponseEntity.ok(
+                salesItemService.updateSalesItem(id, dto)
+        );
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(
+            @PathVariable Long id) {
+
         salesItemService.deleteSalesItem(id);
-        return ResponseEntity.ok("Sales item deleted and stock restored");
+
+        return ResponseEntity.ok(
+                "Sales item deleted and stock restored");
     }
 }
