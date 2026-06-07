@@ -19,7 +19,7 @@ public class HoldInvoice {
     @Column(name = "hold_id")
     private Long holdId;
 
-    
+
     private String data;
 
     @Column(name = "created_at")
