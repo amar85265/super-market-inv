@@ -12,6 +12,10 @@ public interface HoldInvoiceService {
 
     List<HoldInvoiceResponseDto> getAllHoldInvoices();
 
+    HoldInvoiceResponseDto updateHoldInvoice(
+            Long id,
+            HoldInvoiceRequestDto dto);
+
     HoldInvoiceResponseDto getHoldInvoiceById(
             Long id);
 

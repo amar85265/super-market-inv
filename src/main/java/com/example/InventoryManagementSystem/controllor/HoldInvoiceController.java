@@ -47,6 +47,16 @@ public class HoldInvoiceController {
                 holdInvoiceService
                         .getHoldInvoiceById(id));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<HoldInvoiceResponseDto>
+    updateHoldInvoice(
+            @PathVariable Long id,
+            @RequestBody HoldInvoiceRequestDto dto) {
+
+        return ResponseEntity.ok(
+                holdInvoiceService
+                        .updateHoldInvoice(id, dto));
+    }
 
     // DELETE
     @DeleteMapping("/{id}")

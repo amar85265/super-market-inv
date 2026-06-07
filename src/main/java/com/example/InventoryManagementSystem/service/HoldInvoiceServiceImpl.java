@@ -58,6 +58,25 @@ public class HoldInvoiceServiceImpl
         return mapToDto(holdInvoice);
     }
 
+    @Override
+    public HoldInvoiceResponseDto updateHoldInvoice(
+            Long id,
+            HoldInvoiceRequestDto dto) {
+
+        HoldInvoice holdInvoice =
+                holdInvoiceRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Hold invoice not found"));
+
+        holdInvoice.setData(dto.getData());
+
+        HoldInvoice updated =
+                holdInvoiceRepository.save(holdInvoice);
+
+        return mapToDto(updated);
+    }
+
     // DELETE
     @Override
     public void deleteHoldInvoice(Long id) {
