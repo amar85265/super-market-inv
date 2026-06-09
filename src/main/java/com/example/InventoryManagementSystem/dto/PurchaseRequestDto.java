@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class PurchaseRequestDto {
 
-    private Long supplierId;
+    private Integer supplierId;
 
     private String invoiceNumber;
 
@@ -17,5 +17,7 @@ public class PurchaseRequestDto {
 
     private String paymentStatus;
 
-    private Long createdBy;
+    private Integer createdBy;
+
+
 }

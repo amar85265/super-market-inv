@@ -4,7 +4,6 @@ import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
 import com.example.InventoryManagementSystem.service.PurchaseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,54 +14,56 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PurchaseController {
 
+
     private final PurchaseService purchaseService;
 
-    // CREATE PURCHASE
     @PostMapping
     public ResponseEntity<PurchaseResponseDto> createPurchase(
             @RequestBody PurchaseRequestDto request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(purchaseService.createPurchase(request));
+        return ResponseEntity.ok(
+                purchaseService.createPurchase(request));
     }
 
-    // GET ALL PURCHASES
     @GetMapping
-    public ResponseEntity<List<PurchaseResponseDto>> getAllPurchases() {
+    public ResponseEntity<List<PurchaseResponseDto>>
+    getAllPurchases() {
 
         return ResponseEntity.ok(
                 purchaseService.getAllPurchases());
     }
 
-    // GET PURCHASE BY ID
-    @GetMapping("/{purchaseId}")
-    public ResponseEntity<PurchaseResponseDto> getPurchaseById(
-            @PathVariable Long purchaseId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<PurchaseResponseDto>
+    getPurchaseById(
+            @PathVariable Long id) {
 
         return ResponseEntity.ok(
-                purchaseService.getPurchaseById(purchaseId));
+                purchaseService.getPurchaseById(id));
     }
 
-    // UPDATE PURCHASE
-    @PutMapping("/{purchaseId}")
-    public ResponseEntity<PurchaseResponseDto> updatePurchase(
-            @PathVariable Long purchaseId,
+    @PutMapping("/{id}")
+    public ResponseEntity<PurchaseResponseDto>
+    updatePurchase(
+            @PathVariable Long id,
             @RequestBody PurchaseRequestDto request) {
 
         return ResponseEntity.ok(
                 purchaseService.updatePurchase(
-                        purchaseId,
+                        id,
                         request));
     }
 
-    // DELETE PURCHASE
-    @DeleteMapping("/{purchaseId}")
-    public ResponseEntity<String> deletePurchase(
-            @PathVariable Long purchaseId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String>
+    deletePurchase(
+            @PathVariable Long id) {
 
-        purchaseService.deletePurchase(purchaseId);
+        purchaseService.deletePurchase(id);
 
         return ResponseEntity.ok(
-                "Purchase deleted successfully");
+                "Purchase Deleted Successfully");
     }
+
+
 }

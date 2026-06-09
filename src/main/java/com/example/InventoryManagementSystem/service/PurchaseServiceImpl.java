@@ -1,9 +1,13 @@
 package com.example.InventoryManagementSystem.service;
 
 import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
+import com.example.InventoryManagementSystem.Repository.SupplierRepository;
+import com.example.InventoryManagementSystem.Repository.UserRepository;
 import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
 import com.example.InventoryManagementSystem.model.Purchase;
+import com.example.InventoryManagementSystem.model.Supplier;
+import com.example.InventoryManagementSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,34 +15,40 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseServiceImpl implements PurchaseService {
+public class PurchaseServiceImpl
+        implements PurchaseService {
+
 
     private final PurchaseRepository purchaseRepository;
+    private final SupplierRepository supplierRepository;
+    private final UserRepository userRepository;
 
-    // CREATE PURCHASE
     @Override
     public PurchaseResponseDto createPurchase(
             PurchaseRequestDto dto) {
 
+        Supplier supplier =
+                supplierRepository.findById(
+                                Long.valueOf(dto.getSupplierId()))
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Supplier not found"));
+
+        User user =
+                userRepository.findById(
+                                dto.getCreatedBy())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "User not found"));
+
         Purchase purchase = new Purchase();
 
-        purchase.setSupplierId(
-                dto.getSupplierId());
-
-        purchase.setInvoiceNumber(
-                dto.getInvoiceNumber());
-
-        purchase.setTotalAmount(
-                dto.getTotalAmount());
-
-        purchase.setTax(
-                dto.getTax());
-
-        purchase.setPaymentStatus(
-                dto.getPaymentStatus());
-
-        purchase.setCreatedBy(
-                dto.getCreatedBy());
+        purchase.setSupplier(supplier);
+        purchase.setCreatedBy(user);
+        purchase.setInvoiceNumber(dto.getInvoiceNumber());
+        purchase.setTotalAmount(dto.getTotalAmount());
+        purchase.setTax(dto.getTax());
+        purchase.setPaymentStatus(dto.getPaymentStatus());
 
         Purchase saved =
                 purchaseRepository.save(purchase);
@@ -46,9 +56,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         return mapToDto(saved);
     }
 
-    // GET ALL PURCHASES
     @Override
-    public List<PurchaseResponseDto> getAllPurchases() {
+    public List<PurchaseResponseDto>
+    getAllPurchases() {
 
         return purchaseRepository.findAll()
                 .stream()
@@ -56,10 +66,9 @@ public class PurchaseServiceImpl implements PurchaseService {
                 .toList();
     }
 
-    // GET PURCHASE BY ID
     @Override
-    public PurchaseResponseDto getPurchaseById(
-            Long id) {
+    public PurchaseResponseDto
+    getPurchaseById(Long id) {
 
         Purchase purchase =
                 purchaseRepository.findById(id)
@@ -70,9 +79,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         return mapToDto(purchase);
     }
 
-    // UPDATE PURCHASE
     @Override
-    public PurchaseResponseDto updatePurchase(
+    public PurchaseResponseDto
+    updatePurchase(
             Long id,
             PurchaseRequestDto dto) {
 
@@ -82,23 +91,26 @@ public class PurchaseServiceImpl implements PurchaseService {
                                 new RuntimeException(
                                         "Purchase not found"));
 
-        purchase.setSupplierId(
-                dto.getSupplierId());
+        Supplier supplier =
+                supplierRepository.findById(
+                                Long.valueOf(dto.getSupplierId()))
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Supplier not found"));
 
-        purchase.setInvoiceNumber(
-                dto.getInvoiceNumber());
+        User user =
+                userRepository.findById(
+                                dto.getCreatedBy())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "User not found"));
 
-        purchase.setTotalAmount(
-                dto.getTotalAmount());
-
-        purchase.setTax(
-                dto.getTax());
-
-        purchase.setPaymentStatus(
-                dto.getPaymentStatus());
-
-        purchase.setCreatedBy(
-                dto.getCreatedBy());
+        purchase.setSupplier(supplier);
+        purchase.setCreatedBy(user);
+        purchase.setInvoiceNumber(dto.getInvoiceNumber());
+        purchase.setTotalAmount(dto.getTotalAmount());
+        purchase.setTax(dto.getTax());
+        purchase.setPaymentStatus(dto.getPaymentStatus());
 
         Purchase updated =
                 purchaseRepository.save(purchase);
@@ -106,34 +118,35 @@ public class PurchaseServiceImpl implements PurchaseService {
         return mapToDto(updated);
     }
 
-    // DELETE PURCHASE
     @Override
     public void deletePurchase(Long id) {
 
-        Purchase purchase =
-                purchaseRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Purchase not found"));
-
-        purchaseRepository.delete(purchase);
+        purchaseRepository.deleteById(id);
     }
 
-    // MAP ENTITY TO DTO
     private PurchaseResponseDto mapToDto(
             Purchase purchase) {
 
-        return new PurchaseResponseDto(
-                purchase.getPurchaseId(),
-                purchase.getSupplierId()
-                        .getSupplierName(),
-                purchase.getInvoiceNumber(),
-                purchase.getPurchaseDate(),
-                purchase.getTotalAmount(),
-                purchase.getTax(),
-                purchase.getPaymentStatus(),
-                purchase.getCreatedBy()
-                        .getUsername()
-        );
+
+        return PurchaseResponseDto.builder()
+                .purchaseId(purchase.getPurchaseId())
+                .supplierName(
+                        purchase.getSupplier() != null
+                                ? purchase.getSupplier().getSupplierName()
+                                : "No Supplier")
+                .invoiceNumber(purchase.getInvoiceNumber())
+                .purchaseDate(purchase.getPurchaseDate())
+                .totalAmount(purchase.getTotalAmount())
+                .tax(purchase.getTax())
+                .paymentStatus(purchase.getPaymentStatus())
+                .createdBy(
+                        purchase.getCreatedBy() != null
+                                ? purchase.getCreatedBy().getUsername()
+                                : "No User")
+                .build();
+
+
     }
+
+
 }

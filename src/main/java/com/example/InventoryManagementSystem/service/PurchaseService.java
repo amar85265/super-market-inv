@@ -7,15 +7,26 @@ import java.util.List;
 
 public interface PurchaseService {
 
-    PurchaseResponseDto createPurchase(PurchaseRequestDto request);
 
+    // CREATE PURCHASE
+    PurchaseResponseDto createPurchase(
+            PurchaseRequestDto dto);
+
+    // GET ALL PURCHASES
     List<PurchaseResponseDto> getAllPurchases();
 
-    PurchaseResponseDto getPurchaseById(Long purchaseId);
+    // GET PURCHASE BY ID
+    PurchaseResponseDto getPurchaseById(
+            Long id);
 
+    // UPDATE PURCHASE
     PurchaseResponseDto updatePurchase(
-            Long purchaseId,
-            PurchaseRequestDto request);
+            Long id,
+            PurchaseRequestDto dto);
 
-    void deletePurchase(Long purchaseId);
+    // DELETE PURCHASE
+    void deletePurchase(
+            Long id);
+
+
 }

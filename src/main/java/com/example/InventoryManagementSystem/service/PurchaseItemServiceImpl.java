@@ -4,14 +4,14 @@ import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
 import com.example.InventoryManagementSystem.model.Product;
 import com.example.InventoryManagementSystem.model.Purchase;
-import com.example.InventoryManagementSystem.model.PurchaseItem;
 import com.example.InventoryManagementSystem.Repository.ProductRepository;
 import com.example.InventoryManagementSystem.Repository.PurchaseItemRepository;
 import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
-import com.example.InventoryManagementSystem.service.PurchaseItemService;
+import com.example.InventoryManagementSystem.model.PurchaseItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,15 +41,27 @@ public class PurchaseItemServiceImpl
                 .orElseThrow(() ->
                         new RuntimeException("Product not found"));
 
+        BigDecimal subtotal =
+                request.getPurchasePrice()
+                        .multiply(
+                                java.math.BigDecimal.valueOf(
+                                        request.getQuantity()));
+
+        BigDecimal taxAmount =
+                subtotal.multiply(
+                        new BigDecimal("0.18"));
+
+        BigDecimal total =
+                subtotal.add(taxAmount);
+
         PurchaseItem purchaseItem = PurchaseItem.builder()
                 .purchase(purchase)
                 .product(product)
                 .quantity(request.getQuantity())
                 .purchasePrice(request.getPurchasePrice())
-                .taxAmount(request.getTaxAmount())
-                .total(request.getTotal())
+                .taxAmount(taxAmount)
+                .total(total)
                 .build();
-
         PurchaseItem savedPurchaseItem =
                 purchaseItemRepository.save(purchaseItem);
 
@@ -107,11 +119,21 @@ public class PurchaseItemServiceImpl
         purchaseItem.setQuantity(request.getQuantity());
         purchaseItem.setPurchasePrice(
                 request.getPurchasePrice());
-        purchaseItem.setTaxAmount(
-                request.getTaxAmount());
-        purchaseItem.setTotal(
-                request.getTotal());
+        BigDecimal subtotal =
+                request.getPurchasePrice()
+                        .multiply(
+                                java.math.BigDecimal.valueOf(
+                                        request.getQuantity()));
 
+        BigDecimal taxAmount =
+                subtotal.multiply(
+                        new BigDecimal("0.18"));
+
+        BigDecimal total =
+                subtotal.add(taxAmount);
+
+        purchaseItem.setTaxAmount(taxAmount);
+        purchaseItem.setTotal(total);
         PurchaseItem updatedPurchaseItem =
                 purchaseItemRepository.save(purchaseItem);
 
@@ -137,7 +159,7 @@ public class PurchaseItemServiceImpl
 
         return PurchaseItemResponseDto.builder()
                 .purchaseItemId(
-                        purchaseItem.getPurchaseItemId())
+                        Long.valueOf(purchaseItem.getPurchaseItemId()))
                 .purchaseId(
                         purchaseItem.getPurchase().getPurchaseId())
                 .invoiceNumber(

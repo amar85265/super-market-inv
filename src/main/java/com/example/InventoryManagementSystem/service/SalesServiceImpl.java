@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
 public class SalesServiceImpl implements SalesService {
@@ -24,8 +25,8 @@ public class SalesServiceImpl implements SalesService {
 
         Sales sale = new Sales();
 
-        sale.setCustomerId(dto.getCustomerId());
-        sale.setCreatedBy(dto.getCreatedBy());
+        sale.setCustomerId(Long.valueOf(dto.getCustomerId()));
+        sale.setCreatedBy(Long.valueOf(dto.getCreatedBy()));
         sale.setInvoiceNumber(dto.getInvoiceNumber());
         sale.setPaymentStatus(dto.getPaymentStatus());
         sale.setTotalAmount(dto.getTotalAmount());
@@ -65,8 +66,8 @@ public class SalesServiceImpl implements SalesService {
         Sales sale = salesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sale not found with id: " + id));
 
-        sale.setCustomerId(dto.getCustomerId());
-        sale.setCreatedBy(dto.getCreatedBy());
+        sale.setCustomerId(Long.valueOf(dto.getCustomerId()));
+        sale.setCreatedBy(Long.valueOf(dto.getCreatedBy()));
         sale.setInvoiceNumber(dto.getInvoiceNumber());
         sale.setPaymentStatus(dto.getPaymentStatus());
         sale.setTotalAmount(dto.getTotalAmount());
@@ -92,8 +93,8 @@ public class SalesServiceImpl implements SalesService {
         SalesResponseDTO dto = new SalesResponseDTO();
 
         dto.setSaleId(sale.getSaleId());
-        dto.setCustomerId(sale.getCustomerId());
-        dto.setCreatedBy(sale.getCreatedBy());
+        dto.setCustomerId(Math.toIntExact(sale.getCustomerId()));
+        dto.setCreatedBy(Math.toIntExact(sale.getCreatedBy()));
         dto.setInvoiceNumber(sale.getInvoiceNumber());
         dto.setPaymentStatus(sale.getPaymentStatus());
         dto.setTotalAmount(sale.getTotalAmount());

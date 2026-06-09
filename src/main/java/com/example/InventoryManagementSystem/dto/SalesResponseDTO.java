@@ -1,6 +1,5 @@
 package com.example.InventoryManagementSystem.dto;
 
-
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,13 +9,18 @@ import java.time.LocalDateTime;
 public class SalesResponseDTO {
 
     private Long saleId;
-    private Long customerId;
-    private Long createdBy;
-    private Long getSalesReturnId;
+
+    private Integer customerId;
+
     private String invoiceNumber;
-    private String paymentStatus;
+
+    private LocalDateTime saleDate;
 
     private BigDecimal totalAmount;
 
-    private LocalDateTime saleDate;
+    private String paymentStatus;
+
+    private Integer createdBy;
+
+
 }

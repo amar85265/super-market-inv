@@ -1,8 +1,5 @@
 package com.example.InventoryManagementSystem.dto;
 
-
-
-
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,11 +7,16 @@ import java.math.BigDecimal;
 @Data
 public class SalesRequestDTO {
 
-    private Long customerId;
-    private Long createdBy;
+
+    private Integer customerId;
 
     private String invoiceNumber;
-    private String paymentStatus;
 
     private BigDecimal totalAmount;
+
+    private String paymentStatus;
+
+    private Integer createdBy;
+
+
 }

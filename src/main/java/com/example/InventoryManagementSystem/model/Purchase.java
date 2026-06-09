@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Purchase {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "purchase_id")
@@ -22,7 +23,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private Supplier supplierId;
+    private Supplier supplier;
 
     @Column(name = "invoice_number")
     private String invoiceNumber;
@@ -48,10 +49,5 @@ public class Purchase {
         this.purchaseDate = LocalDateTime.now();
     }
 
-    public void setSupplierId(Long supplierId) {
-    }
 
-    public void setCreatedBy(Long createdBy) {
-
-    }
 }
