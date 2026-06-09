@@ -1,4 +1,4 @@
-package com.example.InventoryManagementSystem.model;
+package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,23 +6,30 @@ import lombok.*;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "suppliers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class Supplier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long id;
+    @Column(name = "supplier_id")
+    private Long supplierId;
 
-    @Column(name = "category_name", nullable = false)
-    private String categoryName;
+    @Column(name = "supplier_name", nullable = false)
+    private String supplierName;
 
-    private String description;
+    @Column(name = "contact_person")
+    private String contactPerson;
+
+    private String phone;
+
+    private String email;
+
+    private String address;
 
     private String status;
 
