@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/billing-counters")
 public class BillingCounterController {
-
     @Autowired
     private BillingCounterService service;
 

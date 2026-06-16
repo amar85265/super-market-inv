@@ -36,7 +36,7 @@ public class PurchaseServiceImpl
 
         User user =
                 userRepository.findById(
-                                dto.getCreatedBy())
+                                Long.valueOf(dto.getCreatedBy()))
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found"));
@@ -100,7 +100,7 @@ public class PurchaseServiceImpl
 
         User user =
                 userRepository.findById(
-                                dto.getCreatedBy())
+                                Long.valueOf(dto.getCreatedBy()))
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found"));

@@ -16,4 +16,10 @@ public interface UserService {
     UserResponseDTO updateUser(Integer id, UserRequestDTO request);
 
     void deleteUser(Integer id);
+
+    UserResponseDTO getUserById(Long id);
+
+    UserResponseDTO updateUser(Long id, UserRequestDTO request);
+
+    void deleteUser(Long id);
 }
