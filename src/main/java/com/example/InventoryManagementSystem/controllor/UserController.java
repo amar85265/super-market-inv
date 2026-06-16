@@ -1,10 +1,10 @@
-package
-com.example.InventoryManagementSystem.controllor;
+package com.example.InventoryManagementSystem.controllor;
 
 import com.example.InventoryManagementSystem.dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,45 +16,40 @@ public class UserController {
 
     private final UserService userService;
 
-    // CREATE USER
     @PostMapping
-    public UserResponseDTO createUser(
+    public ResponseEntity<UserResponseDTO> createUser(
             @RequestBody UserRequestDTO request) {
 
-        return userService.createUser(request);
+        return ResponseEntity.ok(userService.createUser(request));
     }
 
-    // GET ALL USERS
     @GetMapping
-    public List<UserResponseDTO> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
 
-        return userService.getAllUsers();
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    // GET USER BY ID
     @GetMapping("/{id}")
-    public UserResponseDTO getUserById(
-            @PathVariable Integer id) {
+    public ResponseEntity<UserResponseDTO> getUserById(
+            @PathVariable Long id) {
 
-        return userService.getUserById(id);
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    // UPDATE USER
     @PutMapping("/{id}")
-    public UserResponseDTO updateUser(
-            @PathVariable Integer id,
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
             @RequestBody UserRequestDTO request) {
 
-        return userService.updateUser(id, request);
+        return ResponseEntity.ok(userService.updateUser(id, request));
     }
 
-    // DELETE USER
     @DeleteMapping("/{id}")
-    public String deleteUser(
-            @PathVariable Integer id) {
+    public ResponseEntity<String> deleteUser(
+            @PathVariable Long id) {
 
         userService.deleteUser(id);
 
-        return "User deleted successfully";
+        return ResponseEntity.ok("User deleted successfully");
     }
 }

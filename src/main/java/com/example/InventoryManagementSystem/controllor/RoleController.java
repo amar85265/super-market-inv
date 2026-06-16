@@ -1,8 +1,12 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.model.Role;
+import com.example.InventoryManagementSystem.dto.RoleRequestDTO;
+import com.example.InventoryManagementSystem.dto.RoleResponseDTO;
 import com.example.InventoryManagementSystem.service.RoleService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,42 +18,44 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    // CREATE ROLE
     @PostMapping
-    public Role createRole(@RequestBody Role role) {
+    public ResponseEntity<RoleResponseDTO> createRole(
+            @RequestBody RoleRequestDTO request) {
 
-        return roleService.createRole(role);
+        return ResponseEntity.ok(
+                roleService.createRole(request));
     }
 
-    // GET ALL ROLES
     @GetMapping
-    public List<Role> getAllRoles() {
+    public ResponseEntity<List<RoleResponseDTO>> getAllRoles() {
 
-        return roleService.getAllRoles();
+        return ResponseEntity.ok(
+                roleService.getAllRoles());
     }
 
-    // GET ROLE BY ID
     @GetMapping("/{id}")
-    public Role getRoleById(@PathVariable Integer id) {
+    public ResponseEntity<RoleResponseDTO> getRoleById(
+            @PathVariable Integer id) {
 
-        return roleService.getRoleById(id);
+        return ResponseEntity.ok(
+                roleService.getRoleById(id));
     }
 
-    // UPDATE ROLE
     @PutMapping("/{id}")
-    public Role updateRole(
+    public ResponseEntity<RoleResponseDTO> updateRole(
             @PathVariable Integer id,
-            @RequestBody Role role) {
+            @RequestBody RoleRequestDTO request) {
 
-        return roleService.updateRole(id, role);
+        return ResponseEntity.ok(
+                roleService.updateRole(id, request));
     }
 
-    // DELETE ROLE
     @DeleteMapping("/{id}")
-    public String deleteRole(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteRole(
+            @PathVariable Integer id) {
 
         roleService.deleteRole(id);
 
-        return "Role deleted successfully";
+        return ResponseEntity.ok("Role deleted successfully");
     }
 }

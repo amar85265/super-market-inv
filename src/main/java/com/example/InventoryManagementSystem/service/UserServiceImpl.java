@@ -2,11 +2,10 @@ package com.example.InventoryManagementSystem.service;
 
 import com.example.InventoryManagementSystem.dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.dto.UserResponseDTO;
-import com.example.InventoryManagementSystem.model.Role;
 import com.example.InventoryManagementSystem.model.User;
-import com.example.InventoryManagementSystem.Repository.RoleRepository;
 import com.example.InventoryManagementSystem.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,27 +15,27 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
 
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
         User user = User.builder()
                 .username(request.getUsername())
-                .passwordHash(request.getPassword())
-                .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .fullName(request.getFullName())
-                .role(role)
+                .email(request.getEmail())
+                .mobileNumber(request.getMobileNumber())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
+                .roleId(request.getRoleId())
                 .status(request.getStatus())
+                .active(request.getActive())
                 .build();
 
         User savedUser = userRepository.save(user);
 
-        return mapToDTO(savedUser);
+        return mapToResponse(savedUser);
     }
 
     @Override
@@ -44,60 +43,69 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findAll()
                 .stream()
-                .map(this::mapToDTO)
+                .map(this::mapToResponse)
                 .toList();
     }
 
     @Override
-    public UserResponseDTO getUserById(Integer id) {
+    public UserResponseDTO getUserById(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
-        return mapToDTO(user);
+        return mapToResponse(user);
     }
 
     @Override
-    public UserResponseDTO updateUser(Integer id, UserRequestDTO request) {
+    public UserResponseDTO updateUser(Long id, UserRequestDTO request) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
         user.setUsername(request.getUsername());
-        user.setPasswordHash(request.getPassword());
-        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
         user.setFullName(request.getFullName());
-        user.setRole(role);
+        user.setEmail(request.getEmail());
+        user.setMobileNumber(request.getMobileNumber());
+        user.setRoleId(request.getRoleId());
         user.setStatus(request.getStatus());
+        user.setActive(request.getActive());
+
+        if (request.getPassword() != null &&
+                !request.getPassword().isBlank()) {
+
+            user.setPasswordHash(
+                    passwordEncoder.encode(request.getPassword()));
+        }
 
         User updatedUser = userRepository.save(user);
 
-        return mapToDTO(updatedUser);
+        return mapToResponse(updatedUser);
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public void deleteUser(Long id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
         userRepository.delete(user);
     }
 
-    private UserResponseDTO mapToDTO(User user) {
+    private UserResponseDTO mapToResponse(User user) {
 
         return UserResponseDTO.builder()
                 .userId(user.getUserId())
                 .username(user.getUsername())
-                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .fullName(user.getFullName())
-                .roleName(user.getRole().getRoleName())
+                .email(user.getEmail())
+                .mobileNumber(user.getMobileNumber())
+                .roleId(user.getRoleId())
                 .status(user.getStatus())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
+                .active(user.getActive())
                 .build();
     }
 }
