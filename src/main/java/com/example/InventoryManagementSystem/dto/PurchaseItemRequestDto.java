@@ -7,15 +7,13 @@ import java.math.BigDecimal;
 @Data
 public class PurchaseItemRequestDto {
 
-    private Long purchaseId;
+    private Integer purchaseId;
 
-    private Long productId;
+    private Integer productId;
 
     private Integer quantity;
 
     private BigDecimal purchasePrice;
 
     private BigDecimal taxAmount;
-
-    private BigDecimal total;
 }

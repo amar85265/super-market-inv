@@ -14,31 +14,19 @@ import java.math.BigDecimal;
 @Builder
 public class PurchaseItem {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_item_id")
-    private Integer purchaseItemId;
+    private Long purchaseItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "purchase_id", nullable = false)
-    private Purchase purchase;
+    private Integer purchaseId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Integer productId;
 
-    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
 
-    @Column(name = "tax_amount")
     private BigDecimal taxAmount;
 
-    @Column(name = "total")
     private BigDecimal total;
-
-
 }

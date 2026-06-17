@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product-barcodes")
 @RequiredArgsConstructor
+
 public class ProductBarcodeController {
 
     private final ProductBarcodeService service;
@@ -25,7 +26,7 @@ public class ProductBarcodeController {
     }
 
     @GetMapping("/product/{productId}")
-    public List<ProductBarcodeResponseDTO> getByProduct(@PathVariable Long productId) {
+    public List<ProductBarcodeResponseDTO> getByID(@PathVariable Long productId) {
         return service.getByProductId(productId);
     }
 

@@ -2,18 +2,13 @@ package com.example.InventoryManagementSystem.service;
 
 import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
-import com.example.InventoryManagementSystem.model.Product;
-import com.example.InventoryManagementSystem.model.Purchase;
-import com.example.InventoryManagementSystem.Repository.ProductRepository;
-import com.example.InventoryManagementSystem.Repository.PurchaseItemRepository;
-import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
 import com.example.InventoryManagementSystem.model.PurchaseItem;
+import com.example.InventoryManagementSystem.Repository.PurchaseItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,160 +17,102 @@ public class PurchaseItemServiceImpl
 
     private final PurchaseItemRepository purchaseItemRepository;
 
-    private final PurchaseRepository purchaseRepository;
-
-    private final ProductRepository productRepository;
-
-    // CREATE
     @Override
     public PurchaseItemResponseDto createPurchaseItem(
             PurchaseItemRequestDto request) {
 
-        Purchase purchase = purchaseRepository.findById(
-                        request.getPurchaseId())
-                .orElseThrow(() ->
-                        new RuntimeException("Purchase not found"));
-
-        Product product = productRepository.findById(
-                        request.getProductId())
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
-
-        BigDecimal subtotal =
+        BigDecimal total =
                 request.getPurchasePrice()
                         .multiply(
-                                java.math.BigDecimal.valueOf(
-                                        request.getQuantity()));
+                                BigDecimal.valueOf(
+                                        request.getQuantity()))
+                        .add(request.getTaxAmount());
 
-        BigDecimal taxAmount =
-                subtotal.multiply(
-                        new BigDecimal("0.18"));
-
-        BigDecimal total =
-                subtotal.add(taxAmount);
-
-        PurchaseItem purchaseItem = PurchaseItem.builder()
-                .purchase(purchase)
-                .product(product)
+        PurchaseItem item = PurchaseItem.builder()
+                .purchaseId(request.getPurchaseId())
+                .productId(request.getProductId())
                 .quantity(request.getQuantity())
                 .purchasePrice(request.getPurchasePrice())
-                .taxAmount(taxAmount)
+                .taxAmount(request.getTaxAmount())
                 .total(total)
                 .build();
-        PurchaseItem savedPurchaseItem =
-                purchaseItemRepository.save(purchaseItem);
 
-        return mapToResponse(savedPurchaseItem);
+        return mapToResponse(
+                purchaseItemRepository.save(item));
     }
 
-    // GET ALL
     @Override
-    public List<PurchaseItemResponseDto> getAllPurchaseItems() {
+    public List<PurchaseItemResponseDto>
+    getAllPurchaseItems() {
 
         return purchaseItemRepository.findAll()
                 .stream()
                 .map(this::mapToResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    // GET BY ID
     @Override
-    public PurchaseItemResponseDto getPurchaseItemById(
-            Long purchaseItemId) {
+    public PurchaseItemResponseDto
+    getPurchaseItemById(Long purchaseItemId) {
 
-        PurchaseItem purchaseItem =
-                purchaseItemRepository.findById(purchaseItemId)
+        PurchaseItem item =
+                purchaseItemRepository.findById(
+                                purchaseItemId)
                         .orElseThrow(() ->
                                 new RuntimeException(
-                                        "Purchase Item not found"));
+                                        "Purchase Item Not Found"));
 
-        return mapToResponse(purchaseItem);
+        return mapToResponse(item);
     }
 
-    // UPDATE
     @Override
     public PurchaseItemResponseDto updatePurchaseItem(
             Long purchaseItemId,
             PurchaseItemRequestDto request) {
 
-        PurchaseItem purchaseItem =
-                purchaseItemRepository.findById(purchaseItemId)
+        PurchaseItem item =
+                purchaseItemRepository.findById(
+                                purchaseItemId)
                         .orElseThrow(() ->
                                 new RuntimeException(
-                                        "Purchase Item not found"));
-
-        Purchase purchase = purchaseRepository.findById(
-                        request.getPurchaseId())
-                .orElseThrow(() ->
-                        new RuntimeException("Purchase not found"));
-
-        Product product = productRepository.findById(
-                        request.getProductId())
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
-
-        purchaseItem.setPurchase(purchase);
-        purchaseItem.setProduct(product);
-        purchaseItem.setQuantity(request.getQuantity());
-        purchaseItem.setPurchasePrice(
-                request.getPurchasePrice());
-        BigDecimal subtotal =
-                request.getPurchasePrice()
-                        .multiply(
-                                java.math.BigDecimal.valueOf(
-                                        request.getQuantity()));
-
-        BigDecimal taxAmount =
-                subtotal.multiply(
-                        new BigDecimal("0.18"));
+                                        "Purchase Item Not Found"));
 
         BigDecimal total =
-                subtotal.add(taxAmount);
+                request.getPurchasePrice()
+                        .multiply(
+                                BigDecimal.valueOf(
+                                        request.getQuantity()))
+                        .add(request.getTaxAmount());
 
-        purchaseItem.setTaxAmount(taxAmount);
-        purchaseItem.setTotal(total);
-        PurchaseItem updatedPurchaseItem =
-                purchaseItemRepository.save(purchaseItem);
+        item.setPurchaseId(request.getPurchaseId());
+        item.setProductId(request.getProductId());
+        item.setQuantity(request.getQuantity());
+        item.setPurchasePrice(request.getPurchasePrice());
+        item.setTaxAmount(request.getTaxAmount());
+        item.setTotal(total);
 
-        return mapToResponse(updatedPurchaseItem);
+        return mapToResponse(
+                purchaseItemRepository.save(item));
     }
 
-    // DELETE
     @Override
     public void deletePurchaseItem(Long purchaseItemId) {
 
-        PurchaseItem purchaseItem =
-                purchaseItemRepository.findById(purchaseItemId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Purchase Item not found"));
-
-        purchaseItemRepository.delete(purchaseItem);
+        purchaseItemRepository.deleteById(
+                purchaseItemId);
     }
 
-    // MAP TO RESPONSE DTO
     private PurchaseItemResponseDto mapToResponse(
-            PurchaseItem purchaseItem) {
+            PurchaseItem item) {
 
         return PurchaseItemResponseDto.builder()
-                .purchaseItemId(
-                        Long.valueOf(purchaseItem.getPurchaseItemId()))
-                .purchaseId(
-                        purchaseItem.getPurchase().getPurchaseId())
-                .invoiceNumber(
-                        purchaseItem.getPurchase().getInvoiceNumber())
-                .productId(
-                        purchaseItem.getProduct().getProductId())
-                .productName(
-                        purchaseItem.getProduct().getProductName())
-                .quantity(
-                        purchaseItem.getQuantity())
-                .purchasePrice(
-                        purchaseItem.getPurchasePrice())
-                .taxAmount(
-                        purchaseItem.getTaxAmount())
-                .total(
-                        purchaseItem.getTotal())
+                .purchaseItemId(item.getPurchaseItemId())
+                .purchaseId(item.getPurchaseId())
+                .productId(item.getProductId())
+                .quantity(item.getQuantity())
+                .purchasePrice(item.getPurchasePrice())
+                .taxAmount(item.getTaxAmount())
+                .total(item.getTotal())
                 .build();
     }
 }
