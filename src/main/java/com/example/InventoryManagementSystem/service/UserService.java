@@ -11,15 +11,12 @@ public interface UserService {
 
     List<UserResponseDTO> getAllUsers();
 
-    UserResponseDTO getUserById(Integer id);
-
-    UserResponseDTO updateUser(Integer id, UserRequestDTO request);
-
-    void deleteUser(Integer id);
-
     UserResponseDTO getUserById(Long id);
 
     UserResponseDTO updateUser(Long id, UserRequestDTO request);
 
     void deleteUser(Long id);
+
+
+
 }

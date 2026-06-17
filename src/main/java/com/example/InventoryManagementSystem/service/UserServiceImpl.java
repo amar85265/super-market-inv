@@ -48,21 +48,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO getUserById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public UserResponseDTO updateUser(Integer id, UserRequestDTO request) {
-        return null;
-    }
-
-    @Override
-    public void deleteUser(Integer id) {
-
-    }
-
-    @Override
     public UserResponseDTO getUserById(Long id) {
 
         User user = userRepository.findById(id)

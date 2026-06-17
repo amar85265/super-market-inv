@@ -33,7 +33,7 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUserById(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(userService.getUserById(Math.toIntExact(id)));
+        return ResponseEntity.ok(userService.getUserById((long) Math.toIntExact(id)));
     }
 
     @PutMapping("/{id}")
@@ -41,14 +41,14 @@ public class UserController {
             @PathVariable Long id,
             @RequestBody UserRequestDTO request) {
 
-        return ResponseEntity.ok(userService.updateUser(Math.toIntExact(id), request));
+        return ResponseEntity.ok(userService.updateUser((long) Math.toIntExact(id), request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
 
-        userService.deleteUser(Math.toIntExact(id));
+        userService.deleteUser((long) Math.toIntExact(id));
 
         return ResponseEntity.ok("User deleted successfully");
     }
