@@ -30,4 +30,9 @@ public class PaymentTransaction {
 
     @Column(name = "payment_date")
     private OffsetDateTime paymentDate;
+
+    @PrePersist
+    public void prePersist() {
+        this.paymentDate = OffsetDateTime.now();
+    }
 }

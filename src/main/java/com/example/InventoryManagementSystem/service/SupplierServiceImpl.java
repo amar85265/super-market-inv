@@ -1,8 +1,7 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.SupplierRequest;
-import com.example.InventoryManagementSystem.dto.SupplierResponse;
-import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
+import com.example.InventoryManagementSystem.dto.SupplierRequestDTO;
+import com.example.InventoryManagementSystem.dto.SupplierResponseDTO;
 import com.example.InventoryManagementSystem.model.Supplier;
 import com.example.InventoryManagementSystem.Repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +16,8 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository supplierRepository;
 
     @Override
-    public SupplierResponse createSupplier(SupplierRequest request) {
-
-        if (request.getEmail() != null &&
-                supplierRepository.existsByEmail(request.getEmail())) {
-
-            throw new RuntimeException("Supplier email already exists");
-        }
+    public SupplierResponseDTO createSupplier(
+            SupplierRequestDTO request) {
 
         Supplier supplier = Supplier.builder()
                 .supplierName(request.getSupplierName())
@@ -31,30 +25,17 @@ public class SupplierServiceImpl implements SupplierService {
                 .phone(request.getPhone())
                 .email(request.getEmail())
                 .address(request.getAddress())
-                .status(request.getStatus() != null
-                        ? request.getStatus()
-                        : "active")
+                .status(request.getStatus())
                 .build();
 
-        Supplier savedSupplier = supplierRepository.save(supplier);
+        Supplier savedSupplier =
+                supplierRepository.save(supplier);
 
         return mapToResponse(savedSupplier);
     }
 
     @Override
-    public SupplierResponse getSupplierById(Long supplierId) {
-
-        Supplier supplier = supplierRepository.findById(supplierId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Supplier not found with id : "
-                                        + supplierId));
-
-        return mapToResponse(supplier);
-    }
-
-    @Override
-    public List<SupplierResponse> getAllSuppliers() {
+    public List<SupplierResponseDTO> getAllSuppliers() {
 
         return supplierRepository.findAll()
                 .stream()
@@ -63,43 +44,65 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierResponse updateSupplier(
-            Long supplierId,
-            SupplierRequest request) {
+    public SupplierResponseDTO getSupplierById(Long id) {
 
-        Supplier supplier = supplierRepository.findById(supplierId)
+        Supplier supplier = supplierRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Supplier not found with id : "
-                                        + supplierId));
+                        new RuntimeException(
+                                "Supplier Not Found"));
 
-        supplier.setSupplierName(request.getSupplierName());
-        supplier.setContactPerson(request.getContactPerson());
-        supplier.setPhone(request.getPhone());
-        supplier.setEmail(request.getEmail());
-        supplier.setAddress(request.getAddress());
-        supplier.setStatus(request.getStatus());
+        return mapToResponse(supplier);
+    }
 
-        Supplier updatedSupplier = supplierRepository.save(supplier);
+    @Override
+    public SupplierResponseDTO updateSupplier(
+            Long id,
+            SupplierRequestDTO request) {
+
+        Supplier supplier = supplierRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Supplier Not Found"));
+
+        supplier.setSupplierName(
+                request.getSupplierName());
+
+        supplier.setContactPerson(
+                request.getContactPerson());
+
+        supplier.setPhone(
+                request.getPhone());
+
+        supplier.setEmail(
+                request.getEmail());
+
+        supplier.setAddress(
+                request.getAddress());
+
+        supplier.setStatus(
+                request.getStatus());
+
+        Supplier updatedSupplier =
+                supplierRepository.save(supplier);
 
         return mapToResponse(updatedSupplier);
     }
 
     @Override
-    public void deleteSupplier(Long supplierId) {
+    public void deleteSupplier(Long id) {
 
-        Supplier supplier = supplierRepository.findById(supplierId)
+        Supplier supplier = supplierRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Supplier not found with id : "
-                                        + supplierId));
+                        new RuntimeException(
+                                "Supplier Not Found"));
 
         supplierRepository.delete(supplier);
     }
 
-    private SupplierResponse mapToResponse(Supplier supplier) {
+    private SupplierResponseDTO mapToResponse(
+            Supplier supplier) {
 
-        return SupplierResponse.builder()
+        return SupplierResponseDTO.builder()
                 .supplierId(supplier.getSupplierId())
                 .supplierName(supplier.getSupplierName())
                 .contactPerson(supplier.getContactPerson())

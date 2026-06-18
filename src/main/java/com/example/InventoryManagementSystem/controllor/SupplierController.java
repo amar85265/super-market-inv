@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.dto.SupplierRequest;
-import com.example.InventoryManagementSystem.dto.SupplierResponse;
+import com.example.InventoryManagementSystem.dto.SupplierRequestDTO;
+import com.example.InventoryManagementSystem.dto.SupplierResponseDTO;
 import com.example.InventoryManagementSystem.service.SupplierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +19,15 @@ public class SupplierController {
     private final SupplierService supplierService;
 
     @PostMapping
-    public ResponseEntity<SupplierResponse> createSupplier(
-            @Valid @RequestBody SupplierRequest request) {
+    public ResponseEntity<SupplierResponseDTO> createSupplier(
+            @Valid @RequestBody SupplierRequestDTO request) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(supplierService.createSupplier(request));
     }
 
     @GetMapping("/{supplierId}")
-    public ResponseEntity<SupplierResponse> getSupplierById(
+    public ResponseEntity<SupplierResponseDTO> getSupplierById(
             @PathVariable Long supplierId) {
 
         return ResponseEntity.ok(
@@ -35,16 +35,16 @@ public class SupplierController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SupplierResponse>> getAllSuppliers() {
+    public ResponseEntity<List<SupplierResponseDTO>> getAllSuppliers() {
 
         return ResponseEntity.ok(
                 supplierService.getAllSuppliers());
     }
 
     @PutMapping("/{supplierId}")
-    public ResponseEntity<SupplierResponse> updateSupplier(
+    public ResponseEntity<SupplierResponseDTO> updateSupplier(
             @PathVariable Long supplierId,
-            @Valid @RequestBody SupplierRequest request) {
+            @Valid @RequestBody SupplierRequestDTO request) {
 
         return ResponseEntity.ok(
                 supplierService.updateSupplier(

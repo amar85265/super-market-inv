@@ -67,7 +67,9 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
         payment.setPaymentMethod(dto.getPaymentMethod());
         payment.setTransactionReference(dto.getTransactionReference());
         payment.setAmount(dto.getAmount());
-        payment.setPaymentDate(dto.getPaymentDate());
+        if (dto.getPaymentDate() != null) {
+            payment.setPaymentDate(dto.getPaymentDate());
+        }
 
         PaymentTransaction updated = repository.save(payment);
 

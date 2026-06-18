@@ -1,20 +1,20 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.SupplierRequest;
-import com.example.InventoryManagementSystem.dto.SupplierResponse;
+import com.example.InventoryManagementSystem.dto.SupplierRequestDTO;
+import com.example.InventoryManagementSystem.dto.SupplierResponseDTO;
 
 import java.util.List;
 
 public interface SupplierService {
 
-    SupplierResponse createSupplier(SupplierRequest request);
+    SupplierResponseDTO createSupplier(SupplierRequestDTO request);
 
-    SupplierResponse getSupplierById(Long supplierId);
+    SupplierResponseDTO getSupplierById(Long supplierId);
 
-    List<SupplierResponse> getAllSuppliers();
+    List<SupplierResponseDTO> getAllSuppliers();
 
-    SupplierResponse updateSupplier(Long supplierId,
-                                    SupplierRequest request);
+    SupplierResponseDTO updateSupplier(Long supplierId,
+                                       SupplierRequestDTO request);
 
     void deleteSupplier(Long supplierId);
 }

@@ -39,8 +39,8 @@ public class Supplier {
 
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
-
     @PrePersist
     public void prePersist() {
-    }
-}
+        this.createdAt = OffsetDateTime.now();
+
+    }}
