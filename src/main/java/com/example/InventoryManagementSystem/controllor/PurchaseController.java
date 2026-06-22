@@ -2,7 +2,9 @@ package com.example.InventoryManagementSystem.controllor;
 
 import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
+import com.example.InventoryManagementSystem.model.Purchase;
 import com.example.InventoryManagementSystem.service.PurchaseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,11 @@ public class PurchaseController {
 
     @PostMapping
     public ResponseEntity<PurchaseResponseDto> createPurchase(
-            @RequestBody PurchaseRequestDto request) {
+            @Valid @RequestBody PurchaseRequestDto request) {
 
         return ResponseEntity.ok(
                 purchaseService.createPurchase(request));
+
     }
 
     @GetMapping
