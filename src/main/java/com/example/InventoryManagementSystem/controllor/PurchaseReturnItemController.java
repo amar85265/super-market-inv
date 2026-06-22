@@ -2,7 +2,9 @@ package com.example.InventoryManagementSystem.controllor;
 
 import com.example.InventoryManagementSystem.dto.PurchaseReturnItemRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnItemResponseDTO;
+import com.example.InventoryManagementSystem.model.PurchaseReturnItem;
 import com.example.InventoryManagementSystem.service.PurchaseReturnItemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +18,14 @@ import java.util.List;
 public class PurchaseReturnItemController {
 
     private final PurchaseReturnItemService service;
-
     @PostMapping
-    public ResponseEntity<PurchaseReturnItemResponseDTO>
-    createPurchaseReturnItem(
-            @RequestBody PurchaseReturnItemRequestDTO requestDTO) {
+    public ResponseEntity<PurchaseReturnItemResponseDTO> createPurchaseReturnItem(
+            @Valid @RequestBody PurchaseReturnItemRequestDTO requestDTO) {
 
-        return new ResponseEntity<>(
-                service.createPurchaseReturnItem(requestDTO),
-                HttpStatus.CREATED
-        );
+        PurchaseReturnItemResponseDTO responseDTO =
+                service.createPurchaseReturnItem(requestDTO);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

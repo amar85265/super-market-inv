@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnResponseDTO;
 import com.example.InventoryManagementSystem.service.PurchaseReturnService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,11 @@ public class PurchaseReturnController {
 
     @PostMapping
     public ResponseEntity<PurchaseReturnResponseDTO> createPurchaseReturn(
-            @RequestBody PurchaseReturnRequestDTO requestDTO) {
+            @Valid @RequestBody PurchaseReturnRequestDTO request) {
 
-        return new ResponseEntity<>(
-                service.createPurchaseReturn(requestDTO),
-                HttpStatus.CREATED
-        );
+        return ResponseEntity.ok(
+                service.createPurchaseReturn(request));
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<PurchaseReturnResponseDTO> getPurchaseReturnById(
             @PathVariable Integer id) {

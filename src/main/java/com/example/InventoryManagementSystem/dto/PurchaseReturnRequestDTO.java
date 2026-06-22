@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class PurchaseReturnRequestDTO {
 
     private Integer purchaseReturnId;
-    private Integer purchaseId;
-    private Integer supplierId;
+    private Long purchaseId;
+    private Long supplierId;
     private LocalDateTime returnDate;
     private BigDecimal totalAmount;
     private String notes;

@@ -2,6 +2,10 @@ package com.example.InventoryManagementSystem.service;
 
 import com.example.InventoryManagementSystem.dto.PurchaseReturnItemRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnItemResponseDTO;
+import com.example.InventoryManagementSystem.Repository.PurchaseReturnRepository;
+import com.example.InventoryManagementSystem.Repository.ProductRepository;
+import com.example.InventoryManagementSystem.model.PurchaseReturn;
+import com.example.InventoryManagementSystem.model.Product;
 import com.example.InventoryManagementSystem.Repository.PurchaseReturnItemRepository;
 import com.example.InventoryManagementSystem.model.PurchaseReturnItem;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PurchaseReturnItemServiceImpl
         implements PurchaseReturnItemService {
+    private final PurchaseReturnRepository purchaseReturnRepository;
+    private final ProductRepository productRepository;
 
     private final PurchaseReturnItemRepository repository;
 
@@ -22,12 +28,22 @@ public class PurchaseReturnItemServiceImpl
     public PurchaseReturnItemResponseDTO createPurchaseReturnItem(
             PurchaseReturnItemRequestDTO requestDTO) {
 
+        PurchaseReturn purchaseReturn = purchaseReturnRepository
+                .findById(requestDTO.getPurchaseReturnId())
+                .orElseThrow(() ->
+                        new RuntimeException("Purchase Return not found"));
+
+        Product product = productRepository
+                .findById(requestDTO.getProductId())
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found"));
+
         BigDecimal total = requestDTO.getPrice()
                 .multiply(BigDecimal.valueOf(requestDTO.getQuantity()));
 
         PurchaseReturnItem entity = PurchaseReturnItem.builder()
                 .purchaseReturnId(requestDTO.getPurchaseReturnId())
-                .productId(requestDTO.getProductId())
+                .productId(Math.toIntExact(requestDTO.getProductId()))
                 .quantity(requestDTO.getQuantity())
                 .price(requestDTO.getPrice())
                 .total(total)
@@ -66,6 +82,13 @@ public class PurchaseReturnItemServiceImpl
     public PurchaseReturnItemResponseDTO updatePurchaseReturnItem(
             Integer id,
             PurchaseReturnItemRequestDTO requestDTO) {
+        purchaseReturnRepository.findById(requestDTO.getPurchaseReturnId())
+                .orElseThrow(() ->
+                        new RuntimeException("Purchase Return not found"));
+
+        productRepository.findById(requestDTO.getProductId())
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found"));
 
         PurchaseReturnItem entity =
                 repository.findById(id).orElse(null);
@@ -78,7 +101,7 @@ public class PurchaseReturnItemServiceImpl
                 .multiply(BigDecimal.valueOf(requestDTO.getQuantity()));
 
         entity.setPurchaseReturnId(requestDTO.getPurchaseReturnId());
-        entity.setProductId(requestDTO.getProductId());
+        entity.setProductId(Math.toIntExact(requestDTO.getProductId()));
         entity.setQuantity(requestDTO.getQuantity());
         entity.setPrice(requestDTO.getPrice());
         entity.setTotal(total);
@@ -105,7 +128,7 @@ public class PurchaseReturnItemServiceImpl
         return PurchaseReturnItemResponseDTO.builder()
                 .purchaseReturnItemId(entity.getPurchaseReturnItemId())
                 .purchaseReturnId(entity.getPurchaseReturnId())
-                .productId(entity.getProductId())
+                .productId(Long.valueOf(entity.getProductId()))
                 .quantity(entity.getQuantity())
                 .price(entity.getPrice())
                 .total(entity.getTotal())

@@ -14,9 +14,9 @@ public class PurchaseReturnResponseDTO {
 
     private Integer purchaseReturnId;
 
-    private Integer purchaseId;
+    private Long purchaseId;
 
-    private Integer supplierId;
+    private Long supplierId;
 
     private LocalDateTime returnDate;
 

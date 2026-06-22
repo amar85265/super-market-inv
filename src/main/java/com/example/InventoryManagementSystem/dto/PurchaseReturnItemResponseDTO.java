@@ -15,7 +15,7 @@ public class PurchaseReturnItemResponseDTO {
 
     private Integer purchaseReturnId;
 
-    private Integer productId;
+    private Long productId;
 
     private Integer quantity;
 
