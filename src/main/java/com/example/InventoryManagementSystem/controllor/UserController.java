@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +19,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(
-            @RequestBody UserRequestDTO request) {
+            @Valid @RequestBody UserRequestDTO request) {
 
-        return ResponseEntity.ok(userService.createUser(request));
+        return ResponseEntity.ok(
+                userService.createUser(request));
     }
-
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
 
@@ -39,7 +40,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Long id,
-            @RequestBody UserRequestDTO request) {
+            @Valid @RequestBody UserRequestDTO request) {
 
         return ResponseEntity.ok(userService.updateUser((long) Math.toIntExact(id), request));
     }

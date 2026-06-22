@@ -20,11 +20,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
 
+
+        if (userRepository.existsByUsername(
+                request.getUsername())) {
+
+            throw new RuntimeException(
+                    "Username already exists");
+        }
+
+        if (userRepository.existsByEmail(
+                request.getEmail())) {
+
+            throw new RuntimeException(
+                    "Email already exists");
+        }
+
+        if (userRepository.existsByMobileNumber(
+                request.getMobileNumber())) {
+
+            throw new RuntimeException(
+                    "Mobile Number already exists");
+        }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .fullName(request.getFullName())
+                .fullName(
+                        request.getFirstName().trim()
+                                + " "
+                                + request.getLastName().trim()
+                )
                 .email(request.getEmail())
                 .mobileNumber(request.getMobileNumber())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
@@ -65,7 +91,11 @@ public class UserServiceImpl implements UserService {
         user.setUsername(request.getUsername());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setFullName(request.getFullName());
+        user.setFullName(
+                request.getFirstName().trim()
+                        + " "
+                        + request.getLastName().trim()
+        );
         user.setEmail(request.getEmail());
         user.setMobileNumber(request.getMobileNumber());
         user.setRoleId(request.getRoleId());
@@ -96,7 +126,7 @@ public class UserServiceImpl implements UserService {
     private UserResponseDTO mapToResponse(User user) {
 
         return UserResponseDTO.builder()
-                .userId(user.getUserId())
+                .userId(String.valueOf(user.getUserId()))
                 .username(user.getUsername())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
