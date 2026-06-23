@@ -22,11 +22,12 @@ public class UserRequestDTO {
     private String lastName;
 
 
-
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid Email Format")
+    @Pattern(
+            regexp = "^[a-z][a-z0-9._%+-]*@[a-z0-9.-]+\\.[a-z]{2,}$",
+            message = "Email must start with a lowercase letter and contain only lowercase characters"
+    )
     private String email;
-
     @NotBlank(message = "Mobile Number is required")
     @Pattern(
             regexp = "^[6-9][0-9]{9}$",
