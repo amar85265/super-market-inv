@@ -3,11 +3,14 @@ package com.example.InventoryManagementSystem.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class PurchaseRequestDto {
 
     private Integer supplierId;
+
+    private List<PurchaseItemRequestDto> items;
 
     private String invoiceNumber;
 

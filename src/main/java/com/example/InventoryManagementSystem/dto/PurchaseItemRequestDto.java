@@ -16,4 +16,6 @@ public class PurchaseItemRequestDto {
     private BigDecimal purchasePrice;
 
     private BigDecimal taxAmount;
+
+    private BigDecimal total;
 }

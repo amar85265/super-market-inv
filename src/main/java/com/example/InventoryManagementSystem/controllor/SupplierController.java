@@ -22,8 +22,7 @@ public class SupplierController {
     public ResponseEntity<SupplierResponseDTO> createSupplier(
             @Valid @RequestBody SupplierRequestDTO request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(supplierService.createSupplier(request));
+        return ResponseEntity.ok(supplierService.createSupplier(request));
     }
 
     @GetMapping("/{supplierId}")

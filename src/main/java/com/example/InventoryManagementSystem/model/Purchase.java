@@ -56,5 +56,9 @@ public class Purchase {
     @NotNull(message = "Created By user is required")
     private User createdBy;
 
+    @PrePersist
+    public void prePersist() {
+        this.purchaseDate = LocalDateTime.now();
+    }
 
 }

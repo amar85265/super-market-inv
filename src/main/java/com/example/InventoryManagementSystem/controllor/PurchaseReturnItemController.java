@@ -50,7 +50,7 @@ public class PurchaseReturnItemController {
     public ResponseEntity<PurchaseReturnItemResponseDTO>
     updatePurchaseReturnItem(
             @PathVariable Integer id,
-            @RequestBody PurchaseReturnItemRequestDTO requestDTO) {
+            @Valid @RequestBody PurchaseReturnItemRequestDTO requestDTO) {
 
         return ResponseEntity.ok(
                 service.updatePurchaseReturnItem(id, requestDTO)

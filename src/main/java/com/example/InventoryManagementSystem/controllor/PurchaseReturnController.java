@@ -44,7 +44,7 @@ public class PurchaseReturnController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseReturnResponseDTO> updatePurchaseReturn(
-            @PathVariable Integer id,
+           @Valid @PathVariable Integer id,
             @RequestBody PurchaseReturnRequestDTO requestDTO) {
 
         return ResponseEntity.ok(

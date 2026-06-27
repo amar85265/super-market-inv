@@ -1,16 +1,16 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
-import com.example.InventoryManagementSystem.Repository.SupplierRepository;
-import com.example.InventoryManagementSystem.Repository.UserRepository;
+import com.example.InventoryManagementSystem.Repository.*;
+import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
+
 import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
-import com.example.InventoryManagementSystem.model.Purchase;
-import com.example.InventoryManagementSystem.model.Supplier;
-import com.example.InventoryManagementSystem.model.User;
+import com.example.InventoryManagementSystem.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +22,8 @@ public class PurchaseServiceImpl
     private final PurchaseRepository purchaseRepository;
     private final SupplierRepository supplierRepository;
     private final UserRepository userRepository;
+    private final PurchaseItemRepository purchaseItemRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public PurchaseResponseDto createPurchase(
@@ -50,8 +52,9 @@ public class PurchaseServiceImpl
         purchase.setTax(dto.getTax());
         purchase.setPaymentStatus(dto.getPaymentStatus());
 
-        Purchase saved =
-                purchaseRepository.save(purchase);
+        Purchase saved = purchaseRepository.save(purchase);
+
+        savePurchaseItems(saved, dto.getItems());
 
         return mapToDto(saved);
     }
@@ -76,12 +79,12 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "Purchase not found"));
 
+
         return mapToDto(purchase);
     }
 
     @Override
-    public PurchaseResponseDto
-    updatePurchase(
+    public PurchaseResponseDto updatePurchase(
             Long id,
             PurchaseRequestDto dto) {
 
@@ -91,6 +94,31 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "Purchase not found"));
 
+        // Get old purchase items
+        List<PurchaseItem> oldItems =
+                purchaseItemRepository.findByPurchaseId(id.intValue());
+
+        // Restore old stock
+        for (PurchaseItem item : oldItems) {
+
+            Product product =
+                    productRepository.findById(
+                                    Long.valueOf(item.getProductId()))
+                            .orElseThrow(() ->
+                                    new RuntimeException(
+                                            "Product not found"));
+
+            product.setStockQuantity(
+                    product.getStockQuantity()
+                            - item.getQuantity());
+
+            productRepository.save(product);
+        }
+
+        // Delete old purchase items
+        purchaseItemRepository.deleteAll(oldItems);
+
+        // Get Supplier
         Supplier supplier =
                 supplierRepository.findById(
                                 Long.valueOf(dto.getSupplierId()))
@@ -98,6 +126,7 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "Supplier not found"));
 
+        // Get User
         User user =
                 userRepository.findById(
                                 Long.valueOf(dto.getCreatedBy()))
@@ -105,23 +134,60 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "User not found"));
 
+        // Update Purchase
         purchase.setSupplier(supplier);
         purchase.setCreatedBy(user);
         purchase.setInvoiceNumber(dto.getInvoiceNumber());
         purchase.setTotalAmount(dto.getTotalAmount());
         purchase.setTax(dto.getTax());
         purchase.setPaymentStatus(dto.getPaymentStatus());
+        purchase.setPurchaseDate(LocalDateTime.now());
 
         Purchase updated =
                 purchaseRepository.save(purchase);
 
+        // Save new purchase items and increase stock
+        savePurchaseItems(updated, dto.getItems());
+
         return mapToDto(updated);
     }
-
     @Override
     public void deletePurchase(Long id) {
 
         purchaseRepository.deleteById(id);
+    }
+
+    private void savePurchaseItems(Purchase purchase,
+                                   List<PurchaseItemRequestDto> items) {
+
+        for (PurchaseItemRequestDto item : items) {
+
+            PurchaseItem purchaseItem = new PurchaseItem();
+
+            purchaseItem.setPurchaseId(purchase.getPurchaseId().intValue());
+            purchaseItem.setProductId(item.getProductId());
+            purchaseItem.setQuantity(item.getQuantity());
+            purchaseItem.setPurchasePrice(item.getPurchasePrice());
+            purchaseItem.setTaxAmount(item.getTaxAmount());
+
+            BigDecimal total = item.getPurchasePrice()
+                    .multiply(BigDecimal.valueOf(item.getQuantity()))
+                    .add(item.getTaxAmount());
+
+            purchaseItem.setTotal(total);
+
+            purchaseItemRepository.save(purchaseItem);
+
+            Product product = productRepository.findById(
+                            Long.valueOf(item.getProductId()))
+                    .orElseThrow(() ->
+                            new RuntimeException("Product not found"));
+
+            product.setStockQuantity(
+                    product.getStockQuantity() + item.getQuantity());
+
+            productRepository.save(product);
+        }
     }
 
     private PurchaseResponseDto mapToDto(

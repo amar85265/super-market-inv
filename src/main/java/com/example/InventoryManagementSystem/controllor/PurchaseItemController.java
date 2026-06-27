@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
 import com.example.InventoryManagementSystem.service.PurchaseItemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class PurchaseItemController {
     @PostMapping
     public ResponseEntity<PurchaseItemResponseDto>
     createPurchaseItem(
-            @RequestBody PurchaseItemRequestDto request) {
+           @Valid @RequestBody PurchaseItemRequestDto request) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(
@@ -53,15 +54,15 @@ public class PurchaseItemController {
     @PutMapping("/{purchaseItemId}")
     public ResponseEntity<PurchaseItemResponseDto>
     updatePurchaseItem(
+
             @PathVariable Long purchaseItemId,
-            @RequestBody PurchaseItemRequestDto request) {
+            @Valid @RequestBody PurchaseItemRequestDto request) {
 
         return ResponseEntity.ok(
                 purchaseItemService.updatePurchaseItem(
                         purchaseItemId,
                         request));
     }
-
     // DELETE
     @DeleteMapping("/{purchaseItemId}")
     public ResponseEntity<String> deletePurchaseItem(

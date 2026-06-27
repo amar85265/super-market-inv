@@ -48,7 +48,7 @@ public class PurchaseController {
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseResponseDto>
     updatePurchase(
-            @PathVariable Long id,
+           @Valid @PathVariable Long id,
             @RequestBody PurchaseRequestDto request) {
 
         return ResponseEntity.ok(

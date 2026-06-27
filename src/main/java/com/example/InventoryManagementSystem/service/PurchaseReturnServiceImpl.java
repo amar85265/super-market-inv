@@ -1,16 +1,14 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
-import com.example.InventoryManagementSystem.Repository.PurchaseReturnRepository;
-import com.example.InventoryManagementSystem.Repository.SupplierRepository;
+import com.example.InventoryManagementSystem.Repository.*;
+import com.example.InventoryManagementSystem.dto.PurchaseReturnItemRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnResponseDTO;
-import com.example.InventoryManagementSystem.model.Purchase;
-import com.example.InventoryManagementSystem.model.PurchaseReturn;
-import com.example.InventoryManagementSystem.model.Supplier;
+import com.example.InventoryManagementSystem.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +20,8 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     private final PurchaseReturnRepository purchaseReturnRepository;
     private final PurchaseRepository purchaseRepository;
     private final SupplierRepository supplierRepository;
+    private final PurchaseReturnItemRepository purchaseReturnItemRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public PurchaseReturnResponseDTO createPurchaseReturn(
@@ -42,6 +42,8 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
                 .build();
 
         PurchaseReturn saved = purchaseReturnRepository.save(entity);
+
+        savePurchaseReturnItems(saved, requestDTO.getItems());
 
         return mapToResponse(saved);
     }
@@ -104,6 +106,37 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
 
         if (entity != null) {
             purchaseReturnRepository.delete(entity);
+        }
+    }
+    private void savePurchaseReturnItems(
+            PurchaseReturn purchaseReturn,
+            List<PurchaseReturnItemRequestDTO> items) {
+
+        for (PurchaseReturnItemRequestDTO item : items) {
+
+            PurchaseReturnItem returnItem = new PurchaseReturnItem();
+
+            returnItem.setPurchaseReturnId(
+                    purchaseReturn.getPurchaseReturnId());
+
+            returnItem.setProductId(item.getProductId().intValue());
+            returnItem.setQuantity(item.getQuantity());
+            returnItem.setPrice(item.getPrice());
+
+            returnItem.setTotal(
+                    item.getPrice()
+                            .multiply(BigDecimal.valueOf(item.getQuantity())));
+
+            purchaseReturnItemRepository.save(returnItem);
+
+            Product product = productRepository.findById(item.getProductId())
+                    .orElseThrow(() ->
+                            new RuntimeException("Product not found"));
+
+            product.setStockQuantity(
+                    product.getStockQuantity() - item.getQuantity());
+
+            productRepository.save(product);
         }
     }
 
