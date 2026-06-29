@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -29,7 +30,8 @@ public class Purchase {
     private Supplier supplier;
 
     @NotBlank(message = "Invoice number is required")
-    @Column(name = "invoice_number")
+    @Size(max = 100, message = "Invoice number cannot exceed 100 characters")
+    @Column(name = "invoice_number", unique = true, nullable = false)
     private String invoiceNumber;
 
     @NotNull(message = "Total amount is required")

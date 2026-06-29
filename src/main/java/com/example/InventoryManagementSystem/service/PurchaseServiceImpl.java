@@ -36,6 +36,15 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "Supplier not found"));
 
+        if (purchaseRepository.existsBySupplierAndInvoiceNumber(
+                supplier,
+                dto.getInvoiceNumber())) {
+
+            throw new RuntimeException(
+                    "Invoice number already exists for this supplier.");
+        }
+
+
         User user =
                 userRepository.findById(
                                 Long.valueOf(dto.getCreatedBy()))
@@ -126,6 +135,14 @@ public class PurchaseServiceImpl
                                 new RuntimeException(
                                         "Supplier not found"));
 
+        if (purchaseRepository.existsBySupplierAndInvoiceNumber(
+                supplier,
+                dto.getInvoiceNumber())) {
+
+            throw new RuntimeException(
+                    "Invoice number already exists for this supplier.");
+        }
+
         // Get User
         User user =
                 userRepository.findById(
@@ -162,19 +179,7 @@ public class PurchaseServiceImpl
 
         for (PurchaseItemRequestDto item : items) {
 
-            PurchaseItem purchaseItem = new PurchaseItem();
-
-            purchaseItem.setPurchaseId(purchase.getPurchaseId().intValue());
-            purchaseItem.setProductId(item.getProductId());
-            purchaseItem.setQuantity(item.getQuantity());
-            purchaseItem.setPurchasePrice(item.getPurchasePrice());
-            purchaseItem.setTaxAmount(item.getTaxAmount());
-
-            BigDecimal total = item.getPurchasePrice()
-                    .multiply(BigDecimal.valueOf(item.getQuantity()))
-                    .add(item.getTaxAmount());
-
-            purchaseItem.setTotal(total);
+            PurchaseItem purchaseItem = getPurchaseItem(purchase, item);
 
             purchaseItemRepository.save(purchaseItem);
 
@@ -188,6 +193,23 @@ public class PurchaseServiceImpl
 
             productRepository.save(product);
         }
+    }
+
+    private static PurchaseItem getPurchaseItem(Purchase purchase, PurchaseItemRequestDto item) {
+        PurchaseItem purchaseItem = new PurchaseItem();
+
+        purchaseItem.setPurchaseId(purchase.getPurchaseId().intValue());
+        purchaseItem.setProductId(item.getProductId());
+        purchaseItem.setQuantity(item.getQuantity());
+        purchaseItem.setPurchasePrice(item.getPurchasePrice());
+        purchaseItem.setTaxAmount(item.getTaxAmount());
+
+        BigDecimal total = item.getPurchasePrice()
+                .multiply(BigDecimal.valueOf(item.getQuantity()))
+                .add(item.getTaxAmount());
+
+        purchaseItem.setTotal(total);
+        return purchaseItem;
     }
 
     private PurchaseResponseDto mapToDto(
