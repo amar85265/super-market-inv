@@ -1,1 +1,48 @@
+<<<<<<< Updated upstream
 
+=======
+package com.example.InventoryManagementSystem.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.OffsetDateTime;
+
+@Entity
+@Table(name = "categories")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @Column(name = "category_name", nullable = false, unique = true)
+    private String categoryName;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private String status = "active";
+
+    @Column(name = "created_at", updatable = false)
+    private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+
+        // safety fallback (optional but good practice)
+        if (this.status == null) {
+            this.status = "active";
+        }
+    }
+}
+>>>>>>> Stashed changes

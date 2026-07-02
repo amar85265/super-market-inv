@@ -7,13 +7,21 @@ public class UserRequestDTO {
 
     private String username;
 
-    private String password;
+    private String firstName;
+
+    private String lastName;
+
+    private String fullName;
 
     private String email;
 
-    private String fullName;
+    private String mobileNumber;
+
+    private String password;
 
     private Integer roleId;
 
     private String status;
+
+    private Boolean active;
 }

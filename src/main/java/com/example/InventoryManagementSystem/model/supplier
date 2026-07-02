@@ -15,9 +15,14 @@ import java.time.OffsetDateTime;
 public class Supplier {
 
     @Id
+<<<<<<< Updated upstream:src/main/java/com/example/InventoryManagementSystem/model/supplier
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supplier_id")
     private Long supplierId;
+=======
+    @Column(name = "movement_id", length = 20)
+    private String movementId;
+>>>>>>> Stashed changes:src/main/java/com/example/InventoryManagementSystem/model/StockMovement.java
 
     @Column(name = "supplier_name", nullable = false)
     private String supplierName;
@@ -28,8 +33,13 @@ public class Supplier {
     @Column(length = 20)
     private String phone;
 
+<<<<<<< Updated upstream:src/main/java/com/example/InventoryManagementSystem/model/supplier
     @Column(length = 100)
     private String email;
+=======
+    @Column(name = "reference_id")
+    private String referenceId;
+>>>>>>> Stashed changes:src/main/java/com/example/InventoryManagementSystem/model/StockMovement.java
 
     @Column(columnDefinition = "TEXT")
     private String address;

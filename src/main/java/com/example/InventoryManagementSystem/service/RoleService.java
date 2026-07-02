@@ -1,18 +1,19 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.model.Role;
+import com.example.InventoryManagementSystem.dto.RoleRequestDTO;
+import com.example.InventoryManagementSystem.dto.RoleResponseDTO;
 
 import java.util.List;
 
 public interface RoleService {
 
-    Role createRole(Role role);
+    RoleResponseDTO createRole(RoleRequestDTO request);
 
-    List<Role> getAllRoles();
+    List<RoleResponseDTO> getAllRoles();
 
-    Role getRoleById(Integer id);
+    RoleResponseDTO getRoleById(Integer roleId);
 
-    Role updateRole(Integer id, Role role);
+    RoleResponseDTO updateRole(Integer roleId, RoleRequestDTO request);
 
-    void deleteRole(Integer id);
+    void deleteRole(Integer roleId);
 }

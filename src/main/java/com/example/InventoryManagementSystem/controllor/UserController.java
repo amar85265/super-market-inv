@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package
 
 
@@ -98,11 +99,17 @@ package
 
 
 com.example.InventoryManagementSystem.controllor;
+=======
+package com.example.InventoryManagementSystem.controllor;
+>>>>>>> Stashed changes
 
 import com.example.InventoryManagementSystem.Dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.Dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.service.UserService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -111,48 +118,38 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-
+//ssfsasa
     private final UserService userService;
 
-    // CREATE USER
     @PostMapping
-    public UserResponseDTO createUser(
+    public ResponseEntity<UserResponseDTO> createUser(
             @RequestBody UserRequestDTO request) {
 
-        return userService.createUser(request);
+        return ResponseEntity.ok(
+                userService.createUser(request));
     }
 
-    // GET ALL USERS
     @GetMapping
-    public List<UserResponseDTO> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
 
-        return userService.getAllUsers();
+        return ResponseEntity.ok(
+                userService.getAllUsers());
     }
 
-    // GET USER BY ID
     @GetMapping("/{id}")
-    public UserResponseDTO getUserById(
-            @PathVariable Integer id) {
+    public ResponseEntity<UserResponseDTO> getUserById(
+            @PathVariable Long id) {
 
-        return userService.getUserById(id);
+        return ResponseEntity.ok(
+                userService.getUserById(id));
     }
 
-    // UPDATE USER
-    @PutMapping("/{id}")
-    public UserResponseDTO updateUser(
-            @PathVariable Integer id,
-            @RequestBody UserRequestDTO request) {
-
-        return userService.updateUser(id, request);
-    }
-
-    // DELETE USER
     @DeleteMapping("/{id}")
-    public String deleteUser(
-            @PathVariable Integer id) {
+    public ResponseEntity<String> deleteUser(
+            @PathVariable Long id) {
 
         userService.deleteUser(id);
 
-        return "User deleted successfully";
+        return ResponseEntity.ok("User deleted successfully");
     }
 }

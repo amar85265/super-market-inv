@@ -3,25 +3,31 @@ package com.example.InventoryManagementSystem.Dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
-
 @Data
 @Builder
 public class UserResponseDTO {
 
-    private Integer userId;
+    private Long Id;
 
     private String username;
 
+    private String fullName;
+
+    private String firstName;
+
+    private String lastName;
+
     private String email;
 
-    private String fullName;
+    private String mobileNumber;
 
     private String roleName;
 
     private String status;
 
-    private OffsetDateTime createdAt;
+    private Boolean active;
 
-    private OffsetDateTime updatedAt;
+    private String createdAt;
+
+    private String updatedAt;
 }

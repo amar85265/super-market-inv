@@ -1,104 +1,118 @@
 package com.example.InventoryManagementSystem.service;
 
+<<<<<<< Updated upstream
 import com.example.InventoryManagementSystem.Dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.Dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.model.Role;
+=======
+import com.example.InventoryManagementSystem.dto.UserRequestDTO;
+import com.example.InventoryManagementSystem.dto.UserResponseDTO;
+>>>>>>> Stashed changes
 import com.example.InventoryManagementSystem.model.User;
-import com.example.InventoryManagementSystem.Repository.RoleRepository;
 import com.example.InventoryManagementSystem.Repository.UserRepository;
+<<<<<<< Updated upstream
 import com.example.InventoryManagementSystem.service.UserService;
+=======
+
+>>>>>>> Stashed changes
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
 
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+        // Validate duplicate username
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException(
+                    "Username already exists: " + request.getUsername());
+        }
+
+        // Validate duplicate email
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException(
+                    "Email already exists: " + request.getEmail());
+        }
 
         User user = User.builder()
-                .username(request.getUsername())
-                .passwordHash(request.getPassword())
+                .username(request.getUsername())  // THIS WAS MISSING
                 .email(request.getEmail())
-                .fullName(request.getFullName())
-                .role(role)
-                .status(request.getStatus())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         User savedUser = userRepository.save(user);
 
-        return mapToDTO(savedUser);
+        return mapToResponse(savedUser);
+    }
+
+    private UserResponseDTO mapToResponse(User user) {
+        return UserResponseDTO.builder()
+                .Id(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .fullName(user.getFullName())
+                .mobileNumber(user.getMobileNumber())
+                .status(user.getStatus())
+                .active(user.getActive())
+                .createdAt(user.getCreatedAt() != null ?
+                        user.getCreatedAt().toString() : null)
+                .updatedAt(user.getUpdatedAt() != null ?
+                        user.getUpdatedAt().toString() : null)
+                .build();
     }
 
     @Override
     public List<UserResponseDTO> getAllUsers() {
-
         return userRepository.findAll()
                 .stream()
-                .map(this::mapToDTO)
-                .toList();
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public UserResponseDTO getUserById(Integer id) {
-
+    public UserResponseDTO getUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return mapToDTO(user);
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with id: " + id));
+        return mapToResponse(user);
     }
 
     @Override
-    public UserResponseDTO updateUser(Integer id, UserRequestDTO request) {
-
+    public UserResponseDTO updateUser(Long id, UserRequestDTO request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Role role = roleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with id: " + id));
 
         user.setUsername(request.getUsername());
-        user.setPasswordHash(request.getPassword());
         user.setEmail(request.getEmail());
-        user.setFullName(request.getFullName());
-        user.setRole(role);
-        user.setStatus(request.getStatus());
 
-        User updatedUser = userRepository.save(user);
+        if (request.getPassword() != null
+                && !request.getPassword().isEmpty()) {
+            user.setPasswordHash(
+                    passwordEncoder.encode(request.getPassword()));
+        }
 
-        return mapToDTO(updatedUser);
+        return mapToResponse(userRepository.save(user));
     }
 
     @Override
-    public void deleteUser(Integer id) {
-
+    public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with id: " + id));
         userRepository.delete(user);
-    }
-
-    private UserResponseDTO mapToDTO(User user) {
-
-        return UserResponseDTO.builder()
-                .userId(user.getUserId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                .roleName(user.getRole().getRoleName())
-                .status(user.getStatus())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .build();
     }
 }
