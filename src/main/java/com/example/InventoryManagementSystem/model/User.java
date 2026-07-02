@@ -3,7 +3,7 @@ package com.example.InventoryManagementSystem.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -16,47 +16,44 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
-
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "full_name")
+    @Column(nullable = false)
+    private String passwordHash;
+
+    private String firstName;
+
+    private String lastName;
+
     private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    private String mobileNumber;
 
     private String status;
 
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    private Boolean active;
 
-    @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-
-        this.createdAt = OffsetDateTime.now();
-        this.updatedAt = OffsetDateTime.now();
-
-        if (this.status == null) {
-            this.status = "active";
-        }
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        if (this.status == null) this.status = "active";
+        if (this.active == null) this.active = true;
     }
 
     @PreUpdate
     public void preUpdate() {
-
-        this.updatedAt = OffsetDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }
