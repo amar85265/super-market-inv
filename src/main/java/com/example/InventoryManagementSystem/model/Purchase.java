@@ -24,6 +24,7 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "purchase_id")
     private Long purchaseId;
+
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     @NotNull(message = "Supplier is required")
