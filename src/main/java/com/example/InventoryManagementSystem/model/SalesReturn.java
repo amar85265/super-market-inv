@@ -19,40 +19,23 @@ public class SalesReturn {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long returnId;
 
-    private Long salesItemId;
-
-    private Long saleId;
-
-    private Long customerId;
-
+    private String salesItemId;
+    private String saleId;
+    private String customerId;
     private Integer returnQuantity;
-
-    private Integer getSalesReturnId;
-
     private String reason;
-
     private String notes;
-
-    // CHANGE DOUBLE TO BIGDECIMAL
     private BigDecimal totalAmount;
 
     @Builder.Default
     private String refundStatus = "PENDING";
 
     private OffsetDateTime returnDate;
-
     private OffsetDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
-
         this.createdAt = OffsetDateTime.now();
-
         this.returnDate = OffsetDateTime.now();
-
-        // DEFAULT VALUE
-        if (this.totalAmount == null) {
-            this.totalAmount = BigDecimal.ZERO;
-        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.InventoryManagementSystem.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,16 +13,23 @@ import java.math.BigDecimal;
 public class SalesItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long saleItemId;
+    @Column(name = "sale_item_id", length = 20)
+    private String saleItemId;
 
-    private Long saleId;
+    @ManyToOne
+    @JoinColumn(name = "sale_id", nullable = false)
+    private Sales sale;
 
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
+    @Column(nullable = false)
     private Integer quantity;
 
+    @Column(name = "selling_price", precision = 12, scale = 2)
     private BigDecimal sellingPrice;
 
+    @Column(precision = 12, scale = 2)
     private BigDecimal total;
 }
