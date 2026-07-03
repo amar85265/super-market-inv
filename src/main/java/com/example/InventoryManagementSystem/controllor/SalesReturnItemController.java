@@ -3,11 +3,13 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.SalesReturnItemRequestDTO;
 import com.example.InventoryManagementSystem.dto.SalesReturnItemResponseDTO;
 import com.example.InventoryManagementSystem.service.SalesReturnItemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/sales-return-items")
 @RequiredArgsConstructor
@@ -15,41 +17,38 @@ public class SalesReturnItemController {
 
     private final SalesReturnItemService salesReturnItemService;
 
-    // CREATE ITEM
     @PostMapping
     public ResponseEntity<SalesReturnItemResponseDTO> create(
-            @RequestBody SalesReturnItemRequestDTO dto) {
+            @Valid @RequestBody SalesReturnItemRequestDTO dto) {
         return ResponseEntity.ok(salesReturnItemService.createItem(dto));
     }
 
-    // GET ALL ✔ NEW
     @GetMapping
     public ResponseEntity<List<SalesReturnItemResponseDTO>> getAll() {
         return ResponseEntity.ok(salesReturnItemService.getAll());
     }
 
-    // GET BY RETURN ID
-    @GetMapping("/{salesReturnId}")
-    public ResponseEntity<List<SalesReturnItemResponseDTO>> getByReturnId(
-            @PathVariable Long salesReturnId) {
-        return ResponseEntity.ok(
-                salesReturnItemService.getByReturnId(salesReturnId)
-        );
+    @GetMapping("/{id}")
+    public ResponseEntity<SalesReturnItemResponseDTO> getById(
+            @PathVariable String id) {
+        return ResponseEntity.ok(salesReturnItemService.getById(id));
     }
 
-    // UPDATE ITEM (PUT)
+    @GetMapping("/return/{salesReturnId}")
+    public ResponseEntity<List<SalesReturnItemResponseDTO>> getByReturnId(
+            @PathVariable String salesReturnId) {
+        return ResponseEntity.ok(salesReturnItemService.getByReturnId(salesReturnId));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<SalesReturnItemResponseDTO> update(
-            @PathVariable Long id,
-            @RequestBody SalesReturnItemRequestDTO dto) {
-
-        return ResponseEntity.ok(
-                salesReturnItemService.updateItem(id, dto)
-        );
+            @PathVariable String id,
+            @Valid @RequestBody SalesReturnItemRequestDTO dto) {
+        return ResponseEntity.ok(salesReturnItemService.updateItem(id, dto));
     }
-    // DELETE ITEM
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable String id) {
         salesReturnItemService.deleteItem(id);
         return ResponseEntity.ok("Sales return item deleted and stock updated");
     }
