@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseItemRequestDto;
-import com.example.InventoryManagementSystem.Dto.PurchaseItemResponseDto;
+import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
+import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
 import com.example.InventoryManagementSystem.Repository.PurchaseItemRepository;
 import com.example.InventoryManagementSystem.model.PurchaseItem;
 import lombok.RequiredArgsConstructor;

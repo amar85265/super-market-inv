@@ -1,8 +1,8 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.SupplierRequest;
-import com.example.InventoryManagementSystem.Dto.SupplierResponse;
-import com.example.InventoryManagementSystem.Exception.ResourceNotFoundException;
+import com.example.InventoryManagementSystem.dto.SupplierRequest;
+import com.example.InventoryManagementSystem.dto.SupplierResponse;
+import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
 import com.example.InventoryManagementSystem.model.Supplier;
 import com.example.InventoryManagementSystem.Repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseRequestDto;
-import com.example.InventoryManagementSystem.Dto.PurchaseResponseDto;
+import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
+import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
 
 import java.util.List;
 

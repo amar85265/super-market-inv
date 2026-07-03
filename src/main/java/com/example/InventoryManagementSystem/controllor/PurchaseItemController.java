@@ -1,7 +1,7 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.Dto.PurchaseItemRequestDto;
-import com.example.InventoryManagementSystem.Dto.PurchaseItemResponseDto;
+import com.example.InventoryManagementSystem.dto.PurchaseItemRequestDto;
+import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
 import com.example.InventoryManagementSystem.service.PurchaseItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

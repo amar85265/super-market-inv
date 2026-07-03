@@ -1,4 +1,4 @@
-package com.example.InventoryManagementSystem.Dto;
+package com.example.InventoryManagementSystem.dto;
 
 import lombok.Builder;
 import lombok.Data;
