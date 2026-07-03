@@ -1,26 +1,30 @@
 package com.example.InventoryManagementSystem.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseResponseDto {
 
     private Long purchaseId;
 
-    private Long supplierId;
+    private String supplierName;
 
     private String invoiceNumber;
 
-    private OffsetDateTime purchaseDate;
+    private LocalDateTime purchaseDate;
 
     private BigDecimal totalAmount;
 
+    private BigDecimal tax;
+
     private String paymentStatus;
 
-    private Long createdBy;
+    private String createdBy;
 }

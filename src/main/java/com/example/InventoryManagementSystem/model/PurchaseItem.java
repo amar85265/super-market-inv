@@ -11,31 +11,30 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PurchaseItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "purchase_item_id")
     private Long purchaseItemId;
 
-    private Long purchaseId;
+    @ManyToOne
+    @JoinColumn(name = "purchase_id")
+    private Purchase purchase;
 
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
+    @Column(nullable = false)
     private Integer quantity;
 
+    @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
 
+    @Column(name = "tax_amount")
+    private BigDecimal taxAmount;
+
     private BigDecimal total;
-
-    @PrePersist
-    @PreUpdate
-    public void calculateTotal() {
-
-        if (purchasePrice != null && quantity != null) {
-
-            this.total = purchasePrice.multiply(
-                    BigDecimal.valueOf(quantity)
-            );
-        }
-    }
 }
