@@ -7,16 +7,13 @@ import java.util.List;
 
 public interface SalesReturnService {
 
-    SalesReturnResponseDTO createReturn(
-            SalesReturnRequestDTO dto);
+    SalesReturnResponseDTO createReturn(SalesReturnRequestDTO dto);
 
-    SalesReturnResponseDTO getById(Long id);
+    SalesReturnResponseDTO getById(String id);
 
     List<SalesReturnResponseDTO> getAll();
 
-    SalesReturnResponseDTO updateReturn(
-            Long id,
-            SalesReturnRequestDTO dto);
+    SalesReturnResponseDTO updateReturn(String id, SalesReturnRequestDTO dto);
 
-    void delete(Long id);
+    void delete(String id);
 }

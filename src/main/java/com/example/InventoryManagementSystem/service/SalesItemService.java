@@ -8,12 +8,14 @@ import java.util.List;
 public interface SalesItemService {
 
     SalesItemResponseDTO createSalesItem(SalesItemRequestDTO dto);
-    SalesItemResponseDTO updateSalesItem(Long id, SalesItemRequestDTO dto);
+
+    SalesItemResponseDTO updateSalesItem(String id, SalesItemRequestDTO dto);
+
     List<SalesItemResponseDTO> getAllSalesItems();
 
-    SalesItemResponseDTO getSalesItemById(Long id);
+    SalesItemResponseDTO getSalesItemById(String id);
 
-    List<SalesItemResponseDTO> getItemsBySaleId(Long saleId);
+    List<SalesItemResponseDTO> getItemsBySaleId(String saleId);
 
-    void deleteSalesItem(Long id);
+    void deleteSalesItem(String id);
 }

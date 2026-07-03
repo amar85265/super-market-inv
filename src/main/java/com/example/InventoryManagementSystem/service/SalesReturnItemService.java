@@ -4,15 +4,18 @@ import com.example.InventoryManagementSystem.dto.SalesReturnItemRequestDTO;
 import com.example.InventoryManagementSystem.dto.SalesReturnItemResponseDTO;
 
 import java.util.List;
+
 public interface SalesReturnItemService {
 
     SalesReturnItemResponseDTO createItem(SalesReturnItemRequestDTO dto);
 
     List<SalesReturnItemResponseDTO> getAll();
 
-    List<SalesReturnItemResponseDTO> getByReturnId(Long salesReturnId);
+    SalesReturnItemResponseDTO getById(String id);  // required
 
-    SalesReturnItemResponseDTO updateItem(Long id, SalesReturnItemRequestDTO dto);
+    List<SalesReturnItemResponseDTO> getByReturnId(String salesReturnId);
 
-    void deleteItem(Long id);
+    SalesReturnItemResponseDTO updateItem(String id, SalesReturnItemRequestDTO dto);
+
+    void deleteItem(String id);
 }
