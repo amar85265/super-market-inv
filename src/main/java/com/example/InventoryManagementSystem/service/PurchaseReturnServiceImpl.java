@@ -1,10 +1,15 @@
 package com.example.InventoryManagementSystem.service;
 
+import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
+import com.example.InventoryManagementSystem.Repository.SupplierRepository;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnRequestDTO;
 import com.example.InventoryManagementSystem.dto.PurchaseReturnResponseDTO;
+import com.example.InventoryManagementSystem.model.Purchase;
 import com.example.InventoryManagementSystem.model.PurchaseReturn;
 import com.example.InventoryManagementSystem.Repository.PurchaseReturnRepository;
+import com.example.InventoryManagementSystem.model.Supplier;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,23 +18,35 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseReturnServiceImpl implements PurchaseReturnService {
+public class PurchaseReturnServiceImpl
+        implements PurchaseReturnService {
 
-    private final PurchaseReturnRepository repository;
+    private final PurchaseReturnRepository purchaseReturnRepository;
+
+    private final PurchaseRepository purchaseRepository;
+
+    private final SupplierRepository supplierRepository;
+
 
     @Override
     public PurchaseReturnResponseDTO createPurchaseReturn(
             PurchaseReturnRequestDTO requestDTO) {
 
+        purchaseRepository.findById(requestDTO.getPurchaseId())
+                .orElseThrow(() -> new RuntimeException("Purchase not found"));
+
+        supplierRepository.findById(requestDTO.getSupplierId())
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+
         PurchaseReturn entity = PurchaseReturn.builder()
-                .purchaseId(requestDTO.getPurchaseId())
-                .supplierId(requestDTO.getSupplierId())
+                .purchaseId(Math.toIntExact(purchase.getPurchaseId()))
+                .supplierId(Math.toIntExact(supplier.getSupplierId()))
                 .returnDate(LocalDateTime.now())
                 .totalAmount(requestDTO.getTotalAmount())
                 .notes(requestDTO.getNotes())
                 .build();
 
-        PurchaseReturn saved = repository.save(entity);
+        PurchaseReturn saved = purchaseReturnRepository.save(entity);
 
         return mapToResponse(saved);
     }
@@ -37,7 +54,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     @Override
     public PurchaseReturnResponseDTO getPurchaseReturnById(Integer id) {
 
-        PurchaseReturn entity = repository.findById(id).orElse(null);
+        PurchaseReturn entity = purchaseReturnRepository.findById(id).orElse(null);
 
         if (entity == null) {
             return null;
@@ -49,7 +66,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     @Override
     public List<PurchaseReturnResponseDTO> getAllPurchaseReturns() {
 
-        return repository.findAll()
+        return purchaseReturnRepository.findAll()
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -60,7 +77,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
             Integer id,
             PurchaseReturnRequestDTO requestDTO) {
 
-        PurchaseReturn entity = repository.findById(id).orElse(null);
+        PurchaseReturn entity =purchaseReturnRepository.findById(id).orElse(null);
 
         if (entity == null) {
             return null;
@@ -71,7 +88,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
         entity.setTotalAmount(requestDTO.getTotalAmount());
         entity.setNotes(requestDTO.getNotes());
 
-        PurchaseReturn updated = repository.save(entity);
+        PurchaseReturn updated = purchaseReturnRepository.save(entity);
 
         return mapToResponse(updated);
     }
@@ -79,10 +96,10 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     @Override
     public void deletePurchaseReturn(Integer id) {
 
-        PurchaseReturn entity = repository.findById(id).orElse(null);
+        PurchaseReturn entity = purchaseReturnRepository.findById(id).orElse(null);
 
         if (entity != null) {
-            repository.delete(entity);
+            purchaseReturnRepository.delete(entity);
         }
     }
 
