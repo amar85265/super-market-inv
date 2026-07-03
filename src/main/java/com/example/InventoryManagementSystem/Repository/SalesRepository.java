@@ -2,9 +2,12 @@ package com.example.InventoryManagementSystem.Repository;
 
 import com.example.InventoryManagementSystem.model.Sales;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface SalesRepository extends JpaRepository<Sales, Long> {
+import java.util.Optional;
 
+public interface SalesRepository extends JpaRepository<Sales, String> {
+
+    Optional<Sales> findTopByOrderBySaleIdDesc();
+
+    boolean existsByInvoiceNumber(String invoiceNumber);
 }
