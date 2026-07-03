@@ -7,12 +7,11 @@ import java.math.BigDecimal;
 @Data
 public class SalesItemResponseDTO {
 
-    private Long saleItemId;
-    private Long saleId;
-    private Long productId;
-
+    private String saleItemId;
+    private String saleId;
+    private String productId;
+    private String productName;
     private Integer quantity;
-
     private BigDecimal sellingPrice;
     private BigDecimal total;
 }

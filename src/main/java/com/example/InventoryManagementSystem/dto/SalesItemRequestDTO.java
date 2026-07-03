@@ -1,13 +1,18 @@
 package com.example.InventoryManagementSystem.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class SalesItemRequestDTO {
 
-    private Long saleId;
-    private Long productId;
+    @NotBlank(message = "Sale ID is required")
+    private String saleId;
+
+    @NotBlank(message = "Product ID is required")
+    private String productId;
+
+    @NotNull(message = "Quantity is required")
+    @Positive(message = "Quantity must be greater than 0")
     private Integer quantity;
 }
