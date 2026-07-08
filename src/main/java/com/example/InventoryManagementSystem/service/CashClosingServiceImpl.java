@@ -32,6 +32,15 @@ public class CashClosingServiceImpl
                                 new RuntimeException(
                                         "Counter not found"));
 
+        if (cashClosingRepository
+                .existsByBillingCounterCounterId(
+                        dto.getCounterId())) {
+
+            throw new RuntimeException(
+                    "Cash closing already exists for Counter ID: "
+                            + dto.getCounterId());
+        }
+
         CashClosing cashClosing =
                 new CashClosing();
 
@@ -76,6 +85,7 @@ public class CashClosingServiceImpl
                                 new RuntimeException(
                                         "Cash closing not found"));
 
+
         return mapToDto(cashClosing);
     }
 
@@ -98,6 +108,15 @@ public class CashClosingServiceImpl
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Counter not found"));
+
+        if (cashClosingRepository
+                .existsByBillingCounterCounterId(
+                        dto.getCounterId())) {
+
+            throw new RuntimeException(
+                    "Cash closing already exists for Counter ID: "
+                            + dto.getCounterId());
+        }
 
         cashClosing.setBillingCounter(
                 billingCounter);

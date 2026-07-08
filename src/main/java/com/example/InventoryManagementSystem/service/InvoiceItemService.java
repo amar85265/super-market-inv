@@ -1,19 +1,18 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.InvoiceItemDto;
+import com.example.InventoryManagementSystem.dto.InvoiceItemRequestDto;
+import com.example.InventoryManagementSystem.dto.InvoiceItemResponseDto;
 
 import java.util.List;
-
 public interface InvoiceItemService {
 
-    InvoiceItemDto createInvoiceItem(InvoiceItemDto dto);
+    InvoiceItemResponseDto createInvoiceItem(InvoiceItemRequestDto dto);
 
-    List<InvoiceItemDto> getAllInvoiceItems();
+    List<InvoiceItemResponseDto> getAllInvoiceItems();
 
-    InvoiceItemDto getInvoiceItemById(Long id);
+    InvoiceItemResponseDto getInvoiceItemById(Long id);
 
-    InvoiceItemDto updateInvoiceItem(Long id,
-                                     InvoiceItemDto dto);
+    InvoiceItemResponseDto updateInvoiceItem(Long id, InvoiceItemRequestDto dto);
 
     void deleteInvoiceItem(Long id);
 }

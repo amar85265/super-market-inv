@@ -34,6 +34,11 @@ public class CustomerServiceImpl implements com.example.InventoryManagementSyste
 
     @Override
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
+
+        if (repository.existsByEmail(dto.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
         Customer customer = mapToEntity(dto);
         Customer saved = repository.save(customer);
         return mapToDTO(saved);
@@ -58,6 +63,11 @@ public class CustomerServiceImpl implements com.example.InventoryManagementSyste
     public CustomerResponseDTO updateCustomer(Long id, CustomerRequestDTO dto) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        if (repository.existsByEmailAndCustomerIdNot(dto.getEmail(), id)) {
+            throw new RuntimeException("Email already exists");
+        }
+
 
         customer.setCustomerName(dto.getCustomerName());
         customer.setPhone(dto.getPhone());

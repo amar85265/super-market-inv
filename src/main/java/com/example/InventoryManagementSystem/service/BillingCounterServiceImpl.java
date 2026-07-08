@@ -71,6 +71,7 @@ public class BillingCounterServiceImpl implements BillingCounterService {
         BillingCounter counter = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Billing Counter not found"));
 
+
         counter.setCounterName(dto.getCounterName());
         counter.setLocation(dto.getLocation());
         counter.setStatus(dto.getStatus());

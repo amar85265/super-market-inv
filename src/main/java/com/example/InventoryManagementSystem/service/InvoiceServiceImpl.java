@@ -1,12 +1,17 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.InvoiceDto;
-import com.example.InventoryManagementSystem.model.Invoice;
+import com.example.InventoryManagementSystem.Repository.BillingCounterRepository;
+import com.example.InventoryManagementSystem.Repository.CustomerRepository;
 import com.example.InventoryManagementSystem.Repository.InvoiceRepository;
-
+import com.example.InventoryManagementSystem.dto.InvoiceRequestDto;
+import com.example.InventoryManagementSystem.dto.InvoiceResponseDto;
+import com.example.InventoryManagementSystem.model.Invoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.time.Year;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,66 +19,134 @@ import java.util.stream.Collectors;
 public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
-    private InvoiceRepository repository;
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private BillingCounterRepository billingCounterRepository;
 
     @Override
-    public InvoiceDto createInvoice(InvoiceDto dto) {
+    public InvoiceResponseDto createInvoice(InvoiceRequestDto dto) {
+
+        if (!customerRepository.existsById(dto.getCustomerId())) {
+            throw new RuntimeException("Customer not found");
+        }
+
+        if (!billingCounterRepository.existsById(dto.getCounterId())) {
+            throw new RuntimeException("Billing Counter not found");
+        }
 
         Invoice invoice = new Invoice();
 
-        invoice.setInvoiceNumber(dto.getInvoiceNumber());
         invoice.setCustomerId(dto.getCustomerId());
         invoice.setCounterId(dto.getCounterId());
-        invoice.setSubtotal(dto.getSubtotal());
-        invoice.setDiscountAmount(dto.getDiscountAmount());
-        invoice.setTaxAmount(dto.getTaxAmount());
-        invoice.setGrandTotal(dto.getGrandTotal());
+
+        invoice.setSubtotal(BigDecimal.ZERO);
+        invoice.setDiscountAmount(BigDecimal.ZERO);
+        invoice.setTaxAmount(BigDecimal.ZERO);
+        invoice.setGrandTotal(BigDecimal.ZERO);
+
         invoice.setPaidAmount(dto.getPaidAmount());
-        invoice.setBalanceAmount(dto.getBalanceAmount());
+        invoice.setBalanceAmount(dto.getPaidAmount());
+
         invoice.setPaymentMethod(dto.getPaymentMethod());
-        invoice.setPaymentStatus(dto.getPaymentStatus());
+
+        invoice.setPaymentStatus("PENDING");
+
         invoice.setCreatedBy(dto.getCreatedBy());
 
-        Invoice saved = repository.save(invoice);
+        invoice.setCreatedAt(OffsetDateTime.now());
 
-        dto.setInvoiceId(saved.getInvoiceId());
+        Invoice savedInvoice = invoiceRepository.save(invoice);
 
-        return dto;
+        String invoiceNumber =
+                "INV-" +
+                        Year.now().getValue() +
+                        "-" +
+                        String.format("%05d", savedInvoice.getInvoiceId());
+
+        savedInvoice.setInvoiceNumber(invoiceNumber);
+
+        savedInvoice = invoiceRepository.save(savedInvoice);
+
+        return mapToResponse(savedInvoice);
     }
 
     @Override
-    public List<InvoiceDto> getAllInvoices() {
+    public InvoiceResponseDto getInvoiceById(Long id) {
 
-        return repository.findAll().stream().map(invoice -> {
+        Invoice invoice = invoiceRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Invoice not found"));
 
-            InvoiceDto dto = new InvoiceDto();
-
-            dto.setInvoiceId(invoice.getInvoiceId());
-            dto.setInvoiceNumber(invoice.getInvoiceNumber());
-            dto.setCustomerId(invoice.getCustomerId());
-            dto.setCounterId(invoice.getCounterId());
-            dto.setSubtotal(invoice.getSubtotal());
-            dto.setDiscountAmount(invoice.getDiscountAmount());
-            dto.setTaxAmount(invoice.getTaxAmount());
-            dto.setGrandTotal(invoice.getGrandTotal());
-            dto.setPaidAmount(invoice.getPaidAmount());
-            dto.setBalanceAmount(invoice.getBalanceAmount());
-            dto.setPaymentMethod(invoice.getPaymentMethod());
-            dto.setPaymentStatus(invoice.getPaymentStatus());
-            dto.setCreatedBy(invoice.getCreatedBy());
-
-            return dto;
-
-        }).collect(Collectors.toList());
+        return mapToResponse(invoice);
     }
 
     @Override
-    public InvoiceDto getInvoiceById(Long id) {
+    public List<InvoiceResponseDto> getAllInvoices() {
 
-        Invoice invoice = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
+        return invoiceRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
 
-        InvoiceDto dto = new InvoiceDto();
+    @Override
+    public InvoiceResponseDto updateInvoice(Long invoiceId,
+                                            InvoiceRequestDto dto) {
+
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() ->
+                        new RuntimeException("Invoice not found"));
+
+        if (!customerRepository.existsById(dto.getCustomerId())) {
+            throw new RuntimeException("Customer not found");
+        }
+
+        if (!billingCounterRepository.existsById(dto.getCounterId())) {
+            throw new RuntimeException("Billing Counter not found");
+        }
+
+        invoice.setCustomerId(dto.getCustomerId());
+        invoice.setCounterId(dto.getCounterId());
+        invoice.setPaidAmount(dto.getPaidAmount());
+        invoice.setPaymentMethod(dto.getPaymentMethod());
+        invoice.setCreatedBy(dto.getCreatedBy());
+
+        // Balance Amount
+        invoice.setBalanceAmount(
+                invoice.getGrandTotal().subtract(invoice.getPaidAmount())
+        );
+
+        // Payment Status
+        if (invoice.getPaidAmount().compareTo(invoice.getGrandTotal()) >= 0) {
+            invoice.setPaymentStatus("PAID");
+        } else if (invoice.getPaidAmount().compareTo(BigDecimal.ZERO) > 0) {
+            invoice.setPaymentStatus("PARTIAL");
+        } else {
+            invoice.setPaymentStatus("PENDING");
+        }
+
+        Invoice updated = invoiceRepository.save(invoice);
+
+        return mapToResponse(updated);
+    }
+
+    @Override
+    public void deleteInvoice(Long id) {
+
+        if (!invoiceRepository.existsById(id)) {
+            throw new RuntimeException("Invoice not found");
+        }
+
+        invoiceRepository.deleteById(id);
+    }
+
+    private InvoiceResponseDto mapToResponse(Invoice invoice) {
+
+        InvoiceResponseDto dto = new InvoiceResponseDto();
 
         dto.setInvoiceId(invoice.getInvoiceId());
         dto.setInvoiceNumber(invoice.getInvoiceNumber());
@@ -88,39 +161,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         dto.setPaymentMethod(invoice.getPaymentMethod());
         dto.setPaymentStatus(invoice.getPaymentStatus());
         dto.setCreatedBy(invoice.getCreatedBy());
+        dto.setCreatedAt(invoice.getCreatedAt());
 
         return dto;
-    }
-
-    @Override
-    public InvoiceDto updateInvoice(Long id, InvoiceDto dto) {
-
-        Invoice invoice = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Invoice not found"));
-
-        invoice.setInvoiceNumber(dto.getInvoiceNumber());
-        invoice.setCustomerId(dto.getCustomerId());
-        invoice.setCounterId(dto.getCounterId());
-        invoice.setSubtotal(dto.getSubtotal());
-        invoice.setDiscountAmount(dto.getDiscountAmount());
-        invoice.setTaxAmount(dto.getTaxAmount());
-        invoice.setGrandTotal(dto.getGrandTotal());
-        invoice.setPaidAmount(dto.getPaidAmount());
-        invoice.setBalanceAmount(dto.getBalanceAmount());
-        invoice.setPaymentMethod(dto.getPaymentMethod());
-        invoice.setPaymentStatus(dto.getPaymentStatus());
-        invoice.setCreatedBy(dto.getCreatedBy());
-
-        repository.save(invoice);
-
-        dto.setInvoiceId(invoice.getInvoiceId());
-
-        return dto;
-    }
-
-    @Override
-    public void deleteInvoice(Long id) {
-
-        repository.deleteById(id);
     }
 }
