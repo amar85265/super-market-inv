@@ -32,6 +32,9 @@ public class Product {
 
     private BigDecimal sellingPrice;
 
+    @Column(nullable = false)
+    private BigDecimal gstPercentage = BigDecimal.ZERO;
+
     private Integer stockQuantity;
 
     private Integer minimumStock;
