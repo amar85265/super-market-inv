@@ -1,38 +1,39 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.dto.InvoiceItemDto;
+import com.example.InventoryManagementSystem.dto.InvoiceItemRequestDto;
+import com.example.InventoryManagementSystem.dto.InvoiceItemResponseDto;
 import com.example.InventoryManagementSystem.service.InvoiceItemService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/invoice-items")
+@RequiredArgsConstructor
 public class InvoiceItemController {
 
-    @Autowired
-    private InvoiceItemService service;
+    private final InvoiceItemService service;
 
     // CREATE
     @PostMapping
-    public InvoiceItemDto createInvoiceItem(
-            @RequestBody InvoiceItemDto dto) {
+    public InvoiceItemResponseDto createInvoiceItem(
+            @Valid @RequestBody InvoiceItemRequestDto dto) {
 
         return service.createInvoiceItem(dto);
     }
 
     // READ ALL
     @GetMapping
-    public List<InvoiceItemDto> getAllInvoiceItems() {
+    public List<InvoiceItemResponseDto> getAllInvoiceItems() {
 
         return service.getAllInvoiceItems();
     }
 
     // READ BY ID
     @GetMapping("/{id}")
-    public InvoiceItemDto getInvoiceItemById(
+    public InvoiceItemResponseDto getInvoiceItemById(
             @PathVariable Long id) {
 
         return service.getInvoiceItemById(id);
@@ -40,9 +41,9 @@ public class InvoiceItemController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public InvoiceItemDto updateInvoiceItem(
+    public InvoiceItemResponseDto updateInvoiceItem(
             @PathVariable Long id,
-            @RequestBody InvoiceItemDto dto) {
+            @Valid @RequestBody InvoiceItemRequestDto dto) {
 
         return service.updateInvoiceItem(id, dto);
     }
@@ -53,7 +54,6 @@ public class InvoiceItemController {
             @PathVariable Long id) {
 
         service.deleteInvoiceItem(id);
-
         return "Invoice Item deleted successfully";
     }
 }

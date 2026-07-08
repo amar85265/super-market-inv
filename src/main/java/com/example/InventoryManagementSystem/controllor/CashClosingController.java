@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.CashClosingRequestDto;
 import com.example.InventoryManagementSystem.dto.CashClosingResponseDto;
 import com.example.InventoryManagementSystem.service.CashClosingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class CashClosingController {
     @PostMapping
     public ResponseEntity<CashClosingResponseDto>
     createCashClosing(
-            @RequestBody CashClosingRequestDto dto) {
+            @Valid @RequestBody CashClosingRequestDto dto) {
 
         return ResponseEntity.ok(
                 cashClosingService
@@ -53,7 +54,7 @@ public class CashClosingController {
     public ResponseEntity<CashClosingResponseDto>
     updateCashClosing(
             @PathVariable Long id,
-            @RequestBody CashClosingRequestDto dto) {
+            @Valid@RequestBody CashClosingRequestDto dto) {
 
         return ResponseEntity.ok(
                 cashClosingService
