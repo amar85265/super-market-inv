@@ -112,7 +112,7 @@ public class PurchaseServiceImpl
 
             Product product =
                     productRepository.findById(
-                                    Long.valueOf(item.getProductId()))
+                                    String.valueOf(item.getProductId()))
                             .orElseThrow(() ->
                                     new RuntimeException(
                                             "Product not found"));
@@ -184,7 +184,7 @@ public class PurchaseServiceImpl
             purchaseItemRepository.save(purchaseItem);
 
             Product product = productRepository.findById(
-                            Long.valueOf(item.getProductId()))
+                            String.valueOf(item.getProductId()))
                     .orElseThrow(() ->
                             new RuntimeException("Product not found"));
 

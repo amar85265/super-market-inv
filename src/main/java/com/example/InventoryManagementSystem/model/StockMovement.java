@@ -17,7 +17,7 @@ public class StockMovement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movement_id")
-    private Long movementId;
+    private String movementId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -30,7 +30,7 @@ public class StockMovement {
     private Integer quantity;
 
     @Column(name = "reference_id")
-    private Integer referenceId;
+    private String referenceId;
 
     @Column(columnDefinition = "TEXT")
     private String notes;

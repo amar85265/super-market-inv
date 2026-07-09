@@ -51,7 +51,7 @@ public class ProductBarcodeServiceImpl implements ProductBarcodeService {
     }
 
     @Override
-    public ProductBarcodeResponseDTO updateBarcode(Long id, ProductBarcodeRequestDTO request) {
+    public ProductBarcodeResponseDTO updateBarcode(String id, ProductBarcodeRequestDTO request) {
 
         ProductBarcode barcode = repository.findById(id)
                 .orElseThrow(() ->
@@ -79,7 +79,7 @@ public class ProductBarcodeServiceImpl implements ProductBarcodeService {
     }
 
     @Override
-    public List<ProductBarcodeResponseDTO> getByProductId(Long productId) {
+    public List<ProductBarcodeResponseDTO> getByProductId(String productId) {
 
         return repository.findByProductId(productId)
                 .stream()
@@ -98,7 +98,7 @@ public class ProductBarcodeServiceImpl implements ProductBarcodeService {
     }
 
     @Override
-    public void deleteBarcode(Long barcodeId) {
+    public void deleteBarcode(String barcodeId) {
 
         ProductBarcode barcode = repository.findById(barcodeId)
                 .orElseThrow(() ->

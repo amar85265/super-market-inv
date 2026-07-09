@@ -47,7 +47,7 @@ public class StockMovementServiceImpl
 
     @Override
     public StockMovementResponse getStockMovementById(
-            Long movementId) {
+            String movementId) {
 
         StockMovement stockMovement =
                 stockMovementRepository.findById(movementId)
@@ -70,7 +70,7 @@ public class StockMovementServiceImpl
 
     @Override
     public List<StockMovementResponse> getByProductId(
-            Long productId) {
+            String productId) {
 
         return stockMovementRepository
                 .findByProduct_ProductId(productId)
@@ -80,7 +80,7 @@ public class StockMovementServiceImpl
     }
 
     @Override
-    public void deleteStockMovement(Long movementId) {
+    public void deleteStockMovement(String movementId) {
 
         StockMovement stockMovement =
                 stockMovementRepository.findById(movementId)

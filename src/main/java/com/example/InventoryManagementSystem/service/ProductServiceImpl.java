@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     // GET BY ID
     // =======================
     @Override
-    public ProductResponseDTO getProductById(Long id) {
+    public ProductResponseDTO getProductById(String id) {
 
         Product p = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
     // =======================
     @Override
     @Transactional
-    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO dto) {
+    public ProductResponseDTO updateProduct(String id, ProductRequestDTO dto) {
 
         Product product = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -146,7 +146,7 @@ public class ProductServiceImpl implements ProductService {
     // =======================
     @Override
     @Transactional
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
 
         Product p = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));

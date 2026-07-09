@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements com.example.InventoryManagementSyste
     }
 
     @Override
-    public CustomerResponseDTO getCustomerById(Long id) {
+    public CustomerResponseDTO getCustomerById(String id) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         return mapToDTO(customer);
@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements com.example.InventoryManagementSyste
     }
 
     @Override
-    public CustomerResponseDTO updateCustomer(Long id, CustomerRequestDTO dto) {
+    public CustomerResponseDTO updateCustomer(String id, CustomerRequestDTO dto) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
@@ -70,7 +70,7 @@ public class CustomerServiceImpl implements com.example.InventoryManagementSyste
     }
 
     @Override
-    public void deleteCustomer(Long id) {
+    public void deleteCustomer(String id) {
         Customer customer = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         repository.delete(customer);

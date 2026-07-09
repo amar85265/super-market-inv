@@ -30,7 +30,7 @@ public class ProductBarcodeController {
 
     // GET BARCODES BY PRODUCT ID
     @GetMapping("/product/{productId}")
-    public List<ProductBarcodeResponseDTO> getByID(@PathVariable Long productId) {
+    public List<ProductBarcodeResponseDTO> getByID(@PathVariable String productId) {
         return service.getByProductId(productId);
     }
 
@@ -43,14 +43,14 @@ public class ProductBarcodeController {
     // UPDATE BARCODE
     @PutMapping("/{id}")
     public ProductBarcodeResponseDTO update(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody ProductBarcodeRequestDTO request) {
         return service.updateBarcode(id, request);
     }
 
     // DELETE BARCODE
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String id) {
         service.deleteBarcode(id);
         return "Deleted Successfully";
     }

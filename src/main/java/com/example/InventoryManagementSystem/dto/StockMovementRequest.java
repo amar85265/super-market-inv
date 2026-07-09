@@ -12,7 +12,7 @@ import lombok.*;
 public class StockMovementRequest {
 
     @NotNull(message = "Product ID is required")
-    private Long productId;
+    private String productId;
 
     @NotBlank(message = "Movement type is required")
     private String movementType;
@@ -20,7 +20,7 @@ public class StockMovementRequest {
     @NotNull(message = "Quantity is required")
     private Integer quantity;
 
-    private Integer referenceId;
+    private String referenceId;
 
     private String notes;
 }

@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class ProductBarcodeRequestDTO {
 
-    private Long productId;
+    private String productId;
     private String barcode;
 }

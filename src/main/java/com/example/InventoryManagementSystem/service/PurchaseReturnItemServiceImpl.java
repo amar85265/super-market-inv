@@ -43,7 +43,7 @@ public class PurchaseReturnItemServiceImpl
 
         PurchaseReturnItem entity = PurchaseReturnItem.builder()
                 .purchaseReturnId(requestDTO.getPurchaseReturnId())
-                .productId(Math.toIntExact(requestDTO.getProductId()))
+                .productId(requestDTO.getProductId())
                 .quantity(requestDTO.getQuantity())
                 .price(requestDTO.getPrice())
                 .total(total)
@@ -101,7 +101,7 @@ public class PurchaseReturnItemServiceImpl
                 .multiply(BigDecimal.valueOf(requestDTO.getQuantity()));
 
         entity.setPurchaseReturnId(requestDTO.getPurchaseReturnId());
-        entity.setProductId(Math.toIntExact(requestDTO.getProductId()));
+        entity.setProductId(requestDTO.getProductId());
         entity.setQuantity(requestDTO.getQuantity());
         entity.setPrice(requestDTO.getPrice());
         entity.setTotal(total);
@@ -128,7 +128,7 @@ public class PurchaseReturnItemServiceImpl
         return PurchaseReturnItemResponseDTO.builder()
                 .purchaseReturnItemId(entity.getPurchaseReturnItemId())
                 .purchaseReturnId(entity.getPurchaseReturnId())
-                .productId(Long.valueOf(entity.getProductId()))
+                .productId(entity.getProductId())
                 .quantity(entity.getQuantity())
                 .price(entity.getPrice())
                 .total(entity.getTotal())

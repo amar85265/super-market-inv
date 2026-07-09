@@ -11,9 +11,9 @@ import java.time.OffsetDateTime;
 @Builder
 public class StockMovementResponse {
 
-    private Long movementId;
+    private String movementId;
 
-    private Long productId;
+    private String productId;
 
     private String productName;
 
@@ -21,7 +21,7 @@ public class StockMovementResponse {
 
     private Integer quantity;
 
-    private Integer referenceId;
+    private String referenceId;
 
     private String notes;
 

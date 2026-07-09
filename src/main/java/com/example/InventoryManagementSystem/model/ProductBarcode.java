@@ -17,11 +17,11 @@ public class ProductBarcode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long barcodeId;
+    private String barcodeId;
 
     @NotNull(message = "Product ID is required")
     @Column(nullable = false)
-    private Long productId;
+    private String productId;
 
     @NotBlank(message = "Barcode is required")
     @Size(min = 8, max = 50, message = "Barcode must be between 8 and 50 characters")

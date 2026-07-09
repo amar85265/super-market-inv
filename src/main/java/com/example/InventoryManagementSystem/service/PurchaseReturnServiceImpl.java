@@ -119,7 +119,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
             returnItem.setPurchaseReturnId(
                     purchaseReturn.getPurchaseReturnId());
 
-            returnItem.setProductId(item.getProductId().intValue());
+            returnItem.setProductId(item.getProductId());
             returnItem.setQuantity(item.getQuantity());
             returnItem.setPrice(item.getPrice());
 

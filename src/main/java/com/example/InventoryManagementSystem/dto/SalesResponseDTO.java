@@ -4,23 +4,18 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class SalesResponseDTO {
 
-    private Long saleId;
-
-    private Integer customerId;
-
+    private String saleId;
+    private String customerId;
+    private String customerName;
+    private Long createdBy;
     private String invoiceNumber;
-
-    private LocalDateTime saleDate;
-
-    private BigDecimal totalAmount;
-
     private String paymentStatus;
-
-    private Integer createdBy;
-
-
+    private BigDecimal totalAmount;
+    private LocalDateTime saleDate;
+    private List<com.example.InventoryManagementSystem.dto.SalesItemResponseDTO> items;
 }

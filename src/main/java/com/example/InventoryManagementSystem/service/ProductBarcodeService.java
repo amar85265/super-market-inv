@@ -10,13 +10,13 @@ public interface ProductBarcodeService {
 
     ProductBarcodeResponseDTO createBarcode(ProductBarcodeRequestDTO request);
 
-    ProductBarcodeResponseDTO updateBarcode(Long id, ProductBarcodeRequestDTO request);
+    ProductBarcodeResponseDTO updateBarcode(String id, ProductBarcodeRequestDTO request);
 
     List<ProductBarcodeResponseDTO> getAll();
 
-    List<ProductBarcodeResponseDTO> getByProductId(Long productId);
+    List<ProductBarcodeResponseDTO> getByProductId(String productId);
 
     ProductBarcodeResponseDTO getByBarcode(String barcode);
 
-    void deleteBarcode(Long barcodeId);
+    void deleteBarcode(String barcodeId);
 }

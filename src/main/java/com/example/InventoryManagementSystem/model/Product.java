@@ -16,7 +16,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private String productId;
 
     @NotNull(message = "Category ID is required")
     @Positive(message = "Category ID must be greater than 0")

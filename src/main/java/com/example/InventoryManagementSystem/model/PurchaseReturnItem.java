@@ -26,7 +26,7 @@ public class PurchaseReturnItem {
 
     @NotNull(message = "Product ID is required")
     @Column(name = "product_id")
-    private Integer productId;
+    private String productId;
 
     @NotNull(message = "Quantity is required")
     @Min(value = 1, message = "Quantity must be greater than 0")

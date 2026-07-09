@@ -15,7 +15,7 @@ public class PurchaseReturnItemRequestDTO {
     private Integer purchaseReturnId;
 
     @NotNull(message = "Product ID is required")
-    private Long productId;
+    private String productId;
 
     private Integer quantity;
 

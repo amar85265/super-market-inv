@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class ProductResponseDTO {
 
-    private Long productId;
+    private String productId;
     private Long categoryId;
     private String productName;
     private String sku;

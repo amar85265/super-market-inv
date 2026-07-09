@@ -14,16 +14,36 @@ import java.time.LocalDateTime;
 public class Sales {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long saleId;
+    @Column(name = "sale_id", length = 20)
+    private String saleId;
 
-    private Long customerId;
-    private Long createdBy;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
+
+    @Column(name = "invoice_number")
     private String invoiceNumber;
+
+    @Column(name = "payment_status")
     private String paymentStatus;
 
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
-    private LocalDateTime saleDate = LocalDateTime.now();
+    @Column(name = "sale_date")
+    private LocalDateTime saleDate;
+
+//    @Enumerated(EnumType.STRING)   // stores enum name in DB
+//    @Column(name = "payment_status")
+//    private SaleStatus paymentStatus;
+
+    @PrePersist
+    public void prePersist() {
+        this.saleDate = LocalDateTime.now();
+
+    }
 }

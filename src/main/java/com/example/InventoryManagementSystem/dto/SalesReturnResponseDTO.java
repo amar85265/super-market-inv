@@ -11,24 +11,14 @@ import java.time.OffsetDateTime;
 public class SalesReturnResponseDTO {
 
     private Long returnId;
-
-    private Long salesItemId;
-
-    private Long saleId;
-
-    private Long customerId;
-
+    private String salesItemId;
+    private String saleId;
+    private String customerId;
     private Integer returnQuantity;
-
     private String reason;
-
     private String notes;
-
     private BigDecimal totalAmount;
-
     private String refundStatus;
-
     private OffsetDateTime returnDate;
-
     private OffsetDateTime createdAt;
 }

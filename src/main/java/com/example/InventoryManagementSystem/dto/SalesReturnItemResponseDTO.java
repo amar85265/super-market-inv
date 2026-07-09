@@ -1,18 +1,15 @@
 package com.example.InventoryManagementSystem.dto;
 
 import lombok.Data;
-
 import java.math.BigDecimal;
 
 @Data
 public class SalesReturnItemResponseDTO {
-
-    private Long salesReturnItemId;
-    private Long salesReturnId;
-    private Long productId;
-
+    private String salesReturnItemId;
+    private String salesReturnId;
+    private String productId;
+    private String productName;   // human‑readable
     private Integer quantity;
-
-    private BigDecimal price;
+    private BigDecimal price;     // original sale unit price
     private BigDecimal total;
 }

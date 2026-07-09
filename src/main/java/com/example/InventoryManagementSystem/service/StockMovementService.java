@@ -11,12 +11,11 @@ public interface StockMovementService {
             StockMovementRequest request);
 
     StockMovementResponse getStockMovementById(
-            Long movementId);
-
+            String movementId);
     List<StockMovementResponse> getAllStockMovements();
 
     List<StockMovementResponse> getByProductId(
-            Long productId);
+            String productId);
 
-    void deleteStockMovement(Long movementId);
+    void deleteStockMovement(String movementId);
 }

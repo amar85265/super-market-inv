@@ -32,7 +32,7 @@ public class StockMovementController {
     @GetMapping("/{movementId}")
     public ResponseEntity<StockMovementResponse>
     getStockMovementById(
-            @PathVariable Long movementId) {
+            @PathVariable String movementId) {
 
         return ResponseEntity.ok(
                 stockMovementService
@@ -51,7 +51,7 @@ public class StockMovementController {
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<StockMovementResponse>>
     getByProductId(
-            @PathVariable Long productId) {
+            @PathVariable String productId) {
 
         return ResponseEntity.ok(
                 stockMovementService
@@ -61,7 +61,7 @@ public class StockMovementController {
     @DeleteMapping("/{movementId}")
     public ResponseEntity<String>
     deleteStockMovement(
-            @PathVariable Long movementId) {
+            @PathVariable String movementId) {
 
         stockMovementService
                 .deleteStockMovement(movementId);

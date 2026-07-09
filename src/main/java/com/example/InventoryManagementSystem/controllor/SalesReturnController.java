@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.SalesReturnRequestDTO;
 import com.example.InventoryManagementSystem.dto.SalesReturnResponseDTO;
 import com.example.InventoryManagementSystem.service.SalesReturnService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class SalesReturnController {
     // CREATE
     @PostMapping
     public ResponseEntity<SalesReturnResponseDTO> create(
-            @RequestBody SalesReturnRequestDTO dto) {
+            @Valid @RequestBody SalesReturnRequestDTO dto) {
 
         return ResponseEntity.ok(
                 salesReturnService.createReturn(dto));
@@ -28,7 +29,7 @@ public class SalesReturnController {
     // GET BY ID
     @GetMapping("/{id}")
     public ResponseEntity<SalesReturnResponseDTO> getById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 salesReturnService.getById(id));
@@ -45,21 +46,18 @@ public class SalesReturnController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<SalesReturnResponseDTO>
-    updateReturn(
-            @PathVariable Long id,
-            @RequestBody SalesReturnRequestDTO dto) {
+    public ResponseEntity<SalesReturnResponseDTO> updateReturn(
+            @PathVariable String id,
+            @Valid @RequestBody SalesReturnRequestDTO dto) {
 
         return ResponseEntity.ok(
-                salesReturnService.updateReturn(
-                        id,
-                        dto));
+                salesReturnService.updateReturn(id, dto));
     }
 
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         salesReturnService.delete(id);
 

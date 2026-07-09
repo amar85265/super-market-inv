@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class ProductBarcodeResponseDTO {
 
-    private Long barcodeId;
-    private Long productId;
+    private String barcodeId;
+    private String productId;
     private String barcode;
 }
