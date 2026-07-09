@@ -1,11 +1,13 @@
 package com.example.InventoryManagementSystem.service;
 
+import com.example.InventoryManagementSystem.Repository.InvoiceRepository;
 import com.example.InventoryManagementSystem.dto.PaymentTransactionRequestDTO;
 import com.example.InventoryManagementSystem.dto.PaymentTransactionResponseDTO;
 import com.example.InventoryManagementSystem.model.PaymentTransaction;
 import com.example.InventoryManagementSystem.Repository.PaymentTransactionRepository;
 import com.example.InventoryManagementSystem.service.PaymentTransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -18,8 +20,16 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
 
     private final PaymentTransactionRepository repository;
 
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
     @Override
     public PaymentTransactionResponseDTO create(PaymentTransactionRequestDTO dto) {
+
+        if (!invoiceRepository.existsById(dto.getInvoiceId().longValue())) {
+            throw new RuntimeException("Invoice ID not found.");
+        }
+
 
         PaymentTransaction payment = new PaymentTransaction();
 
@@ -27,12 +37,6 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
         payment.setPaymentMethod(dto.getPaymentMethod());
         payment.setTransactionReference(dto.getTransactionReference());
         payment.setAmount(dto.getAmount());
-
-        payment.setPaymentDate(
-                dto.getPaymentDate() != null
-                        ? dto.getPaymentDate()
-                        : OffsetDateTime.now()
-        );
 
         PaymentTransaction saved = repository.save(payment);
 
@@ -60,6 +64,11 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
     public PaymentTransactionResponseDTO update(Long id,
                                                 PaymentTransactionRequestDTO dto) {
 
+        if (!invoiceRepository.existsById(dto.getInvoiceId().longValue())) {
+            throw new RuntimeException("Invoice ID not found.");
+        }
+
+
         PaymentTransaction payment = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
 
@@ -67,9 +76,6 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
         payment.setPaymentMethod(dto.getPaymentMethod());
         payment.setTransactionReference(dto.getTransactionReference());
         payment.setAmount(dto.getAmount());
-        if (dto.getPaymentDate() != null) {
-            payment.setPaymentDate(dto.getPaymentDate());
-        }
 
         PaymentTransaction updated = repository.save(payment);
 

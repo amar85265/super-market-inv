@@ -3,6 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.BillingCounterDto;
 import com.example.InventoryManagementSystem.service.BillingCounterService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class BillingCounterController {
     // CREATE
     @PostMapping
     public BillingCounterDto createBillingCounter(
-            @RequestBody BillingCounterDto dto) {
+            @Valid @RequestBody BillingCounterDto dto) {
 
         return service.createBillingCounter(dto);
     }
@@ -41,7 +42,7 @@ public class BillingCounterController {
     @PutMapping("/{id}")
     public BillingCounterDto updateBillingCounter(
             @PathVariable Long id,
-            @RequestBody BillingCounterDto dto) {
+            @Valid@RequestBody BillingCounterDto dto) {
 
         return service.updateBillingCounter(id, dto);
     }

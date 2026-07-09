@@ -4,6 +4,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.CustomerRequestDTO;
 import com.example.InventoryManagementSystem.dto.CustomerResponseDTO;
 import com.example.InventoryManagementSystem.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponseDTO> create(@RequestBody CustomerRequestDTO dto) {
+    public ResponseEntity<CustomerResponseDTO> create(
+            @Valid @RequestBody CustomerRequestDTO dto) {
         return ResponseEntity.ok(service.createCustomer(dto));
     }
 

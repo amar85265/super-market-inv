@@ -10,6 +10,7 @@ public class CustomerResponseDTO {
     private Long customerId;
     private String customerName;
     private String phone;
+
     private String email;
     private String address;
     private String status;

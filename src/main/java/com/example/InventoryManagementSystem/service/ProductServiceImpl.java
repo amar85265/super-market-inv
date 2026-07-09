@@ -1,12 +1,15 @@
 package com.example.InventoryManagementSystem.service;
 
+import com.example.InventoryManagementSystem.Repository.CategoryRepository;
 import com.example.InventoryManagementSystem.dto.ProductRequestDTO;
 import com.example.InventoryManagementSystem.dto.ProductResponseDTO;
+import com.example.InventoryManagementSystem.model.Category;
 import com.example.InventoryManagementSystem.model.Product;
 import com.example.InventoryManagementSystem.Repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setBarcode(p.getBarcode());
         dto.setPurchasePrice(p.getPurchasePrice());
         dto.setSellingPrice(p.getSellingPrice());
+        dto.setGstPercentage(p.getGstPercentage());
         dto.setStockQuantity(p.getStockQuantity());
         dto.setMinimumStock(p.getMinimumStock());
         dto.setUnit(p.getUnit());
@@ -48,6 +52,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO dto) {
 
+
+
         if (dto.getStockQuantity() != null && dto.getStockQuantity() < 0) {
             throw new RuntimeException("Stock cannot be negative");
         }
@@ -60,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
         p.setBarcode(dto.getBarcode());
         p.setPurchasePrice(dto.getPurchasePrice());
         p.setSellingPrice(dto.getSellingPrice());
+        p.setGstPercentage(dto.getGstPercentage());
         p.setStockQuantity(dto.getStockQuantity());
         p.setMinimumStock(dto.getMinimumStock());
         p.setUnit(dto.getUnit());
@@ -119,6 +126,9 @@ public class ProductServiceImpl implements ProductService {
 
         if (dto.getSellingPrice() != null)
             product.setSellingPrice(dto.getSellingPrice());
+
+        if (dto.getGstPercentage() != null)
+            product.setGstPercentage(dto.getGstPercentage());
 
         if (dto.getStockQuantity() != null) {
 

@@ -16,6 +16,7 @@ public class ProductResponseDTO {
     private String barcode;
     private BigDecimal purchasePrice;
     private BigDecimal sellingPrice;
+    private BigDecimal gstPercentage;
     private Integer stockQuantity;
     private Integer minimumStock;
     private String unit;

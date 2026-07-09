@@ -3,9 +3,7 @@ package com.example.InventoryManagementSystem.controllor;
 
 import com.example.InventoryManagementSystem.dto.ProductRequestDTO;
 import com.example.InventoryManagementSystem.dto.ProductResponseDTO;
-import com.example.InventoryManagementSystem.model.Product;
 import com.example.InventoryManagementSystem.service.ProductService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +19,9 @@ public class ProductController {
         this.service = service;
     }
 
-
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> createProduct(
-            @Valid @RequestBody ProductRequestDTO request) {
-
-        return ResponseEntity.ok(service.createProduct(request));
+    public ResponseEntity<ProductResponseDTO> create(@RequestBody ProductRequestDTO dto) {
+        return ResponseEntity.ok(service.createProduct(dto));
     }
 
     @GetMapping("/{id}")

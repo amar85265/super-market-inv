@@ -1,7 +1,10 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.dto.InvoiceDto;
+import com.example.InventoryManagementSystem.dto.InvoiceRequestDto;
+import com.example.InventoryManagementSystem.dto.InvoiceResponseDto;
 import com.example.InventoryManagementSystem.service.InvoiceService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,38 +18,37 @@ public class InvoiceController {
     @Autowired
     private InvoiceService service;
 
-    // CREATE
     @PostMapping
-    public InvoiceDto createInvoice(@RequestBody InvoiceDto dto) {
+    public InvoiceResponseDto createInvoice(
+            @Valid @RequestBody InvoiceRequestDto dto) {
 
         return service.createInvoice(dto);
     }
 
-    // READ ALL
-    @GetMapping
-    public List<InvoiceDto> getAllInvoices() {
-
-        return service.getAllInvoices();
-    }
-
-    // READ BY ID
     @GetMapping("/{id}")
-    public InvoiceDto getInvoiceById(@PathVariable Long id) {
+    public InvoiceResponseDto getInvoiceById(
+            @PathVariable Long id) {
 
         return service.getInvoiceById(id);
     }
 
-    // UPDATE
+    @GetMapping
+    public List<InvoiceResponseDto> getAllInvoices() {
+
+        return service.getAllInvoices();
+    }
+
     @PutMapping("/{id}")
-    public InvoiceDto updateInvoice(@PathVariable Long id,
-                                    @RequestBody InvoiceDto dto) {
+    public InvoiceResponseDto updateInvoice(
+            @PathVariable Long id,
+            @Valid @RequestBody InvoiceRequestDto dto) {
 
         return service.updateInvoice(id, dto);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public String deleteInvoice(@PathVariable Long id) {
+    public String deleteInvoice(
+            @PathVariable Long id) {
 
         service.deleteInvoice(id);
 

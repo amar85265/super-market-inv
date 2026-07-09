@@ -28,11 +28,11 @@ public class PaymentTransaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "payment_date")
+    @Column(name = "payment_date", nullable = false, updatable = false)
     private OffsetDateTime paymentDate;
 
     @PrePersist
     public void prePersist() {
-        this.paymentDate = OffsetDateTime.now();
+        paymentDate = OffsetDateTime.now();
     }
 }
