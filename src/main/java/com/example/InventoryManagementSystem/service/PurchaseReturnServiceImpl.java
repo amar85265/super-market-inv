@@ -32,15 +32,15 @@ public class PurchaseReturnServiceImpl
     public PurchaseReturnResponseDTO createPurchaseReturn(
             PurchaseReturnRequestDTO requestDTO) {
 
-        purchaseRepository.findById(requestDTO.getPurchaseId())
+        Purchase purchase = purchaseRepository.findById(requestDTO.getPurchaseId())
                 .orElseThrow(() -> new RuntimeException("Purchase not found"));
 
-        supplierRepository.findById(requestDTO.getSupplierId())
+        Supplier supplier = supplierRepository.findById(requestDTO.getSupplierId())
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
         PurchaseReturn entity = PurchaseReturn.builder()
-                .purchaseId(Math.toIntExact(purchase.getPurchaseId()))
-                .supplierId(Math.toIntExact(supplier.getSupplierId()))
+                .purchaseId(purchase.getPurchaseId() != null ? Math.toIntExact(purchase.getPurchaseId()) : null)
+                .supplierId(supplier.getSupplierId() != null ? Math.toIntExact(supplier.getSupplierId()) : null)
                 .returnDate(LocalDateTime.now())
                 .totalAmount(requestDTO.getTotalAmount())
                 .notes(requestDTO.getNotes())
@@ -77,14 +77,14 @@ public class PurchaseReturnServiceImpl
             Integer id,
             PurchaseReturnRequestDTO requestDTO) {
 
-        PurchaseReturn entity =purchaseReturnRepository.findById(id).orElse(null);
+        PurchaseReturn entity = purchaseReturnRepository.findById(id).orElse(null);
 
         if (entity == null) {
             return null;
         }
 
-        entity.setPurchaseId(requestDTO.getPurchaseId());
-        entity.setSupplierId(requestDTO.getSupplierId());
+        entity.setPurchaseId(requestDTO.getPurchaseId() != null ? Math.toIntExact(requestDTO.getPurchaseId()) : null);
+        entity.setSupplierId(requestDTO.getSupplierId() != null ? Math.toIntExact(requestDTO.getSupplierId()) : null);
         entity.setTotalAmount(requestDTO.getTotalAmount());
         entity.setNotes(requestDTO.getNotes());
 
