@@ -15,7 +15,8 @@ import java.time.OffsetDateTime;
 public class Supplier {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "supplier_id_seq_gen")
+    @SequenceGenerator(name = "supplier_id_seq_gen", sequenceName = "suppliers_supplier_id_seq", allocationSize = 1)
     @Column(name = "supplier_id")
     private Long supplierId;
 
@@ -34,6 +35,7 @@ public class Supplier {
     @Column(columnDefinition = "TEXT")
     private String address;
 
+    @Builder.Default
     @Column(nullable = false)
     private String status = "active";
 
@@ -42,5 +44,6 @@ public class Supplier {
 
     @PrePersist
     public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
     }
 }

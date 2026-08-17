@@ -22,7 +22,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private Supplier supplierId;
+    private Supplier supplier;
 
     @Column(name = "invoice_number")
     private String invoiceNumber;
@@ -46,12 +46,5 @@ public class Purchase {
     @PrePersist
     public void setDate() {
         this.purchaseDate = LocalDateTime.now();
-    }
-
-    public void setSupplierId(Long supplierId) {
-    }
-
-    public void setCreatedBy(Long createdBy) {
-
     }
 }

@@ -53,6 +53,12 @@ public class PurchaseItemServiceImpl
         PurchaseItem savedPurchaseItem =
                 purchaseItemRepository.save(purchaseItem);
 
+        // Update product stock quantity
+        int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+        int addedQuantity = request.getQuantity() != null ? request.getQuantity() : 0;
+        product.setStockQuantity(currentStock + addedQuantity);
+        productRepository.save(product);
+
         return mapToResponse(savedPurchaseItem);
     }
 
@@ -102,9 +108,26 @@ public class PurchaseItemServiceImpl
                 .orElseThrow(() ->
                         new RuntimeException("Product not found"));
 
+        int oldQuantity = purchaseItem.getQuantity() != null ? purchaseItem.getQuantity() : 0;
+        int newQuantity = request.getQuantity() != null ? request.getQuantity() : 0;
+
+        Product oldProduct = purchaseItem.getProduct();
+        if (oldProduct != null && !oldProduct.getProductId().equals(product.getProductId())) {
+            int oldProductStock = oldProduct.getStockQuantity() != null ? oldProduct.getStockQuantity() : 0;
+            oldProduct.setStockQuantity(Math.max(0, oldProductStock - oldQuantity));
+            productRepository.save(oldProduct);
+
+            int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+            product.setStockQuantity(currentStock + newQuantity);
+        } else {
+            int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+            product.setStockQuantity(Math.max(0, currentStock - oldQuantity + newQuantity));
+        }
+        productRepository.save(product);
+
         purchaseItem.setPurchase(purchase);
         purchaseItem.setProduct(product);
-        purchaseItem.setQuantity(request.getQuantity());
+        purchaseItem.setQuantity(newQuantity);
         purchaseItem.setPurchasePrice(
                 request.getPurchasePrice());
         purchaseItem.setTaxAmount(
@@ -127,6 +150,14 @@ public class PurchaseItemServiceImpl
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Purchase Item not found"));
+
+        Product product = purchaseItem.getProduct();
+        if (product != null) {
+            int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+            int quantity = purchaseItem.getQuantity() != null ? purchaseItem.getQuantity() : 0;
+            product.setStockQuantity(Math.max(0, currentStock - quantity));
+            productRepository.save(product);
+        }
 
         purchaseItemRepository.delete(purchaseItem);
     }

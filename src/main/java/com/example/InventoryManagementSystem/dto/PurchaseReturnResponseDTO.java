@@ -18,6 +18,10 @@ public class PurchaseReturnResponseDTO {
 
     private Integer supplierId;
 
+    private Long productId;
+
+    private Integer quantity;
+
     private LocalDateTime returnDate;
 
     private BigDecimal totalAmount;

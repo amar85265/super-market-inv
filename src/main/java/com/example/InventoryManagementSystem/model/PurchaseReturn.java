@@ -20,13 +20,19 @@ public class PurchaseReturn {
     @Column(name = "purchase_return_id")
     private Integer purchaseReturnId;
 
-    @Column(name = "purchase_id")
+    @Column(name = "purchase_id", nullable = false)
     private Integer purchaseId;
 
-    @Column(name = "supplier_id")
+    @Column(name = "supplier_id", nullable = false)
     private Integer supplierId;
 
-    @Column(name = "return_date")
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
+    @Column(name = "return_date", nullable = false)
     private LocalDateTime returnDate;
 
     @Column(name = "total_amount")
@@ -34,4 +40,11 @@ public class PurchaseReturn {
 
     @Column(name = "notes")
     private String notes;
+
+    @PrePersist
+    protected void onCreate() {
+        if (returnDate == null) {
+            returnDate = LocalDateTime.now();
+        }
+    }
 }

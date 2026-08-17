@@ -1,0 +1,209 @@
+<html>
+<head>
+<title>PurchaseServiceImpl.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PurchaseServiceImpl.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">service</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">ProductRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">PurchaseItemRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">PurchaseRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">SupplierRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">UserRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">PurchaseItemRequestDto</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">PurchaseRequestDto</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">PurchaseResponseDto</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">Product</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">Purchase</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">PurchaseItem</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">Supplier</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">InventoryManagementSystem</span><span class="s2">.</span><span class="s1">model</span><span class="s2">.</span><span class="s1">User</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">lombok</span><span class="s2">.</span><span class="s1">RequiredArgsConstructor</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">stereotype</span><span class="s2">.</span><span class="s1">Service</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">math</span><span class="s2">.</span><span class="s1">BigDecimal</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s1">@Service</span>
+<span class="s1">@RequiredArgsConstructor</span>
+<span class="s0">public class </span><span class="s1">PurchaseServiceImpl </span><span class="s0">implements </span><span class="s1">PurchaseService </span><span class="s2">{</span>
+
+    <span class="s0">private final </span><span class="s1">PurchaseRepository purchaseRepository</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">SupplierRepository supplierRepository</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">UserRepository userRepository</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">PurchaseItemRepository purchaseItemRepository</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">ProductRepository productRepository</span><span class="s2">;</span>
+
+    <span class="s3">// CREATE PURCHASE</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">PurchaseResponseDto createPurchase</span><span class="s2">(</span>
+            <span class="s1">PurchaseRequestDto dto</span><span class="s2">) {</span>
+
+        <span class="s1">Purchase purchase </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Purchase</span><span class="s2">();</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">() != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">Supplier supplier </span><span class="s2">= </span><span class="s1">supplierRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">())</span>
+                    <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Supplier not found with id: &quot; </span><span class="s2">+ </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">()));</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setSupplier</span><span class="s2">(</span><span class="s1">supplier</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">() != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">User user </span><span class="s2">= </span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">().</span><span class="s1">longValue</span><span class="s2">())</span>
+                    <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;User not found with id: &quot; </span><span class="s2">+ </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">()));</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setCreatedBy</span><span class="s2">(</span><span class="s1">user</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setInvoiceNumber</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getInvoiceNumber</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setTotalAmount</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getTotalAmount</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setTax</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getTax</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setPaymentStatus</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getPaymentStatus</span><span class="s2">());</span>
+
+        <span class="s1">Purchase saved </span><span class="s2">= </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">purchase</span><span class="s2">);</span>
+
+        <span class="s1">savePurchaseItems</span><span class="s2">(</span><span class="s1">saved</span><span class="s2">, </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getItems</span><span class="s2">());</span>
+
+        <span class="s0">return </span><span class="s1">mapToDto</span><span class="s2">(</span><span class="s1">saved</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// GET ALL PURCHASES</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">PurchaseResponseDto</span><span class="s2">&gt; </span><span class="s1">getAllPurchases</span><span class="s2">() {</span>
+
+        <span class="s0">return </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">findAll</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">stream</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">map</span><span class="s2">(</span><span class="s0">this</span><span class="s1">::mapToDto</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">toList</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// GET PURCHASE BY ID</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">PurchaseResponseDto getPurchaseById</span><span class="s2">(</span>
+            <span class="s1">Long id</span><span class="s2">) {</span>
+
+        <span class="s1">Purchase purchase </span><span class="s2">= </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Purchase not found&quot;</span><span class="s2">));</span>
+
+        <span class="s0">return </span><span class="s1">mapToDto</span><span class="s2">(</span><span class="s1">purchase</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// UPDATE PURCHASE</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">PurchaseResponseDto updatePurchase</span><span class="s2">(</span>
+            <span class="s1">Long id</span><span class="s2">,</span>
+            <span class="s1">PurchaseRequestDto dto</span><span class="s2">) {</span>
+
+        <span class="s1">Purchase purchase </span><span class="s2">= </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Purchase not found&quot;</span><span class="s2">));</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">() != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">Supplier supplier </span><span class="s2">= </span><span class="s1">supplierRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">())</span>
+                    <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Supplier not found with id: &quot; </span><span class="s2">+ </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getSupplierId</span><span class="s2">()));</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setSupplier</span><span class="s2">(</span><span class="s1">supplier</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setSupplier</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">() != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">User user </span><span class="s2">= </span><span class="s1">userRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">().</span><span class="s1">longValue</span><span class="s2">())</span>
+                    <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;User not found with id: &quot; </span><span class="s2">+ </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">()));</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setCreatedBy</span><span class="s2">(</span><span class="s1">user</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setCreatedBy</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setInvoiceNumber</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getInvoiceNumber</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setTotalAmount</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getTotalAmount</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setTax</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getTax</span><span class="s2">());</span>
+        <span class="s1">purchase</span><span class="s2">.</span><span class="s1">setPaymentStatus</span><span class="s2">(</span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getPaymentStatus</span><span class="s2">());</span>
+
+        <span class="s1">Purchase updated </span><span class="s2">= </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">purchase</span><span class="s2">);</span>
+
+        <span class="s1">savePurchaseItems</span><span class="s2">(</span><span class="s1">updated</span><span class="s2">, </span><span class="s1">dto</span><span class="s2">.</span><span class="s1">getItems</span><span class="s2">());</span>
+
+        <span class="s0">return </span><span class="s1">mapToDto</span><span class="s2">(</span><span class="s1">updated</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// DELETE PURCHASE</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">deletePurchase</span><span class="s2">(</span><span class="s1">Long id</span><span class="s2">) {</span>
+
+        <span class="s1">Purchase purchase </span><span class="s2">= </span><span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Purchase not found&quot;</span><span class="s2">));</span>
+
+        <span class="s1">purchaseRepository</span><span class="s2">.</span><span class="s1">delete</span><span class="s2">(</span><span class="s1">purchase</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">savePurchaseItems</span><span class="s2">(</span><span class="s1">Purchase purchase</span><span class="s2">, </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">PurchaseItemRequestDto</span><span class="s2">&gt; </span><span class="s1">items</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">items </span><span class="s2">== </span><span class="s0">null </span><span class="s2">|| </span><span class="s1">items</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+            <span class="s0">return</span><span class="s2">;</span>
+        <span class="s2">}</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">PurchaseItemRequestDto itemDto </span><span class="s2">: </span><span class="s1">items</span><span class="s2">) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getProductId</span><span class="s2">() == </span><span class="s0">null</span><span class="s2">) {</span>
+                <span class="s0">continue</span><span class="s2">;</span>
+            <span class="s2">}</span>
+
+            <span class="s1">Product product </span><span class="s2">= </span><span class="s1">productRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getProductId</span><span class="s2">())</span>
+                    <span class="s2">.</span><span class="s1">orElseThrow</span><span class="s2">(() </span><span class="s1">-&gt; </span><span class="s0">new </span><span class="s1">RuntimeException</span><span class="s2">(</span><span class="s4">&quot;Product not found with id: &quot; </span><span class="s2">+ </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getProductId</span><span class="s2">()));</span>
+
+            <span class="s0">int </span><span class="s1">quantity </span><span class="s2">= </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getQuantity</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getQuantity</span><span class="s2">() : </span><span class="s5">0</span><span class="s2">;</span>
+            <span class="s1">BigDecimal purchasePrice </span><span class="s2">= </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getPurchasePrice</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getPurchasePrice</span><span class="s2">() : </span><span class="s1">BigDecimal</span><span class="s2">.</span><span class="s1">ZERO</span><span class="s2">;</span>
+            <span class="s1">BigDecimal taxAmount </span><span class="s2">= </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getTaxAmount</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getTaxAmount</span><span class="s2">() : </span><span class="s1">BigDecimal</span><span class="s2">.</span><span class="s1">ZERO</span><span class="s2">;</span>
+
+            <span class="s1">BigDecimal total </span><span class="s2">= </span><span class="s1">itemDto</span><span class="s2">.</span><span class="s1">getTotal</span><span class="s2">();</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">total </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+                <span class="s1">total </span><span class="s2">= </span><span class="s1">purchasePrice</span><span class="s2">.</span><span class="s1">multiply</span><span class="s2">(</span><span class="s1">BigDecimal</span><span class="s2">.</span><span class="s1">valueOf</span><span class="s2">(</span><span class="s1">quantity</span><span class="s2">)).</span><span class="s1">add</span><span class="s2">(</span><span class="s1">taxAmount</span><span class="s2">);</span>
+            <span class="s2">}</span>
+
+            <span class="s1">PurchaseItem purchaseItem </span><span class="s2">= </span><span class="s1">PurchaseItem</span><span class="s2">.</span><span class="s1">builder</span><span class="s2">()</span>
+                    <span class="s2">.</span><span class="s1">purchase</span><span class="s2">(</span><span class="s1">purchase</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">product</span><span class="s2">(</span><span class="s1">product</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">quantity</span><span class="s2">(</span><span class="s1">quantity</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">purchasePrice</span><span class="s2">(</span><span class="s1">purchasePrice</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">taxAmount</span><span class="s2">(</span><span class="s1">taxAmount</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">total</span><span class="s2">(</span><span class="s1">total</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">build</span><span class="s2">();</span>
+
+            <span class="s1">purchaseItemRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">purchaseItem</span><span class="s2">);</span>
+
+            <span class="s3">// Update product stock quantity</span>
+            <span class="s0">int </span><span class="s1">currentStock </span><span class="s2">= </span><span class="s1">product</span><span class="s2">.</span><span class="s1">getStockQuantity</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">product</span><span class="s2">.</span><span class="s1">getStockQuantity</span><span class="s2">() : </span><span class="s5">0</span><span class="s2">;</span>
+            <span class="s1">product</span><span class="s2">.</span><span class="s1">setStockQuantity</span><span class="s2">(</span><span class="s1">currentStock </span><span class="s2">+ </span><span class="s1">quantity</span><span class="s2">);</span>
+            <span class="s1">productRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">product</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// MAP ENTITY TO DTO</span>
+    <span class="s0">private </span><span class="s1">PurchaseResponseDto mapToDto</span><span class="s2">(</span><span class="s1">Purchase purchase</span><span class="s2">) {</span>
+
+        <span class="s1">String supplierName </span><span class="s2">= </span><span class="s1">purchase</span><span class="s2">.</span><span class="s1">getSupplier</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">purchase</span><span class="s2">.</span><span class="s1">getSupplier</span><span class="s2">().</span><span class="s1">getSupplierName</span><span class="s2">() : </span><span class="s0">null</span><span class="s2">;</span>
+        <span class="s1">String createdByUsername </span><span class="s2">= </span><span class="s1">purchase</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">() != </span><span class="s0">null </span><span class="s2">? </span><span class="s1">purchase</span><span class="s2">.</span><span class="s1">getCreatedBy</span><span class="s2">().</span><span class="s1">getUsername</span><span class="s2">() : </span><span class="s0">null</span><span class="s2">;</span>
+
+        <span class="s0">return new </span><span class="s1">PurchaseResponseDto</span><span class="s2">(</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getPurchaseId</span><span class="s2">(),</span>
+                <span class="s1">supplierName</span><span class="s2">,</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getInvoiceNumber</span><span class="s2">(),</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getPurchaseDate</span><span class="s2">(),</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getTotalAmount</span><span class="s2">(),</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getTax</span><span class="s2">(),</span>
+                <span class="s1">purchase</span><span class="s2">.</span><span class="s1">getPaymentStatus</span><span class="s2">(),</span>
+                <span class="s1">createdByUsername</span>
+        <span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>

@@ -32,20 +32,15 @@ public class CashClosingServiceImpl
                                 new RuntimeException(
                                         "Counter not found"));
 
-        CashClosing cashClosing =
-                new CashClosing();
+        CashClosing cashClosing = new CashClosing();
 
-        cashClosing.setBillingCounter(
-                billingCounter);
+        cashClosing.setBillingCounter(billingCounter);
 
-        cashClosing.setOpeningCash(
-                dto.getOpeningCash());
+        cashClosing.setOpeningCash(dto.getOpeningCash());
 
-        cashClosing.setClosingCash(
-                dto.getClosingCash());
+        cashClosing.setClosingCash(dto.getClosingCash());
 
-        cashClosing.setTotalSales(
-                dto.getTotalSales());
+        cashClosing.setTotalSales(dto.getTotalSales());
 
         CashClosing saved =
                 cashClosingRepository.save(
