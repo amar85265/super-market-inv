@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PurchaseItemRepository
-        extends JpaRepository<PurchaseItem, Long> {
+        extends JpaRepository<PurchaseItem, String> {
 
-    List<PurchaseItem> findByPurchaseId(Integer purchaseId);
+    List<PurchaseItem> findByPurchaseId(String purchaseId);
 
 }

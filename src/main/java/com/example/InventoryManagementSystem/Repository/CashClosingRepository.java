@@ -4,7 +4,7 @@ import com.example.InventoryManagementSystem.model.CashClosing;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CashClosingRepository
-        extends JpaRepository<CashClosing, Long> {
-    boolean existsByBillingCounterCounterId(Long counterId);
+        extends JpaRepository<CashClosing, String> {
+    boolean existsByBillingCounterCounterId(String counterId);
 
 }

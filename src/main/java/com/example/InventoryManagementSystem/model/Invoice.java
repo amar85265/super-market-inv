@@ -12,17 +12,17 @@ import java.time.OffsetDateTime;
 public class Invoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invoiceId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String invoiceId;
 
     @Column(nullable = false, unique = true)
     private String invoiceNumber;
 
     @Column(nullable = false)
-    private Long customerId;
+    private String customerId;
 
     @Column(nullable = false)
-    private Long counterId;
+    private String counterId;
 
     @Column(nullable = false)
     private BigDecimal subtotal = BigDecimal.ZERO;
@@ -49,7 +49,7 @@ public class Invoice {
     private String paymentStatus;
 
     @Column(nullable = false)
-    private Long createdBy;
+    private String createdBy;
 
     @Column(nullable = false, updatable = false)
     private OffsetDateTime createdAt;

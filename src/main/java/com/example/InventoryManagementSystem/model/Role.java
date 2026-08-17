@@ -17,9 +17,9 @@ import java.time.OffsetDateTime;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "role_id")
-    private Integer roleId;
+    private String roleId;
 
     @NotBlank(message = "Role name is required")
     @Size(min = 2, max = 50, message = "Role name must be between 2 and 50 characters")

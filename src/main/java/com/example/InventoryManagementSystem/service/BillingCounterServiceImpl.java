@@ -50,7 +50,7 @@ public class BillingCounterServiceImpl implements BillingCounterService {
     }
 
     @Override
-    public BillingCounterDto getBillingCounterById(Long id) {
+    public BillingCounterDto getBillingCounterById(String id) {
 
         BillingCounter counter = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Billing Counter not found"));
@@ -66,7 +66,7 @@ public class BillingCounterServiceImpl implements BillingCounterService {
     }
 
     @Override
-    public BillingCounterDto updateBillingCounter(Long id, BillingCounterDto dto) {
+    public BillingCounterDto updateBillingCounter(String id, BillingCounterDto dto) {
 
         BillingCounter counter = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Billing Counter not found"));
@@ -84,7 +84,7 @@ public class BillingCounterServiceImpl implements BillingCounterService {
     }
 
     @Override
-    public void deleteBillingCounter(Long id) {
+    public void deleteBillingCounter(String id) {
 
         repository.deleteById(id);
     }

@@ -13,8 +13,8 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -34,7 +34,7 @@ public class User {
 
     private String passwordHash;
 
-    private Integer roleId;
+    private String roleId;
 
     private String status;
 

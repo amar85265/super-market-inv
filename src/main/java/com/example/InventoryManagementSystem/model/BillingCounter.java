@@ -7,9 +7,9 @@ import jakarta.persistence.*;
 public class BillingCounter {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "counter_id")
-    private Long counterId;
+    private String counterId;
 
     @Column(name = "counter_name", length = 50)
     private String counterName;
@@ -22,11 +22,11 @@ public class BillingCounter {
 
     // Getters and Setters
 
-    public Long getCounterId() {
+    public String getCounterId() {
         return counterId;
     }
 
-    public void setCounterId(Long counterId) {
+    public void setCounterId(String counterId) {
         this.counterId = counterId;
     }
 

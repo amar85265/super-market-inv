@@ -65,7 +65,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 "INV-" +
                         Year.now().getValue() +
                         "-" +
-                        String.format("%05d", savedInvoice.getInvoiceId());
+                        savedInvoice.getInvoiceId();
 
         savedInvoice.setInvoiceNumber(invoiceNumber);
 
@@ -75,7 +75,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceResponseDto getInvoiceById(Long id) {
+    public InvoiceResponseDto getInvoiceById(String id) {
 
         Invoice invoice = invoiceRepository.findById(id)
                 .orElseThrow(() ->
@@ -94,8 +94,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceResponseDto updateInvoice(Long invoiceId,
-                                            InvoiceRequestDto dto) {
+    public InvoiceResponseDto updateInvoice(String invoiceId,
+                                             InvoiceRequestDto dto) {
 
         Invoice invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() ->
@@ -135,7 +135,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public void deleteInvoice(Long id) {
+    public void deleteInvoice(String id) {
 
         if (!invoiceRepository.existsById(id)) {
             throw new RuntimeException("Invoice not found");

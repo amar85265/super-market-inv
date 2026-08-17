@@ -13,9 +13,9 @@ import lombok.*;
 public class Unit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "unit_id")
-    private Long unitId;
+    private String unitId;
 
     @Column(name = "unit_name")
     private String unitName;

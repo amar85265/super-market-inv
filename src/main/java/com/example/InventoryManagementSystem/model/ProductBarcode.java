@@ -16,7 +16,7 @@ import lombok.*;
 public class ProductBarcode {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String barcodeId;
 
     @NotNull(message = "Product ID is required")

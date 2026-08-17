@@ -10,9 +10,9 @@ public interface RoleService {
 
     List<Role> getAllRoles();
 
-    Role getRoleById(Integer id);
+    Role getRoleById(String id);
 
-    Role updateRole(Integer id, Role role);
+    Role updateRole(String id, Role role);
 
-    void deleteRole(Integer id);
+    void deleteRole(String id);
 }

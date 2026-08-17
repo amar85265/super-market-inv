@@ -16,9 +16,9 @@ import java.time.OffsetDateTime;
 public class CashClosing {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "closing_id")
-    private Long closingId;
+    private String closingId;
 
     @ManyToOne
     @JoinColumn(name = "counter_id")

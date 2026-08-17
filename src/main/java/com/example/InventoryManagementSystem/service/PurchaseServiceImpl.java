@@ -30,8 +30,7 @@ public class PurchaseServiceImpl
             PurchaseRequestDto dto) {
 
         Supplier supplier =
-                supplierRepository.findById(
-                                Long.valueOf(dto.getSupplierId()))
+                supplierRepository.findById(dto.getSupplierId())
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Supplier not found"));
@@ -46,8 +45,7 @@ public class PurchaseServiceImpl
 
 
         User user =
-                userRepository.findById(
-                                Long.valueOf(dto.getCreatedBy()))
+                userRepository.findById(dto.getCreatedBy())
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found"));
@@ -80,7 +78,7 @@ public class PurchaseServiceImpl
 
     @Override
     public PurchaseResponseDto
-    getPurchaseById(Long id) {
+    getPurchaseById(String id) {
 
         Purchase purchase =
                 purchaseRepository.findById(id)
@@ -94,7 +92,7 @@ public class PurchaseServiceImpl
 
     @Override
     public PurchaseResponseDto updatePurchase(
-            Long id,
+            String id,
             PurchaseRequestDto dto) {
 
         Purchase purchase =
@@ -105,14 +103,13 @@ public class PurchaseServiceImpl
 
         // Get old purchase items
         List<PurchaseItem> oldItems =
-                purchaseItemRepository.findByPurchaseId(id.intValue());
+                purchaseItemRepository.findByPurchaseId(id);
 
         // Restore old stock
         for (PurchaseItem item : oldItems) {
 
             Product product =
-                    productRepository.findById(
-                                    String.valueOf(item.getProductId()))
+                    productRepository.findById(item.getProductId())
                             .orElseThrow(() ->
                                     new RuntimeException(
                                             "Product not found"));
@@ -129,8 +126,7 @@ public class PurchaseServiceImpl
 
         // Get Supplier
         Supplier supplier =
-                supplierRepository.findById(
-                                Long.valueOf(dto.getSupplierId()))
+                supplierRepository.findById(dto.getSupplierId())
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "Supplier not found"));
@@ -145,8 +141,7 @@ public class PurchaseServiceImpl
 
         // Get User
         User user =
-                userRepository.findById(
-                                Long.valueOf(dto.getCreatedBy()))
+                userRepository.findById(dto.getCreatedBy())
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found"));
@@ -169,7 +164,7 @@ public class PurchaseServiceImpl
         return mapToDto(updated);
     }
     @Override
-    public void deletePurchase(Long id) {
+    public void deletePurchase(String id) {
 
         purchaseRepository.deleteById(id);
     }
@@ -183,8 +178,7 @@ public class PurchaseServiceImpl
 
             purchaseItemRepository.save(purchaseItem);
 
-            Product product = productRepository.findById(
-                            String.valueOf(item.getProductId()))
+            Product product = productRepository.findById(item.getProductId())
                     .orElseThrow(() ->
                             new RuntimeException("Product not found"));
 
@@ -198,7 +192,7 @@ public class PurchaseServiceImpl
     private static PurchaseItem getPurchaseItem(Purchase purchase, PurchaseItemRequestDto item) {
         PurchaseItem purchaseItem = new PurchaseItem();
 
-        purchaseItem.setPurchaseId(purchase.getPurchaseId().intValue());
+        purchaseItem.setPurchaseId(purchase.getPurchaseId());
         purchaseItem.setProductId(item.getProductId());
         purchaseItem.setQuantity(item.getQuantity());
         purchaseItem.setPurchasePrice(item.getPurchasePrice());

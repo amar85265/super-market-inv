@@ -47,7 +47,7 @@ public class HoldInvoiceServiceImpl
     // GET BY ID
     @Override
     public HoldInvoiceResponseDto
-    getHoldInvoiceById(Long id) {
+    getHoldInvoiceById(String id) {
 
         HoldInvoice holdInvoice =
                 holdInvoiceRepository.findById(id)
@@ -60,7 +60,7 @@ public class HoldInvoiceServiceImpl
 
     @Override
     public HoldInvoiceResponseDto updateHoldInvoice(
-            Long id,
+            String id,
             HoldInvoiceRequestDto dto) {
 
         HoldInvoice holdInvoice =
@@ -79,7 +79,7 @@ public class HoldInvoiceServiceImpl
 
     // DELETE
     @Override
-    public void deleteHoldInvoice(Long id) {
+    public void deleteHoldInvoice(String id) {
 
         HoldInvoice holdInvoice =
                 holdInvoiceRepository.findById(id)

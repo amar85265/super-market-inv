@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 public class InvoiceRequestDto {
 
     @NotNull(message = "Customer ID is required")
-    @Positive(message = "Customer ID must be greater than 0")
-    private Long customerId;
+    @NotBlank(message = "Customer ID cannot be blank")
+    private String customerId;
 
     @NotNull(message = "Counter ID is required")
-    @Positive(message = "Counter ID must be greater than 0")
-    private Long counterId;
+    @NotBlank(message = "Counter ID cannot be blank")
+    private String counterId;
 
     @NotNull(message = "Paid Amount is required")
     @DecimalMin(value = "0.00", message = "Paid Amount cannot be negative")

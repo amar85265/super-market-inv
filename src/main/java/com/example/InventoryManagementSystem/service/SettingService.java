@@ -9,11 +9,11 @@ public interface SettingService {
 
     SettingResponse createSetting(SettingRequest request);
 
-    SettingResponse updateSetting(Long id, SettingRequest request);
+    SettingResponse updateSetting(String id, SettingRequest request);
 
-    SettingResponse getSettingById(Long id);
+    SettingResponse getSettingById(String id);
 
     List<SettingResponse> getAllSettings();
 
-    void deleteSetting(Long id);
+    void deleteSetting(String id);
 }

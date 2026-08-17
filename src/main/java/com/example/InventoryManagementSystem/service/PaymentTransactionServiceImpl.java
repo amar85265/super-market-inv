@@ -26,7 +26,7 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
     @Override
     public PaymentTransactionResponseDTO create(PaymentTransactionRequestDTO dto) {
 
-        if (!invoiceRepository.existsById(dto.getInvoiceId().longValue())) {
+        if (!invoiceRepository.existsById(dto.getInvoiceId())) {
             throw new RuntimeException("Invoice ID not found.");
         }
 
@@ -52,7 +52,7 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
     }
 
     @Override
-    public PaymentTransactionResponseDTO getById(Long id) {
+    public PaymentTransactionResponseDTO getById(String id) {
 
         PaymentTransaction payment = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
@@ -61,10 +61,10 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
     }
 
     @Override
-    public PaymentTransactionResponseDTO update(Long id,
+    public PaymentTransactionResponseDTO update(String id,
                                                 PaymentTransactionRequestDTO dto) {
 
-        if (!invoiceRepository.existsById(dto.getInvoiceId().longValue())) {
+        if (!invoiceRepository.existsById(dto.getInvoiceId())) {
             throw new RuntimeException("Invoice ID not found.");
         }
 
@@ -83,7 +83,7 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         repository.deleteById(id);
     }
 

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class PurchaseResponseDto {
 
 
-    private Long purchaseId;
+    private String purchaseId;
 
     private String supplierName;
 

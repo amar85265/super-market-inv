@@ -12,12 +12,12 @@ import java.time.OffsetDateTime;
 public class PaymentTransaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "transaction_id")
-    private Long transactionId;
+    private String transactionId;
 
     @Column(name = "invoice_id")
-    private Long invoiceId;
+    private String invoiceId;
 
     @Column(name = "payment_method")
     private String paymentMethod;

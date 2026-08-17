@@ -31,7 +31,7 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public SettingResponse updateSetting(Long id, SettingRequest request) {
+    public SettingResponse updateSetting(String id, SettingRequest request) {
 
         Setting setting = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Setting Not Found"));
@@ -43,7 +43,7 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public SettingResponse getSettingById(Long id) {
+    public SettingResponse getSettingById(String id) {
 
         Setting setting = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Setting Not Found"));
@@ -61,7 +61,7 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public void deleteSetting(Long id) {
+    public void deleteSetting(String id) {
 
         Setting setting = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Setting Not Found"));

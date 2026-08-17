@@ -15,9 +15,9 @@ import java.time.OffsetDateTime;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "category_id")
-    private Long categoryId;
+    private String categoryId;
 
     @Column(name = "category_name", nullable = false, unique = true)
     private String categoryName;

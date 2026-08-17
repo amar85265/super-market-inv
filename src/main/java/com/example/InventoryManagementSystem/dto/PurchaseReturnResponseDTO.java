@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 @Builder
 public class PurchaseReturnResponseDTO {
 
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
 
-    private Long purchaseId;
+    private String purchaseId;
 
-    private Long supplierId;
+    private String supplierId;
 
     private LocalDateTime returnDate;
 

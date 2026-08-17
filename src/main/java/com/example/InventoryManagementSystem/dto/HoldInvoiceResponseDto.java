@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class HoldInvoiceResponseDto {
 
-    private Long holdId;
+    private String holdId;
 
     private String data;
 

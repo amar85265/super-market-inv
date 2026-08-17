@@ -13,10 +13,14 @@ import java.util.List;
 @Builder
 public class PurchaseReturnRequestDTO {
 
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
     private List<PurchaseReturnItemRequestDTO> items;
-    private Long purchaseId;
-    private Long supplierId;
+
+    @NotNull(message = "Purchase ID is required")
+    private String purchaseId;
+
+    @NotNull(message = "Supplier ID is required")
+    private String supplierId;
     private LocalDateTime returnDate;
     private BigDecimal totalAmount;
     private String notes;

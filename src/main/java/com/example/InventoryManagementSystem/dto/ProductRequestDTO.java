@@ -10,7 +10,7 @@ public class ProductRequestDTO {
 
     @NotNull(message = "Category ID is required")
     @Positive(message = "Category ID must be greater than 0")
-    private Long categoryId;
+    private String categoryId;
 
     @NotBlank(message = "Product name is required")
     @Size(min = 2, max = 100, message = "Product name must be between 2 and 100 characters")

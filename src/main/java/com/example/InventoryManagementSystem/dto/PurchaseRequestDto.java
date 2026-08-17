@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class PurchaseRequestDto {
 
-    private Integer supplierId;
+    private String supplierId;
 
     private List<PurchaseItemRequestDto> items;
 

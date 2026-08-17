@@ -43,7 +43,7 @@ public class UserRequestDTO {
     private String password;
 
     @NotNull(message = "Role Id is required")
-    private Integer roleId;
+    private String roleId;
 
     @NotBlank(message = "Status is required")
     @Pattern(

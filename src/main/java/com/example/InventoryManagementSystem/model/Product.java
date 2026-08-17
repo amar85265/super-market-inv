@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String productId;
 
-    private Long categoryId;
+    private String categoryId;
 
     @Column(nullable = false)
     private String productName;

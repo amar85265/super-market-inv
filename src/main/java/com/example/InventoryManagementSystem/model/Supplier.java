@@ -16,9 +16,9 @@ import java.time.OffsetDateTime;
 public class Supplier {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "supplier_id")
-    private Long supplierId;
+    private String supplierId;
 
     @NotBlank(message = "Supplier name is required")
     @Size(max = 100, message = "Supplier name cannot exceed 100 characters")

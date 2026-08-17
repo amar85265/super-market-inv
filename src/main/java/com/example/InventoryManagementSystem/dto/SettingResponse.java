@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SettingResponse {
 
-    private Long settingId;
+    private String settingId;
 
     private String settingKey;
 

@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String customerId;
 
     @Column(nullable = false, length = 100)

@@ -56,7 +56,7 @@ public class PurchaseReturnItemServiceImpl
 
     @Override
     public PurchaseReturnItemResponseDTO getPurchaseReturnItemById(
-            Integer id) {
+            String id) {
 
         PurchaseReturnItem entity =
                 repository.findById(id).orElse(null);
@@ -80,7 +80,7 @@ public class PurchaseReturnItemServiceImpl
 
     @Override
     public PurchaseReturnItemResponseDTO updatePurchaseReturnItem(
-            Integer id,
+            String id,
             PurchaseReturnItemRequestDTO requestDTO) {
         purchaseReturnRepository.findById(requestDTO.getPurchaseReturnId())
                 .orElseThrow(() ->
@@ -112,7 +112,7 @@ public class PurchaseReturnItemServiceImpl
     }
 
     @Override
-    public void deletePurchaseReturnItem(Integer id) {
+    public void deletePurchaseReturnItem(String id) {
 
         PurchaseReturnItem entity =
                 repository.findById(id).orElse(null);

@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 
 public class ProductTaxResponseDTO {
 
-    private Long taxId;
+    private String taxId;
 
-    private Long productId;
+    private String productId;
 
     private String taxName;
 

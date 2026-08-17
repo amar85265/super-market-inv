@@ -77,7 +77,7 @@ public class CashClosingServiceImpl
     // GET BY ID
     @Override
     public CashClosingResponseDto
-    getCashClosingById(Long id) {
+    getCashClosingById(String id) {
 
         CashClosing cashClosing =
                 cashClosingRepository.findById(id)
@@ -93,7 +93,7 @@ public class CashClosingServiceImpl
     @Override
     public CashClosingResponseDto
     updateCashClosing(
-            Long id,
+            String id,
             CashClosingRequestDto dto) {
 
         CashClosing cashClosing =
@@ -139,7 +139,7 @@ public class CashClosingServiceImpl
 
     // DELETE
     @Override
-    public void deleteCashClosing(Long id) {
+    public void deleteCashClosing(String id) {
 
         CashClosing cashClosing =
                 cashClosingRepository.findById(id)

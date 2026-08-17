@@ -374,12 +374,4 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
 
         return response;
     }
-
-    private Long parseLongId(String id) {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            throw new InventoryException("Invalid Sales Return ID format: " + id);
-        }
-    }
 }

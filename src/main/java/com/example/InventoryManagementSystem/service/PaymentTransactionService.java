@@ -10,9 +10,9 @@ public interface PaymentTransactionService {
 
     List<PaymentTransactionResponseDTO> getAll();
 
-    PaymentTransactionResponseDTO getById(Long id);
+    PaymentTransactionResponseDTO getById(String id);
 
-    PaymentTransactionResponseDTO update(Long id, PaymentTransactionRequestDTO dto);
+    PaymentTransactionResponseDTO update(String id, PaymentTransactionRequestDTO dto);
 
-    void delete(Long id);
+    void delete(String id);
 }

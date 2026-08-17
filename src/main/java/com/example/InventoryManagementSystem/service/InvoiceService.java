@@ -9,13 +9,13 @@ public interface InvoiceService {
 
     InvoiceResponseDto createInvoice(InvoiceRequestDto dto);
 
-    InvoiceResponseDto getInvoiceById(Long invoiceId);
+    InvoiceResponseDto getInvoiceById(String invoiceId);
 
     List<InvoiceResponseDto> getAllInvoices();
 
     InvoiceResponseDto updateInvoice(
-            Long invoiceId,
+            String invoiceId,
             InvoiceRequestDto dto);
 
-    void deleteInvoice(Long invoiceId);
+    void deleteInvoice(String invoiceId);
 }

@@ -16,8 +16,8 @@ import java.time.OffsetDateTime;
 public class SalesReturn {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long returnId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String returnId;
 
     private String salesItemId;
     private String saleId;

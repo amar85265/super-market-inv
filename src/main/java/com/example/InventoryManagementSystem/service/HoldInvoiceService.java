@@ -13,11 +13,11 @@ public interface HoldInvoiceService {
     List<HoldInvoiceResponseDto> getAllHoldInvoices();
 
     HoldInvoiceResponseDto updateHoldInvoice(
-            Long id,
+            String id,
             HoldInvoiceRequestDto dto);
 
     HoldInvoiceResponseDto getHoldInvoiceById(
-            Long id);
+            String id);
 
-    void deleteHoldInvoice(Long id);
+    void deleteHoldInvoice(String id);
 }

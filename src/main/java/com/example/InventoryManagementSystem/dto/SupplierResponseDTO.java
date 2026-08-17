@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class SupplierResponseDTO {
 
-    private Long supplierId;
+    private String supplierId;
 
     private String supplierName;
 

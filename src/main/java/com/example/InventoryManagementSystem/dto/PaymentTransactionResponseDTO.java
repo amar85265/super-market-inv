@@ -9,8 +9,8 @@ import java.time.OffsetDateTime;
 @Data
 @Builder
 public class PaymentTransactionResponseDTO {
-    private Long transactionId;
-    private Long invoiceId;
+    private String transactionId;
+    private String invoiceId;
     private String paymentMethod;
     private String transactionReference;
     private BigDecimal amount;

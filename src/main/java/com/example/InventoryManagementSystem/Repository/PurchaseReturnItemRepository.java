@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PurchaseReturnItemRepository
-        extends JpaRepository<PurchaseReturnItem, Integer> {
+        extends JpaRepository<PurchaseReturnItem, String> {
 }

@@ -11,14 +11,14 @@ public interface PurchaseReturnItemService {
             PurchaseReturnItemRequestDTO requestDTO
     );
 
-    PurchaseReturnItemResponseDTO getPurchaseReturnItemById(Integer id);
+    PurchaseReturnItemResponseDTO getPurchaseReturnItemById(String id);
 
     List<PurchaseReturnItemResponseDTO> getAllPurchaseReturnItems();
 
     PurchaseReturnItemResponseDTO updatePurchaseReturnItem(
-            Integer id,
+            String id,
             PurchaseReturnItemRequestDTO requestDTO
     );
 
-    void deletePurchaseReturnItem(Integer id);
+    void deletePurchaseReturnItem(String id);
 }

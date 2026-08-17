@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class SalesReturnResponseDTO {
 
-    private Long returnId;
+    private String returnId;
     private String salesItemId;
     private String saleId;
     private String customerId;

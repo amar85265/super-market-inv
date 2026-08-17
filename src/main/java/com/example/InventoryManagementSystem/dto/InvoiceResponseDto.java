@@ -8,13 +8,13 @@ import java.time.OffsetDateTime;
 @Data
 public class InvoiceResponseDto {
 
-    private Long invoiceId;
+    private String invoiceId;
 
     private String invoiceNumber;
 
-    private Long customerId;
+    private String customerId;
 
-    private Long counterId;
+    private String counterId;
 
     private BigDecimal subtotal;
 

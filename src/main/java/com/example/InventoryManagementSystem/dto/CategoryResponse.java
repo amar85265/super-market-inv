@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class CategoryResponse {
 
-    private Long categoryId;
+    private String categoryId;
 
     private String categoryName;
 

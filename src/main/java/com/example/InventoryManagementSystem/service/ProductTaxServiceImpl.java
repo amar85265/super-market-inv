@@ -50,7 +50,7 @@ public class ProductTaxServiceImpl implements ProductTaxService {
     // GET TAX BY ID
     // ==============================
     @Override
-    public ProductTaxResponseDTO getTaxById(Long taxId) {
+    public ProductTaxResponseDTO getTaxById(String taxId) {
 
         ProductTax tax = repository.findById(taxId)
                 .orElseThrow(() ->
@@ -63,7 +63,7 @@ public class ProductTaxServiceImpl implements ProductTaxService {
     // UPDATE TAX
     // ==============================
     @Override
-    public ProductTaxResponseDTO updateTax(Long taxId,
+    public ProductTaxResponseDTO updateTax(String taxId,
                                            ProductTaxRequestDTO request) {
 
         ProductTax existingTax = repository.findById(taxId)
@@ -83,7 +83,7 @@ public class ProductTaxServiceImpl implements ProductTaxService {
     // DELETE TAX
     // ==============================
     @Override
-    public String deleteTax(Long taxId) {
+    public String deleteTax(String taxId) {
 
         ProductTax tax = repository.findById(taxId)
                 .orElseThrow(() ->

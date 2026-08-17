@@ -14,9 +14,9 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class CashClosingResponseDto {
 
-    private Long closingId;
+    private String closingId;
 
-    private Long counterId;
+    private String counterId;
 
     private String counterName;
 

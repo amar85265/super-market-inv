@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse getCategoryById(Long categoryId) {
+    public CategoryResponse getCategoryById(String categoryId) {
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse updateCategory(Long categoryId, CategoryRequest request) {
+    public CategoryResponse updateCategory(String categoryId, CategoryRequest request) {
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long categoryId) {
+    public void deleteCategory(String categoryId) {
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->

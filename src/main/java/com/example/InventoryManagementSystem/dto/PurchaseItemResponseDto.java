@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 @Builder
 public class PurchaseItemResponseDto {
 
-    private Long purchaseItemId;
+    private String purchaseItemId;
 
-    private Integer purchaseId;
+    private String purchaseId;
 
-    private Integer productId;
+    private String productId;
 
     private Integer quantity;
 

@@ -4,6 +4,7 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.ProductRequestDTO;
 import com.example.InventoryManagementSystem.dto.ProductResponseDTO;
 import com.example.InventoryManagementSystem.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

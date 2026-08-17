@@ -3,7 +3,6 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.UserRequestDTO;
 import com.example.InventoryManagementSystem.dto.UserResponseDTO;
 import com.example.InventoryManagementSystem.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +18,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(
-            @Valid @RequestBody UserRequestDTO request) {
+            @RequestBody UserRequestDTO request) {
 
-        return ResponseEntity.ok(
-                userService.createUser(request));
+        return ResponseEntity.ok(userService.createUser(request));
     }
+
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
 
@@ -34,22 +33,22 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUserById(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(userService.getUserById((long) Math.toIntExact(id)));
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Long id,
-            @Valid @RequestBody UserRequestDTO request) {
+            @RequestBody UserRequestDTO request) {
 
-        return ResponseEntity.ok(userService.updateUser((long) Math.toIntExact(id), request));
+        return ResponseEntity.ok(userService.updateUser(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(
             @PathVariable Long id) {
 
-        userService.deleteUser((long) Math.toIntExact(id));
+        userService.deleteUser(id);
 
         return ResponseEntity.ok("User deleted successfully");
     }

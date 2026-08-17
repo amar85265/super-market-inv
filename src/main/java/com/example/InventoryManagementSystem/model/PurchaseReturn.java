@@ -17,17 +17,17 @@ import java.time.LocalDateTime;
 public class PurchaseReturn {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "purchase_return_id")
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
 
     @NotNull(message = "Purchase ID is required")
     @Column(name = "purchase_id")
-    private Integer purchaseId;
+    private String purchaseId;
 
     @NotNull(message = "Supplier ID is required")
     @Column(name = "supplier_id")
-    private Integer supplierId;
+    private String supplierId;
 
     @NotNull(message = "Return date is required")
     @Column(name = "return_date")

@@ -10,9 +10,9 @@ public interface InvoiceItemService {
 
     List<InvoiceItemResponseDto> getAllInvoiceItems();
 
-    InvoiceItemResponseDto getInvoiceItemById(Long id);
+    InvoiceItemResponseDto getInvoiceItemById(String id);
 
-    InvoiceItemResponseDto updateInvoiceItem(Long id, InvoiceItemRequestDto dto);
+    InvoiceItemResponseDto updateInvoiceItem(String id, InvoiceItemRequestDto dto);
 
-    void deleteInvoiceItem(Long id);
+    void deleteInvoiceItem(String id);
 }

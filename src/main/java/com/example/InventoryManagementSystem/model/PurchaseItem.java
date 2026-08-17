@@ -18,14 +18,14 @@ import java.math.BigDecimal;
 public class PurchaseItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long purchaseItemId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String purchaseItemId;
 
     @NotNull(message = "Purchase ID is required")
-    private Integer purchaseId;
+    private String purchaseId;
 
     @NotNull(message = "Product ID is required")
-    private Integer productId;
+    private String productId;
 
     @NotNull(message = "Quantity is required")
     @Min(value = 1, message = "Quantity must be greater than 0")

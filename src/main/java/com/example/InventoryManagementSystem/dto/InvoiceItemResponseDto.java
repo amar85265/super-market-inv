@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 @Data
 public class InvoiceItemResponseDto {
 
-        private Long invoiceItemId;
+        private String invoiceItemId;
 
-        private Long invoiceId;
+        private String invoiceId;
 
-        private Long productId;
+        private String productId;
 
         private String productName;
 

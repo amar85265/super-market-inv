@@ -53,7 +53,7 @@ public class PurchaseItemServiceImpl
 
     @Override
     public PurchaseItemResponseDto
-    getPurchaseItemById(Long purchaseItemId) {
+    getPurchaseItemById(String purchaseItemId) {
 
         PurchaseItem item =
                 purchaseItemRepository.findById(
@@ -67,7 +67,7 @@ public class PurchaseItemServiceImpl
 
     @Override
     public PurchaseItemResponseDto updatePurchaseItem(
-            Long purchaseItemId,
+            String purchaseItemId,
             PurchaseItemRequestDto request) {
 
         PurchaseItem item =
@@ -96,7 +96,7 @@ public class PurchaseItemServiceImpl
     }
 
     @Override
-    public void deletePurchaseItem(Long purchaseItemId) {
+    public void deletePurchaseItem(String purchaseItemId) {
 
         purchaseItemRepository.deleteById(
                 purchaseItemId);

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Builder
 public class PurchaseReturnItemRequestDTO {
 
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
 
     @NotNull(message = "Product ID is required")
     private String productId;

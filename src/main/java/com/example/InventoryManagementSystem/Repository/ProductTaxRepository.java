@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductTaxRepository extends JpaRepository<ProductTax, Long> {
+public interface ProductTaxRepository extends JpaRepository<ProductTax, String> {
 
     // Get all taxes for a product (Billing use)
-    List<ProductTax> findByProductId(Long productId);
+    List<ProductTax> findByProductId(String productId);
 
     // Prevent duplicate tax entry (IMPORTANT FIX)
-    Optional<ProductTax> findByProductIdAndTaxName(Long productId, String taxName);
+    Optional<ProductTax> findByProductIdAndTaxName(String productId, String taxName);
 
     // Optional: get single tax for product (if only one GST per product)
-    Optional<ProductTax> findTopByProductId(Long productId);
+    Optional<ProductTax> findTopByProductId(String productId);
 }

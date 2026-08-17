@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 @Builder
 public class RoleResponseDTO {
 
-    private Integer roleId;
+    private String roleId;
 
     private String roleName;
 

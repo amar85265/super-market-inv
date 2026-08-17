@@ -121,7 +121,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
     /**
      * Recalculate invoice totals
      */
-    private void recalculateInvoiceTotals(Long invoiceId) {
+    private void recalculateInvoiceTotals(String invoiceId) {
 
         Invoice invoice =
                 invoiceRepository.findById(invoiceId)
@@ -228,7 +228,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
     }
 
     @Override
-    public InvoiceItemResponseDto getInvoiceItemById(Long id) {
+    public InvoiceItemResponseDto getInvoiceItemById(String id) {
 
         InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
                 .orElseThrow(() ->
@@ -245,7 +245,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 
     @Override
     public InvoiceItemResponseDto updateInvoiceItem(
-            Long id,
+            String id,
             InvoiceItemRequestDto dto) {
 
         InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
@@ -337,7 +337,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
     }
 
     @Override
-    public void deleteInvoiceItem(Long id) {
+    public void deleteInvoiceItem(String id) {
 
         InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
                 .orElseThrow(() ->
@@ -355,7 +355,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 
         productRepository.save(product);
 
-        Long invoiceId = invoiceItem.getInvoiceId();
+        String invoiceId = invoiceItem.getInvoiceId();
 
         invoiceItemRepository.delete(invoiceItem);
 

@@ -20,7 +20,7 @@ public class UserResponseDTO {
 
     private String mobileNumber;
 
-    private Integer roleId;
+    private String roleId;
 
     private String status;
 

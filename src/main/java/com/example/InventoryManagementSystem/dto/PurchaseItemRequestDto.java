@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 @Data
 public class PurchaseItemRequestDto {
 
-    private Integer purchaseId;
+    private String purchaseId;
 
-    private Integer productId;
+    private String productId;
 
     private Integer quantity;
 

@@ -17,16 +17,16 @@ public interface PurchaseService {
 
     // GET PURCHASE BY ID
     PurchaseResponseDto getPurchaseById(
-            Long id);
+            String id);
 
     // UPDATE PURCHASE
     PurchaseResponseDto updatePurchase(
-            Long id,
+            String id,
             PurchaseRequestDto dto);
 
     // DELETE PURCHASE
     void deletePurchase(
-            Long id);
+            String id);
 
 
 }

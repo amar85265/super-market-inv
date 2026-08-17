@@ -9,11 +9,11 @@ public interface CategoryService {
 
     CategoryResponse createCategory(CategoryRequest request);
 
-    CategoryResponse getCategoryById(Long categoryId);
+    CategoryResponse getCategoryById(String categoryId);
 
     List<CategoryResponse> getAllCategories();
 
-    CategoryResponse updateCategory(Long categoryId, CategoryRequest request);
+    CategoryResponse updateCategory(String categoryId, CategoryRequest request);
 
-    void deleteCategory(Long categoryId);
+    void deleteCategory(String categoryId);
 }

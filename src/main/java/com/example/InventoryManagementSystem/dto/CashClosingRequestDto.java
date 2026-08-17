@@ -12,7 +12,7 @@ public class CashClosingRequestDto {
 
     @NotNull(message = "Counter ID is required")
     @Positive(message = "Counter ID must be greater than 0")
-    private Long counterId;
+    private String counterId;
 
     @NotNull(message = "Opening cash is required")
     @DecimalMin(

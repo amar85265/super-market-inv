@@ -13,11 +13,11 @@ public interface CashClosingService {
     List<CashClosingResponseDto> getAllCashClosings();
 
     CashClosingResponseDto getCashClosingById(
-            Long id);
+            String id);
 
     CashClosingResponseDto updateCashClosing(
-            Long id,
+            String id,
             CashClosingRequestDto dto);
 
-    void deleteCashClosing(Long id);
+    void deleteCashClosing(String id);
 }

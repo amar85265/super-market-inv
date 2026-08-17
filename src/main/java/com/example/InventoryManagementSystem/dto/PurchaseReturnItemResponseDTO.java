@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @Builder
 public class PurchaseReturnItemResponseDTO {
 
-    private Integer purchaseReturnItemId;
+    private String purchaseReturnItemId;
 
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
 
     private String productId;
 

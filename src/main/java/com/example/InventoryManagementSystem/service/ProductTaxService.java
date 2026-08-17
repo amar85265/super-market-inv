@@ -11,10 +11,10 @@ public interface ProductTaxService {
 
     List<ProductTaxResponseDTO> getAllTaxes();
 
-    ProductTaxResponseDTO getTaxById(Long taxId);
+    ProductTaxResponseDTO getTaxById(String taxId);
 
-    ProductTaxResponseDTO updateTax(Long taxId,
+    ProductTaxResponseDTO updateTax(String taxId,
                                     ProductTaxRequestDTO request);
 
-    String deleteTax(Long taxId);
+    String deleteTax(String taxId);
 }

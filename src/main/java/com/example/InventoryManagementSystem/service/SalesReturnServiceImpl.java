@@ -93,7 +93,7 @@ public class SalesReturnServiceImpl implements SalesReturnService {
 
     @Override
     public SalesReturnResponseDTO getById(String id) {
-        SalesReturn entity = repo.findById(parseId(id))
+        SalesReturn entity = repo.findById(id)
                 .orElseThrow(() -> new InventoryException("Sales Return not found with id: " + id));
         return map(entity);
     }
@@ -108,7 +108,7 @@ public class SalesReturnServiceImpl implements SalesReturnService {
     public SalesReturnResponseDTO updateReturn(String id, SalesReturnRequestDTO dto) {
         validateBasic(dto);
 
-        SalesReturn entity = repo.findById(parseId(id))
+        SalesReturn entity = repo.findById(id)
                 .orElseThrow(() -> new InventoryException("Sales Return not found with id: " + id));
 
         if ("REFUNDED".equalsIgnoreCase(entity.getRefundStatus())) {
@@ -166,7 +166,7 @@ public class SalesReturnServiceImpl implements SalesReturnService {
     @Override
     @Transactional
     public void delete(String id) {
-        SalesReturn entity = repo.findById(parseId(id))
+        SalesReturn entity = repo.findById(id)
                 .orElseThrow(() -> new InventoryException("Sales Return not found with id: " + id));
 
         if ("REFUNDED".equalsIgnoreCase(entity.getRefundStatus())) {
@@ -181,14 +181,6 @@ public class SalesReturnServiceImpl implements SalesReturnService {
         productRepository.save(product);
 
         repo.delete(entity);
-    }
-
-    private Long parseId(String id) {
-        try {
-            return Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            throw new InventoryException("Invalid Sales Return ID: " + id);
-        }
     }
 
     private void validateBasic(SalesReturnRequestDTO dto) {

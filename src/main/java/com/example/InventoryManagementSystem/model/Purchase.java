@@ -21,9 +21,9 @@ public class Purchase {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "purchase_id")
-    private Long purchaseId;
+    private String purchaseId;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")

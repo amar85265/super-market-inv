@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public class BillingCounterDto {
 
-    private Long counterId;
+    private String counterId;
 
     @NotBlank(message = "Counter name is required")
     @Pattern(
@@ -31,11 +31,11 @@ public class BillingCounterDto {
 
     // Getters and Setters
 
-    public Long getCounterId() {
+    public String getCounterId() {
         return counterId;
     }
 
-    public void setCounterId(Long counterId) {
+    public void setCounterId(String counterId) {
         this.counterId = counterId;
     }
 

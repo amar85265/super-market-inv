@@ -16,13 +16,13 @@ import java.math.BigDecimal;
 public class PurchaseReturnItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "purchase_return_item_id")
-    private Integer purchaseReturnItemId;
+    private String purchaseReturnItemId;
 
     @NotNull(message = "Purchase Return ID is required")
     @Column(name = "purchase_return_id")
-    private Integer purchaseReturnId;
+    private String purchaseReturnId;
 
     @NotNull(message = "Product ID is required")
     @Column(name = "product_id")

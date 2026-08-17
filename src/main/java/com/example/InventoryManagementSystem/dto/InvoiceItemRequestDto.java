@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 public class InvoiceItemRequestDto {
 
     @NotNull(message = "Invoice ID is required")
-    @Positive(message = "Invoice ID must be greater than 0")
-    private Long invoiceId;
+    @NotBlank(message = "Invoice ID is required")
+    private String invoiceId;
 
     @NotNull(message = "Product ID is required")
-    @Positive(message = "Product ID must be greater than 0")
-    private Long productId;
+    @NotBlank(message = "Product ID is required")
+    private String productId;
 
     @NotNull(message = "Quantity is required")
     @DecimalMin(

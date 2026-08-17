@@ -13,11 +13,11 @@ public interface PurchaseItemService {
     List<PurchaseItemResponseDto> getAllPurchaseItems();
 
     PurchaseItemResponseDto getPurchaseItemById(
-            Long purchaseItemId);
+            String purchaseItemId);
 
     PurchaseItemResponseDto updatePurchaseItem(
-            Long purchaseItemId,
+            String purchaseItemId,
             PurchaseItemRequestDto request);
 
-    void deletePurchaseItem(Long purchaseItemId);
+    void deletePurchaseItem(String purchaseItemId);
 }

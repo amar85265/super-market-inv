@@ -34,8 +34,8 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
         PurchaseReturn entity = PurchaseReturn.builder()
-                .purchaseId(Math.toIntExact(requestDTO.getPurchaseId()))
-                .supplierId(Math.toIntExact(requestDTO.getSupplierId()))
+                .purchaseId(requestDTO.getPurchaseId())
+                .supplierId(requestDTO.getSupplierId())
                 .returnDate(LocalDateTime.now())
                 .totalAmount(requestDTO.getTotalAmount())
                 .notes(requestDTO.getNotes())
@@ -49,7 +49,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     }
 
     @Override
-    public PurchaseReturnResponseDTO getPurchaseReturnById(Integer id) {
+    public PurchaseReturnResponseDTO getPurchaseReturnById(String id) {
 
         PurchaseReturn entity = purchaseReturnRepository.findById(id)
                 .orElse(null);
@@ -72,7 +72,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
 
     @Override
     public PurchaseReturnResponseDTO updatePurchaseReturn(
-            Integer id,
+            String id,
             PurchaseReturnRequestDTO requestDTO) {
 
         PurchaseReturn entity = purchaseReturnRepository.findById(id)
@@ -88,8 +88,8 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
         supplierRepository.findById(requestDTO.getSupplierId())
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
-        entity.setPurchaseId(Math.toIntExact(requestDTO.getPurchaseId()));
-        entity.setSupplierId(Math.toIntExact(requestDTO.getSupplierId()));
+        entity.setPurchaseId(requestDTO.getPurchaseId());
+        entity.setSupplierId(requestDTO.getSupplierId());
         entity.setTotalAmount(requestDTO.getTotalAmount());
         entity.setNotes(requestDTO.getNotes());
 
@@ -99,7 +99,7 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
     }
 
     @Override
-    public void deletePurchaseReturn(Integer id) {
+    public void deletePurchaseReturn(String id) {
 
         PurchaseReturn entity = purchaseReturnRepository.findById(id)
                 .orElse(null);
@@ -145,8 +145,8 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
 
         return PurchaseReturnResponseDTO.builder()
                 .purchaseReturnId(entity.getPurchaseReturnId())
-                .purchaseId(Long.valueOf(entity.getPurchaseId()))
-                .supplierId(Long.valueOf(entity.getSupplierId()))
+                .purchaseId(entity.getPurchaseId())
+                .supplierId(entity.getSupplierId())
                 .returnDate(entity.getReturnDate())
                 .totalAmount(entity.getTotalAmount())
                 .notes(entity.getNotes())

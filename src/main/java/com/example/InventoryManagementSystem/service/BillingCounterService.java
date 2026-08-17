@@ -10,9 +10,9 @@ public interface BillingCounterService {
 
     List<BillingCounterDto> getAllBillingCounters();
 
-    BillingCounterDto getBillingCounterById(Long id);
+    BillingCounterDto getBillingCounterById(String id);
 
-    BillingCounterDto updateBillingCounter(Long id, BillingCounterDto dto);
+    BillingCounterDto updateBillingCounter(String id, BillingCounterDto dto);
 
-    void deleteBillingCounter(Long id);
+    void deleteBillingCounter(String id);
 }

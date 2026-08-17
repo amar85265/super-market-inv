@@ -11,14 +11,14 @@ import java.math.BigDecimal;
 public class InvoiceItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invoiceItemId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String invoiceItemId;
 
     @Column(nullable = false)
-    private Long invoiceId;
+    private String invoiceId;
 
     @Column(nullable = false)
-    private Long productId;
+    private String productId;
 
     @Column(nullable = false)
     private String productName;

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 public class Setting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "setting_id")
-    private Long settingId;
+    private String settingId;
 
     @Column(name = "setting_key", unique = true, nullable = false)
     private String settingKey;

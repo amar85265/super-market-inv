@@ -15,9 +15,9 @@ import java.time.OffsetDateTime;
 public class HoldInvoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "hold_id")
-    private Long holdId;
+    private String holdId;
 
 
     private String data;

@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 public class ProductTax {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long taxId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String taxId;
 
-    private Long productId;
+    private String productId;
 
     private String taxName;
 

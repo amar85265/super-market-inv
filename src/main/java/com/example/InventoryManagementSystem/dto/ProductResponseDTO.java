@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class ProductResponseDTO {
 
     private String productId;
-    private Long categoryId;
+    private String categoryId;
     private String productName;
     private String sku;
     private String barcode;

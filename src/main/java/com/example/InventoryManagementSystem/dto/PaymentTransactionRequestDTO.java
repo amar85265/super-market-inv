@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 public class PaymentTransactionRequestDTO {
 
     @NotNull(message = "Invoice ID is required")
-    private Long invoiceId;
+    private String invoiceId;
 
     @NotBlank(message = "Payment method is required")
     @Pattern(
