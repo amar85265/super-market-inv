@@ -39,7 +39,7 @@ public class UnitController {
     @GetMapping("/{id}")
     public ResponseEntity<UnitResponseDto>
     getUnitById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 unitService.getUnitById(id));
@@ -49,7 +49,7 @@ public class UnitController {
     @PutMapping("/{id}")
     public ResponseEntity<UnitResponseDto>
     updateUnit(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestBody UnitRequestDto dto) {
 
         return ResponseEntity.ok(
@@ -60,7 +60,7 @@ public class UnitController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String>
     deleteUnit(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         unitService.deleteUnit(id);
 

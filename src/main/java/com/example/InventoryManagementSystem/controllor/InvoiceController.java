@@ -27,7 +27,7 @@ public class InvoiceController {
 
     @GetMapping("/{id}")
     public InvoiceResponseDto getInvoiceById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return service.getInvoiceById(id);
     }
@@ -40,7 +40,7 @@ public class InvoiceController {
 
     @PutMapping("/{id}")
     public InvoiceResponseDto updateInvoice(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody InvoiceRequestDto dto) {
 
         return service.updateInvoice(id, dto);
@@ -48,7 +48,7 @@ public class InvoiceController {
 
     @DeleteMapping("/{id}")
     public String deleteInvoice(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         service.deleteInvoice(id);
 

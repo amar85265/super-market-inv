@@ -20,7 +20,7 @@ public class PurchaseRequestDto {
 
     private String paymentStatus;
 
-    private Integer createdBy;
+    private String createdBy;
 
 
 }

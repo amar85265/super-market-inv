@@ -34,7 +34,7 @@ public class InvoiceItemController {
     // READ BY ID
     @GetMapping("/{id}")
     public InvoiceItemResponseDto getInvoiceItemById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return service.getInvoiceItemById(id);
     }
@@ -42,7 +42,7 @@ public class InvoiceItemController {
     // UPDATE
     @PutMapping("/{id}")
     public InvoiceItemResponseDto updateInvoiceItem(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody InvoiceItemRequestDto dto) {
 
         return service.updateInvoiceItem(id, dto);
@@ -51,7 +51,7 @@ public class InvoiceItemController {
     // DELETE
     @DeleteMapping("/{id}")
     public String deleteInvoiceItem(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         service.deleteInvoiceItem(id);
         return "Invoice Item deleted successfully";

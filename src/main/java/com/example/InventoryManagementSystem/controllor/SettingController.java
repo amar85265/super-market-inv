@@ -29,7 +29,7 @@ public class SettingController {
 
     @PutMapping("/{id}")
     public ResponseEntity<SettingResponse> updateSetting(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestBody SettingRequest request
     ) {
 
@@ -40,7 +40,7 @@ public class SettingController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SettingResponse> getSettingById(
-            @PathVariable Long id
+            @PathVariable String id
     ) {
 
         return ResponseEntity.ok(
@@ -58,7 +58,7 @@ public class SettingController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSetting(
-            @PathVariable Long id
+            @PathVariable String id
     ) {
 
         service.deleteSetting(id);

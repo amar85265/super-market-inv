@@ -42,7 +42,7 @@ public class CashClosingController {
     @GetMapping("/{id}")
     public ResponseEntity<CashClosingResponseDto>
     getCashClosingById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 cashClosingService
@@ -53,7 +53,7 @@ public class CashClosingController {
     @PutMapping("/{id}")
     public ResponseEntity<CashClosingResponseDto>
     updateCashClosing(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid@RequestBody CashClosingRequestDto dto) {
 
         return ResponseEntity.ok(
@@ -65,7 +65,7 @@ public class CashClosingController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String>
     deleteCashClosing(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         cashClosingService
                 .deleteCashClosing(id);

@@ -11,11 +11,11 @@ public interface UserService {
 
     List<UserResponseDTO> getAllUsers();
 
-    UserResponseDTO getUserById(Long id);
+    UserResponseDTO getUserById(String id);
 
-    UserResponseDTO updateUser(Long id, UserRequestDTO request);
+    UserResponseDTO updateUser(String id, UserRequestDTO request);
 
-    void deleteUser(Long id);
+    void deleteUser(String id);
 
 
 

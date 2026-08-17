@@ -44,7 +44,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierResponseDTO getSupplierById(Long id) {
+    public SupplierResponseDTO getSupplierById(String id) {
 
         Supplier supplier = supplierRepository.findById(id)
                 .orElseThrow(() ->
@@ -56,7 +56,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public SupplierResponseDTO updateSupplier(
-            Long id,
+            String id,
             SupplierRequestDTO request) {
 
         Supplier supplier = supplierRepository.findById(id)
@@ -89,7 +89,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public void deleteSupplier(Long id) {
+    public void deleteSupplier(String id) {
 
         Supplier supplier = supplierRepository.findById(id)
                 .orElseThrow(() ->

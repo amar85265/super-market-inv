@@ -29,20 +29,20 @@ public class ProductTaxController {
 
     // GET BY ID
     @GetMapping("/{id}")
-    public ProductTaxResponseDTO getById(@PathVariable Long id) {
+    public ProductTaxResponseDTO getById(@PathVariable String id) {
         return service.getTaxById(id);
     }
 
     // UPDATE
     @PutMapping("/{id}")
-    public ProductTaxResponseDTO update(@PathVariable Long id,
+    public ProductTaxResponseDTO update(@PathVariable String id,
                                         @RequestBody ProductTaxRequestDTO request) {
         return service.updateTax(id, request);
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String id) {
         return service.deleteTax(id);
     }
 }

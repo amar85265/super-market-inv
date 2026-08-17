@@ -12,11 +12,11 @@ public interface UnitService {
 
     List<UnitResponseDto> getAllUnits();
 
-    UnitResponseDto getUnitById(Long id);
+    UnitResponseDto getUnitById(String id);
 
     UnitResponseDto updateUnit(
-            Long id,
+            String id,
             UnitRequestDto dto);
 
-    void deleteUnit(Long id);
+    void deleteUnit(String id);
 }

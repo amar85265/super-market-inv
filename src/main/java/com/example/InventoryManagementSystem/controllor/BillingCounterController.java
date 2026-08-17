@@ -33,7 +33,7 @@ public class BillingCounterController {
     // READ BY ID
     @GetMapping("/{id}")
     public BillingCounterDto getBillingCounterById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return service.getBillingCounterById(id);
     }
@@ -41,7 +41,7 @@ public class BillingCounterController {
     // UPDATE
     @PutMapping("/{id}")
     public BillingCounterDto updateBillingCounter(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid@RequestBody BillingCounterDto dto) {
 
         return service.updateBillingCounter(id, dto);
@@ -49,7 +49,7 @@ public class BillingCounterController {
 
     // DELETE
     @DeleteMapping("/{id}")
-    public String deleteBillingCounter(@PathVariable Long id) {
+    public String deleteBillingCounter(@PathVariable String id) {
 
         service.deleteBillingCounter(id);
 

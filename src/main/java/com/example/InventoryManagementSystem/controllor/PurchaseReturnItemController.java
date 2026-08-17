@@ -30,7 +30,7 @@ public class PurchaseReturnItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PurchaseReturnItemResponseDTO>
-    getPurchaseReturnItemById(@PathVariable Integer id) {
+    getPurchaseReturnItemById(@PathVariable String id) {
 
         return ResponseEntity.ok(
                 service.getPurchaseReturnItemById(id)
@@ -49,7 +49,7 @@ public class PurchaseReturnItemController {
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseReturnItemResponseDTO>
     updatePurchaseReturnItem(
-            @PathVariable Integer id,
+            @PathVariable String id,
             @Valid @RequestBody PurchaseReturnItemRequestDTO requestDTO) {
 
         return ResponseEntity.ok(
@@ -59,7 +59,7 @@ public class PurchaseReturnItemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePurchaseReturnItem(
-            @PathVariable Integer id) {
+            @PathVariable String id) {
 
         service.deletePurchaseReturnItem(id);
 

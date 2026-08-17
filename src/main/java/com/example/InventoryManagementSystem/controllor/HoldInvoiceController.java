@@ -41,7 +41,7 @@ public class HoldInvoiceController {
     @GetMapping("/{id}")
     public ResponseEntity<HoldInvoiceResponseDto>
     getHoldInvoiceById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 holdInvoiceService
@@ -50,7 +50,7 @@ public class HoldInvoiceController {
     @PutMapping("/{id}")
     public ResponseEntity<HoldInvoiceResponseDto>
     updateHoldInvoice(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestBody HoldInvoiceRequestDto dto) {
 
         return ResponseEntity.ok(
@@ -62,7 +62,7 @@ public class HoldInvoiceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String>
     deleteHoldInvoice(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         holdInvoiceService
                 .deleteHoldInvoice(id);

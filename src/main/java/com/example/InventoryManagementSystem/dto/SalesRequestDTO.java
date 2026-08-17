@@ -12,9 +12,8 @@ public class SalesRequestDTO {
     @NotBlank(message = "Customer ID is required")
     private String customerId;
 
-    @NotNull(message = "Created By is required")
-    @Positive(message = "Created By must be greater than 0")
-    private Long createdBy;
+    @NotBlank(message = "Created By is required")
+    private String createdBy;
 
     @NotBlank(message = "Invoice number is required")
     @Size(max = 100, message = "Invoice number cannot exceed 100 characters")

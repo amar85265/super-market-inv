@@ -30,21 +30,21 @@ public class PaymentTransactionController {
 
     // GET BY ID
     @GetMapping("/{id}")
-    public PaymentTransactionResponseDTO getById(@PathVariable Long id) {
+    public PaymentTransactionResponseDTO getById(@PathVariable String id) {
         return service.getById(id);
     }
 
     // UPDATE
     @PutMapping("/{id}")
     public PaymentTransactionResponseDTO update(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody PaymentTransactionRequestDTO dto) {
         return service.update(id, dto);
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable String id) {
         service.delete(id);
         return "Deleted Payment with ID: " + id;
     }

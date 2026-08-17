@@ -43,7 +43,7 @@ public class PurchaseItemController {
     @GetMapping("/{purchaseItemId}")
     public ResponseEntity<PurchaseItemResponseDto>
     getPurchaseItemById(
-            @PathVariable Long purchaseItemId) {
+            @PathVariable String purchaseItemId) {
 
         return ResponseEntity.ok(
                 purchaseItemService
@@ -55,7 +55,7 @@ public class PurchaseItemController {
     public ResponseEntity<PurchaseItemResponseDto>
     updatePurchaseItem(
 
-            @PathVariable Long purchaseItemId,
+            @PathVariable String purchaseItemId,
             @Valid @RequestBody PurchaseItemRequestDto request) {
 
         return ResponseEntity.ok(
@@ -66,7 +66,7 @@ public class PurchaseItemController {
     // DELETE
     @DeleteMapping("/{purchaseItemId}")
     public ResponseEntity<String> deletePurchaseItem(
-            @PathVariable Long purchaseItemId) {
+            @PathVariable String purchaseItemId) {
 
         purchaseItemService.deletePurchaseItem(
                 purchaseItemId);

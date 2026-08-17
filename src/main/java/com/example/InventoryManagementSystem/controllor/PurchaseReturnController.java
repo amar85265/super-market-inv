@@ -27,7 +27,7 @@ public class PurchaseReturnController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<PurchaseReturnResponseDTO> getPurchaseReturnById(
-            @PathVariable Integer id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 service.getPurchaseReturnById(id)
@@ -44,7 +44,7 @@ public class PurchaseReturnController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseReturnResponseDTO> updatePurchaseReturn(
-           @Valid @PathVariable Integer id,
+           @Valid @PathVariable String id,
             @RequestBody PurchaseReturnRequestDTO requestDTO) {
 
         return ResponseEntity.ok(
@@ -54,7 +54,7 @@ public class PurchaseReturnController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePurchaseReturn(
-            @PathVariable Integer id) {
+            @PathVariable String id) {
 
         service.deletePurchaseReturn(id);
 

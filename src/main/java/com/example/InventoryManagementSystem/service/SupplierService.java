@@ -9,12 +9,12 @@ public interface SupplierService {
 
     SupplierResponseDTO createSupplier(SupplierRequestDTO request);
 
-    SupplierResponseDTO getSupplierById(Long supplierId);
+    SupplierResponseDTO getSupplierById(String supplierId);
 
     List<SupplierResponseDTO> getAllSuppliers();
 
-    SupplierResponseDTO updateSupplier(Long supplierId,
+    SupplierResponseDTO updateSupplier(String supplierId,
                                        SupplierRequestDTO request);
 
-    void deleteSupplier(Long supplierId);
+    void deleteSupplier(String supplierId);
 }

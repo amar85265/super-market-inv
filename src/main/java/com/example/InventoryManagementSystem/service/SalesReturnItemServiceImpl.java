@@ -214,7 +214,7 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
     // ------------------- PRIVATE HELPERS -------------------
 
     private SalesReturn getSalesReturnOrThrow(String salesReturnId) {
-        return salesReturnRepository.findById(parseLongId(salesReturnId))
+        return salesReturnRepository.findById(salesReturnId)
                 .orElseThrow(() -> new InventoryException(
                         "Sales Return not found with ID: " + salesReturnId));
     }

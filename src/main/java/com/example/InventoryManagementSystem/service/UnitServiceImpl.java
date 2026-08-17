@@ -48,7 +48,7 @@ public class UnitServiceImpl
     // GET BY ID
     @Override
     public UnitResponseDto getUnitById(
-            Long id) {
+            String id) {
 
         Unit unit = unitRepository.findById(id)
                 .orElseThrow(() ->
@@ -61,7 +61,7 @@ public class UnitServiceImpl
     // UPDATE
     @Override
     public UnitResponseDto updateUnit(
-            Long id,
+            String id,
             UnitRequestDto dto) {
 
         Unit unit = unitRepository.findById(id)
@@ -83,7 +83,7 @@ public class UnitServiceImpl
 
     // DELETE
     @Override
-    public void deleteUnit(Long id) {
+    public void deleteUnit(String id) {
 
         Unit unit = unitRepository.findById(id)
                 .orElseThrow(() ->

@@ -12,7 +12,7 @@ public class SalesResponseDTO {
     private String saleId;
     private String customerId;
     private String customerName;
-    private Long createdBy;
+    private String createdBy;
     private String invoiceNumber;
     private String paymentStatus;
     private BigDecimal totalAmount;

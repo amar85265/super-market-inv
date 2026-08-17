@@ -32,7 +32,7 @@ public class InvoiceResponseDto {
 
     private String paymentStatus;
 
-    private Long createdBy;
+    private String createdBy;
 
     private OffsetDateTime createdAt;
 }

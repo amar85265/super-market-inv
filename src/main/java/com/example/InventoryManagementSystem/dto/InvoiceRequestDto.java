@@ -28,6 +28,6 @@ public class InvoiceRequestDto {
     private String paymentMethod;
 
     @NotNull(message = "Created By is required")
-    @Positive(message = "Created By must be greater than 0")
-    private Long createdBy;
+    @NotBlank(message = "Created By cannot be blank")
+    private String createdBy;
 }

@@ -27,7 +27,7 @@ public class SupplierController {
 
     @GetMapping("/{supplierId}")
     public ResponseEntity<SupplierResponseDTO> getSupplierById(
-            @PathVariable Long supplierId) {
+            @PathVariable String supplierId) {
 
         return ResponseEntity.ok(
                 supplierService.getSupplierById(supplierId));
@@ -42,7 +42,7 @@ public class SupplierController {
 
     @PutMapping("/{supplierId}")
     public ResponseEntity<SupplierResponseDTO> updateSupplier(
-            @PathVariable Long supplierId,
+            @PathVariable String supplierId,
             @Valid @RequestBody SupplierRequestDTO request) {
 
         return ResponseEntity.ok(
@@ -53,7 +53,7 @@ public class SupplierController {
 
     @DeleteMapping("/{supplierId}")
     public ResponseEntity<String> deleteSupplier(
-            @PathVariable Long supplierId) {
+            @PathVariable String supplierId) {
 
         supplierService.deleteSupplier(supplierId);
 

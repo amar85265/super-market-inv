@@ -39,7 +39,7 @@ public class PurchaseController {
     @GetMapping("/{id}")
     public ResponseEntity<PurchaseResponseDto>
     getPurchaseById(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
                 purchaseService.getPurchaseById(id));
@@ -48,7 +48,7 @@ public class PurchaseController {
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseResponseDto>
     updatePurchase(
-           @Valid @PathVariable Long id,
+           @Valid @PathVariable String id,
             @RequestBody PurchaseRequestDto request) {
 
         return ResponseEntity.ok(
@@ -60,7 +60,7 @@ public class PurchaseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String>
     deletePurchase(
-            @PathVariable Long id) {
+            @PathVariable String id) {
 
         purchaseService.deletePurchase(id);
 
