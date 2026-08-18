@@ -1,13 +1,18 @@
 package com.example.InventoryManagementSystem.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-public class InvoiceItemRequestDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class InvoiceItemRequestDTO {
 
+<<<<<<< Updated upstream
     @NotNull(message = "Invoice ID is required")
     @Positive(message = "Invoice ID must be greater than 0")
     private Long invoiceId;
@@ -15,17 +20,22 @@ public class InvoiceItemRequestDto {
     @NotNull(message = "Product ID is required")
     @Positive(message = "Product ID must be greater than 0")
     private Long productId;
+=======
+    @NotBlank(message = "Item type is required")
+    private String itemType;
+
+    private String productId;
+>>>>>>> Stashed changes
+
+    private String serviceId;
+
+    private String description;
+
+    private String unit;
 
     @NotNull(message = "Quantity is required")
-    @DecimalMin(
-            value = "0.001",
-            message = "Quantity must be greater than 0"
-    )
+    @Positive(message = "Quantity must be greater than zero")
     private BigDecimal quantity;
 
-    @DecimalMin(
-            value = "0.00",
-            message = "Discount cannot be negative"
-    )
-    private BigDecimal discount = BigDecimal.ZERO;
+    private BigDecimal rate;
 }

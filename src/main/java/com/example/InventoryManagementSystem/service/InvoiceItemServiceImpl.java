@@ -1,19 +1,16 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.Repository.InvoiceItemRepository;
-import com.example.InventoryManagementSystem.Repository.InvoiceRepository;
+import com.example.InventoryManagementSystem.Repository.CarServiceRepository;
 import com.example.InventoryManagementSystem.Repository.ProductRepository;
-import com.example.InventoryManagementSystem.dto.InvoiceItemRequestDto;
-import com.example.InventoryManagementSystem.dto.InvoiceItemResponseDto;
-import com.example.InventoryManagementSystem.model.Invoice;
+import com.example.InventoryManagementSystem.model.CarService;
 import com.example.InventoryManagementSystem.model.InvoiceItem;
 import com.example.InventoryManagementSystem.model.Product;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.InventoryManagementSystem.Repository.InvoiceItemRepository;
+import com.example.InventoryManagementSystem.service.InvoiceItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -21,10 +18,12 @@ import java.util.List;
 public class InvoiceItemServiceImpl implements InvoiceItemService {
 
     private final InvoiceItemRepository invoiceItemRepository;
-    private final InvoiceRepository invoiceRepository;
     private final ProductRepository productRepository;
+    private final CarServiceRepository carServiceRepository;
 
+    // CREATE
     @Override
+<<<<<<< Updated upstream
     public InvoiceItemResponseDto createInvoiceItem(InvoiceItemRequestDto dto) {
 
         Invoice invoice = invoiceRepository.findById(dto.getInvoiceId())
@@ -208,142 +207,137 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
                 invoiceItem.getLineTotal());
 
         return dto;
+=======
+    public InvoiceItem createInvoiceItem(InvoiceItem invoiceItem) {
+        populateDefaults(invoiceItem);
+        return invoiceItemRepository.save(invoiceItem);
+>>>>>>> Stashed changes
     }
 
+    // GET ALL
     @Override
-    public List<InvoiceItemResponseDto> getAllInvoiceItems() {
+    public List<InvoiceItem> getAllInvoiceItems() {
 
-        List<InvoiceItem> invoiceItems = invoiceItemRepository.findAll();
-
-        return invoiceItems.stream()
-                .map(item -> {
-
-                    Product product = productRepository.findById(item.getProductId())
-                            .orElse(null);
-
-                    return convertToResponse(item, product);
-
-                })
-                .toList();
+        return invoiceItemRepository.findAll();
     }
 
+    // GET BY ID
     @Override
+<<<<<<< Updated upstream
     public InvoiceItemResponseDto getInvoiceItemById(Long id) {
+=======
+    public InvoiceItem getInvoiceItemById(String id) {
+>>>>>>> Stashed changes
 
-        InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
+        return invoiceItemRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Invoice Item not found with id : " + id));
-
-        Product product = productRepository.findById(invoiceItem.getProductId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Product not found"));
-
-        return convertToResponse(invoiceItem, product);
+                        new RuntimeException(
+                                "Invoice item not found with ID: " + id
+                        )
+                );
     }
 
+    // UPDATE
     @Override
+<<<<<<< Updated upstream
     public InvoiceItemResponseDto updateInvoiceItem(
             Long id,
             InvoiceItemRequestDto dto) {
+=======
+    public InvoiceItem updateInvoiceItem(
+            String id,
+            InvoiceItem invoiceItem) {
+>>>>>>> Stashed changes
 
-        InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Invoice Item not found"));
+        InvoiceItem existingItem =
+                invoiceItemRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Invoice item not found with ID: " + id
+                                )
+                        );
 
-        Product oldProduct = productRepository.findById(invoiceItem.getProductId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Old Product not found"));
+        existingItem.setItemType(invoiceItem.getItemType());
+        existingItem.setProductId(invoiceItem.getProductId());
+        existingItem.setServiceId(invoiceItem.getServiceId());
+        existingItem.setDescription(invoiceItem.getDescription());
+        existingItem.setUnit(invoiceItem.getUnit());
+        existingItem.setQuantity(invoiceItem.getQuantity());
+        existingItem.setRate(invoiceItem.getRate());
 
-        Product newProduct = productRepository.findById(dto.getProductId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Product not found"));
+        populateDefaults(existingItem);
 
-        // Restore previous stock
-        oldProduct.setStockQuantity(
-                oldProduct.getStockQuantity()
-                        + invoiceItem.getQuantity().intValue());
-
-        productRepository.save(oldProduct);
-
-        if (newProduct.getStockQuantity() < dto.getQuantity().intValue()) {
-
-            throw new RuntimeException(
-                    "Insufficient stock");
-        }
-
-        BigDecimal quantity = dto.getQuantity();
-
-        BigDecimal unitPrice = newProduct.getSellingPrice();
-
-        BigDecimal discount = dto.getDiscount() == null
-                ? BigDecimal.ZERO
-                : dto.getDiscount();
-
-        BigDecimal taxableAmount =
-                unitPrice.multiply(quantity)
-                        .subtract(discount);
-
-        BigDecimal gst =
-                newProduct.getGstPercentage();
-
-        BigDecimal taxAmount =
-                taxableAmount
-                        .multiply(gst)
-                        .divide(
-                                new BigDecimal("100"),
-                                2,
-                                RoundingMode.HALF_UP);
-
-        BigDecimal lineTotal =
-                taxableAmount.add(taxAmount);
-
-        invoiceItem.setInvoiceId(dto.getInvoiceId());
-
-        invoiceItem.setProductId(newProduct.getProductId());
-
-        invoiceItem.setProductName(newProduct.getProductName());
-
-        invoiceItem.setBarcode(newProduct.getBarcode());
-
-        invoiceItem.setQuantity(quantity);
-
-        invoiceItem.setUnitPrice(unitPrice);
-
-        invoiceItem.setDiscount(discount);
-
-        invoiceItem.setTaxPercentage(gst);
-
-        invoiceItem.setTaxAmount(taxAmount);
-
-        invoiceItem.setLineTotal(lineTotal);
-
-        InvoiceItem updated =
-                invoiceItemRepository.save(invoiceItem);
-
-        newProduct.setStockQuantity(
-                newProduct.getStockQuantity()
-                        - quantity.intValue());
-
-        productRepository.save(newProduct);
-
-        recalculateInvoiceTotals(dto.getInvoiceId());
-
-        return convertToResponse(updated, newProduct);
+        return invoiceItemRepository.save(existingItem);
     }
 
+    private void populateDefaults(InvoiceItem item) {
+
+        if (item.getQuantity() == null) {
+            item.setQuantity(BigDecimal.ONE);
+        }
+
+        if (item.getItemType() == null || item.getItemType().isBlank()) {
+            if (item.getServiceId() != null && !item.getServiceId().isBlank()) {
+                item.setItemType("SERVICE");
+            } else {
+                item.setItemType("PRODUCT");
+            }
+        }
+
+        if (item.getUnit() == null || item.getUnit().isBlank()) {
+            item.setUnit("SERVICE".equalsIgnoreCase(item.getItemType()) ? "JOB" : "PCS");
+        }
+
+        if (item.getRate() == null) {
+            if ("SERVICE".equalsIgnoreCase(item.getItemType()) && item.getServiceId() != null) {
+                item.setRate(carServiceRepository.findById(item.getServiceId())
+                        .map(CarService::getPrice)
+                        .orElseGet(() -> carServiceRepository.findByServiceCode(item.getServiceId())
+                                .map(CarService::getPrice)
+                                .orElse(new BigDecimal("500.00"))));
+            } else if (item.getProductId() != null) {
+                item.setRate(productRepository.findById(item.getProductId())
+                        .map(p -> p.getSellingPrice() != null ? p.getSellingPrice() : new BigDecimal("100.00"))
+                        .orElse(new BigDecimal("1500.00")));
+            } else {
+                item.setRate(new BigDecimal("100.00"));
+            }
+        }
+
+        if (item.getDescription() == null || item.getDescription().isBlank()) {
+            if ("SERVICE".equalsIgnoreCase(item.getItemType()) && item.getServiceId() != null) {
+                item.setDescription(carServiceRepository.findById(item.getServiceId())
+                        .map(CarService::getServiceName)
+                        .orElse("Service (" + item.getServiceId() + ")"));
+            } else if (item.getProductId() != null) {
+                item.setDescription(productRepository.findById(item.getProductId())
+                        .map(Product::getProductName)
+                        .orElse("Product (" + item.getProductId() + ")"));
+            } else {
+                item.setDescription("Invoice Item");
+            }
+        }
+
+        if (item.getQuantity() != null && item.getRate() != null) {
+            item.setAmount(item.getQuantity().multiply(item.getRate()));
+        } else if (item.getAmount() == null) {
+            item.setAmount(BigDecimal.ZERO);
+        }
+    }
+
+    // DELETE
     @Override
     public void deleteInvoiceItem(Long id) {
 
-        InvoiceItem invoiceItem = invoiceItemRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Invoice Item not found"));
+        InvoiceItem existingItem =
+                invoiceItemRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Invoice item not found with ID: " + id
+                                )
+                        );
 
+<<<<<<< Updated upstream
         Product product = productRepository.findById(invoiceItem.getProductId())
                 .orElseThrow(() ->
                         new EntityNotFoundException(
@@ -360,5 +354,8 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
         invoiceItemRepository.delete(invoiceItem);
 
         recalculateInvoiceTotals(invoiceId);
+=======
+        invoiceItemRepository.delete(existingItem);
+>>>>>>> Stashed changes
     }
 }

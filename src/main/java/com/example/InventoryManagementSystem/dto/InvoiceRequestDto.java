@@ -1,13 +1,22 @@
 package com.example.InventoryManagementSystem.dto;
 
-import jakarta.validation.constraints.*;
-import lombok.Data;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-public class InvoiceRequestDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class InvoiceRequestDTO {
 
+<<<<<<< Updated upstream
     @NotNull(message = "Customer ID is required")
     @Positive(message = "Customer ID must be greater than 0")
     private Long customerId;
@@ -15,19 +24,28 @@ public class InvoiceRequestDto {
     @NotNull(message = "Counter ID is required")
     @Positive(message = "Counter ID must be greater than 0")
     private Long counterId;
+=======
+    @NotBlank(message = "Customer ID is required")
+    private String customerId;
 
-    @NotNull(message = "Paid Amount is required")
-    @DecimalMin(value = "0.00", message = "Paid Amount cannot be negative")
-    private BigDecimal paidAmount;
+    @NotBlank(message = "Vehicle ID is required")
+    private String vehicleId;
+>>>>>>> Stashed changes
 
-    @NotBlank(message = "Payment Method is required")
-    @Pattern(
-            regexp = "^(CASH|CARD|UPI|NET_BANKING)$",
-            message = "Payment Method must be CASH, CARD, UPI or NET_BANKING"
-    )
+    private String invoiceNumber;
+
+    @NotBlank(message = "Payment method is required")
     private String paymentMethod;
 
+<<<<<<< Updated upstream
     @NotNull(message = "Created By is required")
     @Positive(message = "Created By must be greater than 0")
     private Long createdBy;
+=======
+    private LocalDateTime invoiceDate;
+
+    @NotEmpty(message = "At least one invoice item is required")
+    @Valid
+    private List<InvoiceItemRequestDTO> items;
+>>>>>>> Stashed changes
 }

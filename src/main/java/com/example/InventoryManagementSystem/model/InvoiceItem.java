@@ -1,16 +1,22 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "invoice_items")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InvoiceItem {
 
     @Id
+<<<<<<< Updated upstream
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceItemId;
 
@@ -19,28 +25,37 @@ public class InvoiceItem {
 
     @Column(nullable = false)
     private Long productId;
+=======
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "invoice_item_id")
+    private String invoiceItemId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private Invoice invoice;
+
+    @Column(name = "item_type", nullable = false, length = 20)
+    private String itemType;
+
+    @Column(name = "product_id")
+    private String productId;
+>>>>>>> Stashed changes
+
+    @Column(name = "service_id")
+    private String serviceId;
 
     @Column(nullable = false)
-    private String productName;
+    private String description;
 
-    @Column(nullable = false)
-    private String barcode;
+    @Column(nullable = false, length = 20)
+    private String unit;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal quantity;
 
-    @Column(nullable = false)
-    private BigDecimal unitPrice;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal rate;
 
-    @Column(nullable = false)
-    private BigDecimal discount = BigDecimal.ZERO;
-
-    @Column(nullable = false)
-    private BigDecimal taxPercentage;
-
-    @Column(nullable = false)
-    private BigDecimal taxAmount;
-
-    @Column(nullable = false)
-    private BigDecimal lineTotal;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal amount;
 }

@@ -1,61 +1,74 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "invoices")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Invoice {
 
     @Id
+<<<<<<< Updated upstream
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceId;
+=======
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "invoice_id")
+    private String invoiceId;
+>>>>>>> Stashed changes
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "invoice_number", nullable = false, unique = true, length = 30)
     private String invoiceNumber;
 
+<<<<<<< Updated upstream
     @Column(nullable = false)
     private Long customerId;
 
     @Column(nullable = false)
     private Long counterId;
+=======
+    @Column(name = "customer_id", nullable = false)
+    private String customerId;
 
-    @Column(nullable = false)
-    private BigDecimal subtotal = BigDecimal.ZERO;
+    @Column(name = "vehicle_id", nullable = false)
+    private String vehicleId;
+>>>>>>> Stashed changes
 
-    @Column(nullable = false)
-    private BigDecimal discountAmount = BigDecimal.ZERO;
-
-    @Column(nullable = false)
-    private BigDecimal taxAmount = BigDecimal.ZERO;
-
-    @Column(nullable = false)
-    private BigDecimal grandTotal = BigDecimal.ZERO;
-
-    @Column(nullable = false)
-    private BigDecimal paidAmount = BigDecimal.ZERO;
-
-    @Column(nullable = false)
-    private BigDecimal balanceAmount = BigDecimal.ZERO;
-
-    @Column(nullable = false)
+    @Column(name = "payment_method", nullable = false, length = 20)
     private String paymentMethod;
 
-    @Column(nullable = false)
-    private String paymentStatus;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal subtotal;
 
+<<<<<<< Updated upstream
     @Column(nullable = false)
     private Long createdBy;
+=======
+    @Column(name = "tax_amount", nullable = false, precision = 12, scale = 2)
+    private BigDecimal taxAmount;
+>>>>>>> Stashed changes
 
-    @Column(nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
+    @Column(name = "grand_total", nullable = false, precision = 12, scale = 2)
+    private BigDecimal grandTotal;
 
-    @PrePersist
-    public void prePersist() {
-        createdAt = OffsetDateTime.now();
-    }
+    @Column(name = "invoice_date", nullable = false)
+    private LocalDateTime invoiceDate;
+
+    @OneToMany(
+            mappedBy = "invoice",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<InvoiceItem> items = new ArrayList<>();
 }

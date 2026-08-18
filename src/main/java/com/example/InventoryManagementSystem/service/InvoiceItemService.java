@@ -1,18 +1,24 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.InvoiceItemRequestDto;
-import com.example.InventoryManagementSystem.dto.InvoiceItemResponseDto;
+import com.example.InventoryManagementSystem.model.InvoiceItem;
 
 import java.util.List;
+
 public interface InvoiceItemService {
 
-    InvoiceItemResponseDto createInvoiceItem(InvoiceItemRequestDto dto);
+    InvoiceItem createInvoiceItem(InvoiceItem invoiceItem);
 
-    List<InvoiceItemResponseDto> getAllInvoiceItems();
+    List<InvoiceItem> getAllInvoiceItems();
 
+<<<<<<< Updated upstream
     InvoiceItemResponseDto getInvoiceItemById(Long id);
 
     InvoiceItemResponseDto updateInvoiceItem(Long id, InvoiceItemRequestDto dto);
+=======
+    InvoiceItem getInvoiceItemById(String id);
+
+    InvoiceItem updateInvoiceItem(String id, InvoiceItem invoiceItem);
+>>>>>>> Stashed changes
 
     void deleteInvoiceItem(Long id);
 }

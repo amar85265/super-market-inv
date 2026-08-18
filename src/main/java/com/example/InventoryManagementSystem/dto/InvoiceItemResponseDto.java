@@ -1,12 +1,18 @@
 package com.example.InventoryManagementSystem.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
-@Data
-public class InvoiceItemResponseDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class InvoiceItemResponseDTO {
 
+<<<<<<< Updated upstream
     private Long invoiceItemId;
 
     private Long invoiceId;
@@ -28,4 +34,23 @@ public class InvoiceItemResponseDto {
     private BigDecimal taxAmount;
 
     private BigDecimal lineTotal;
+=======
+    private String invoiceItemId;
+
+    private String itemType;
+
+    private String productId;
+
+    private String serviceId;
+
+    private String description;
+
+    private String unit;
+
+    private BigDecimal quantity;
+
+    private BigDecimal rate;
+
+    private BigDecimal amount;
+>>>>>>> Stashed changes
 }

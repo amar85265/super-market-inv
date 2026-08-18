@@ -1,10 +1,11 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.dto.InvoiceItemRequestDto;
-import com.example.InventoryManagementSystem.dto.InvoiceItemResponseDto;
+import com.example.InventoryManagementSystem.model.InvoiceItem;
 import com.example.InventoryManagementSystem.service.InvoiceItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,46 +15,75 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InvoiceItemController {
 
-    private final InvoiceItemService service;
+    private final InvoiceItemService invoiceItemService;
 
-    // CREATE
+    // CREATE Invoice Item
     @PostMapping
-    public InvoiceItemResponseDto createInvoiceItem(
-            @Valid @RequestBody InvoiceItemRequestDto dto) {
+    public ResponseEntity<InvoiceItem> createInvoiceItem(
+            @Valid @RequestBody InvoiceItem invoiceItem) {
 
-        return service.createInvoiceItem(dto);
+        InvoiceItem createdItem =
+                invoiceItemService.createInvoiceItem(invoiceItem);
+
+        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 
-    // READ ALL
+    // GET all Invoice Items
     @GetMapping
-    public List<InvoiceItemResponseDto> getAllInvoiceItems() {
+    public ResponseEntity<List<InvoiceItem>> getAllInvoiceItems() {
 
-        return service.getAllInvoiceItems();
+        List<InvoiceItem> items =
+                invoiceItemService.getAllInvoiceItems();
+
+        return ResponseEntity.ok(items);
     }
 
-    // READ BY ID
+    // GET Invoice Item by ID
     @GetMapping("/{id}")
+<<<<<<< Updated upstream
     public InvoiceItemResponseDto getInvoiceItemById(
             @PathVariable Long id) {
+=======
+    public ResponseEntity<InvoiceItem> getInvoiceItemById(
+            @PathVariable String id) {
+>>>>>>> Stashed changes
 
-        return service.getInvoiceItemById(id);
+        InvoiceItem item =
+                invoiceItemService.getInvoiceItemById(id);
+
+        return ResponseEntity.ok(item);
     }
 
-    // UPDATE
+    // UPDATE Invoice Item
     @PutMapping("/{id}")
+<<<<<<< Updated upstream
     public InvoiceItemResponseDto updateInvoiceItem(
             @PathVariable Long id,
             @Valid @RequestBody InvoiceItemRequestDto dto) {
+=======
+    public ResponseEntity<InvoiceItem> updateInvoiceItem(
+            @PathVariable String id,
+            @Valid @RequestBody InvoiceItem invoiceItem) {
+>>>>>>> Stashed changes
 
-        return service.updateInvoiceItem(id, dto);
+        InvoiceItem updatedItem =
+                invoiceItemService.updateInvoiceItem(id, invoiceItem);
+
+        return ResponseEntity.ok(updatedItem);
     }
 
-    // DELETE
+    // DELETE Invoice Item
     @DeleteMapping("/{id}")
+<<<<<<< Updated upstream
     public String deleteInvoiceItem(
             @PathVariable Long id) {
+=======
+    public ResponseEntity<Void> deleteInvoiceItem(
+            @PathVariable String id) {
+>>>>>>> Stashed changes
 
-        service.deleteInvoiceItem(id);
-        return "Invoice Item deleted successfully";
+        invoiceItemService.deleteInvoiceItem(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

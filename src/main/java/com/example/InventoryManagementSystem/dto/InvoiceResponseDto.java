@@ -1,12 +1,18 @@
 package com.example.InventoryManagementSystem.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
-@Data
-public class InvoiceResponseDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class InvoiceResponseDTO {
 
     private Long invoiceId;
 
@@ -14,16 +20,23 @@ public class InvoiceResponseDto {
 
     private Long customerId;
 
+<<<<<<< Updated upstream
     private Long counterId;
+=======
+    private String vehicleId;
+
+    private String paymentMethod;
+
+    private LocalDateTime invoiceDate;
+>>>>>>> Stashed changes
 
     private BigDecimal subtotal;
-
-    private BigDecimal discountAmount;
 
     private BigDecimal taxAmount;
 
     private BigDecimal grandTotal;
 
+<<<<<<< Updated upstream
     private BigDecimal paidAmount;
 
     private BigDecimal balanceAmount;
@@ -35,4 +48,7 @@ public class InvoiceResponseDto {
     private Long createdBy;
 
     private OffsetDateTime createdAt;
+=======
+    private List<InvoiceItemResponseDTO> items;
+>>>>>>> Stashed changes
 }

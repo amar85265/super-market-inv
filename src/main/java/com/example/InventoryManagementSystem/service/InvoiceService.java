@@ -1,14 +1,16 @@
 package com.example.InventoryManagementSystem.service;
 
-import com.example.InventoryManagementSystem.dto.InvoiceRequestDto;
-import com.example.InventoryManagementSystem.dto.InvoiceResponseDto;
+import com.example.InventoryManagementSystem.dto.InvoiceRequestDTO;
+import com.example.InventoryManagementSystem.dto.InvoiceResponseDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface InvoiceService {
 
-    InvoiceResponseDto createInvoice(InvoiceRequestDto dto);
+    InvoiceResponseDTO createInvoice(InvoiceRequestDTO request);
 
+<<<<<<< Updated upstream
     InvoiceResponseDto getInvoiceById(Long invoiceId);
 
     List<InvoiceResponseDto> getAllInvoices();
@@ -19,3 +21,11 @@ public interface InvoiceService {
 
     void deleteInvoice(Long invoiceId);
 }
+=======
+    InvoiceResponseDTO getInvoice(String invoiceId);
+
+    List<InvoiceResponseDTO> getAllInvoices();
+
+    void deleteInvoice(String invoiceId);
+}
+>>>>>>> Stashed changes
