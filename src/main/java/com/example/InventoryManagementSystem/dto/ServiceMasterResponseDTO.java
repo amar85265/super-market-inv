@@ -14,6 +14,7 @@ public class ServiceMasterResponseDTO {
     private String description;
     private BigDecimal defaultPrice;
     private BigDecimal gstPercentage;
+    private Integer durationMinutes;
     private String status;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;

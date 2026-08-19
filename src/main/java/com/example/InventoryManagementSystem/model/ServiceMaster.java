@@ -35,6 +35,8 @@ public class ServiceMaster {
 
     private BigDecimal gstPercentage = BigDecimal.ZERO;
 
+    private Integer durationMinutes;
+
     private String status = "active";
 
     private OffsetDateTime createdAt = OffsetDateTime.now();

@@ -20,10 +20,12 @@ public class Product {
     private Long categoryId;
 
     @Column(nullable = false)
-    private String itemType = "PRODUCT"; // PRODUCT / SERVICE
+    private String itemType = "PRODUCT"; // PRODUCT / SERVICE (legacy — Catalog now only ever creates PRODUCT; SERVICE rows are frozen leftovers from before service_master existed, kept for old Sales history, never surfaced in Products)
 
     @Column(nullable = false)
     private String productName;
+
+    private String brand;
 
     @Column(unique = true)
     private String sku;

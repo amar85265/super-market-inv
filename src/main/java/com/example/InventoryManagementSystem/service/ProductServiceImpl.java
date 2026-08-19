@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setCategoryId(p.getCategoryId());
         dto.setItemType(p.getItemType());
         dto.setProductName(p.getProductName());
+        dto.setBrand(p.getBrand());
         dto.setSku(p.getSku());
         dto.setBarcode(p.getBarcode());
         dto.setPurchasePrice(p.getPurchasePrice());
@@ -61,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
         p.setCategoryId(dto.getCategoryId());
         p.setItemType(itemType);
         p.setProductName(dto.getProductName());
+        p.setBrand(dto.getBrand());
         p.setSku(dto.getSku());
         p.setBarcode(dto.getBarcode());
         p.setPurchasePrice(dto.getPurchasePrice());
@@ -108,6 +110,17 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    // Server-side type filter — Catalog screens (Products vs Service Master) must never fetch the
+    // other type at all, not just hide it client-side.
+    @Override
+    public List<ProductResponseDTO> getAllProducts(String itemType) {
+
+        return repository.findByItemType(itemType)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
     // =======================
     // UPDATE PRODUCT
     // =======================
@@ -126,6 +139,9 @@ public class ProductServiceImpl implements ProductService {
 
         if (dto.getProductName() != null)
             product.setProductName(dto.getProductName());
+
+        if (dto.getBrand() != null)
+            product.setBrand(dto.getBrand());
 
         if (dto.getSku() != null)
             product.setSku(dto.getSku());

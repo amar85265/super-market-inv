@@ -11,6 +11,7 @@ public class ProductRequestDTO {
     private Long categoryId;
     private String itemType;
     private String productName;
+    private String brand;
     private String sku;
     private String barcode;
     private BigDecimal purchasePrice;

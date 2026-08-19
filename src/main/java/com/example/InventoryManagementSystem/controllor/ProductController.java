@@ -29,9 +29,15 @@ public class ProductController {
         return ResponseEntity.ok(service.getProductById(id));
     }
 
+    // itemType filter is server-side, not a client hide — Catalog screens must never fetch the
+    // other type at all (Products page passes PRODUCT, Service Master has its own table/endpoint).
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAll() {
-        return ResponseEntity.ok(service.getAllProducts());
+    public ResponseEntity<List<ProductResponseDTO>> getAll(
+            @RequestParam(required = false) String itemType) {
+        return ResponseEntity.ok(
+                itemType == null || itemType.isBlank()
+                        ? service.getAllProducts()
+                        : service.getAllProducts(itemType.toUpperCase()));
     }
 
     @PutMapping("/{id}")
