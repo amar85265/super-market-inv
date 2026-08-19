@@ -1,49 +1,104 @@
 package com.example.InventoryManagementSystem.service;
 
+import com.example.InventoryManagementSystem.Repository.ProductRepository;
+import com.example.InventoryManagementSystem.Repository.PurchaseItemRepository;
 import com.example.InventoryManagementSystem.Repository.PurchaseRepository;
+import com.example.InventoryManagementSystem.Repository.SupplierRepository;
+import com.example.InventoryManagementSystem.Repository.UserRepository;
+import com.example.InventoryManagementSystem.dto.PurchaseItemResponseDto;
+import com.example.InventoryManagementSystem.dto.PurchaseLineItemRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseRequestDto;
 import com.example.InventoryManagementSystem.dto.PurchaseResponseDto;
+import com.example.InventoryManagementSystem.exception.ResourceNotFoundException;
+import com.example.InventoryManagementSystem.model.Product;
 import com.example.InventoryManagementSystem.model.Purchase;
+import com.example.InventoryManagementSystem.model.PurchaseItem;
+import com.example.InventoryManagementSystem.model.Supplier;
+import com.example.InventoryManagementSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseServiceImpl implements PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
+    private final PurchaseItemRepository purchaseItemRepository;
+    private final SupplierRepository supplierRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     // CREATE PURCHASE
     @Override
-    public PurchaseResponseDto createPurchase(
-            PurchaseRequestDto dto) {
+    @Transactional
+    public PurchaseResponseDto createPurchase(PurchaseRequestDto dto) {
+
+        if (dto.getSupplierId() == null) {
+            throw new IllegalArgumentException("supplierId is required");
+        }
+
+        Supplier supplier = supplierRepository.findById(dto.getSupplierId())
+                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id: " + dto.getSupplierId()));
 
         Purchase purchase = new Purchase();
+        purchase.setSupplierId(supplier);
+        purchase.setTotalAmount(dto.getTotalAmount());
+        purchase.setTax(dto.getTax());
+        purchase.setPaymentStatus(dto.getPaymentStatus());
 
-        purchase.setSupplierId(
-                dto.getSupplierId());
+        if (dto.getCreatedBy() != null) {
+            User createdBy = userRepository.findById(dto.getCreatedBy())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getCreatedBy()));
+            purchase.setCreatedBy(createdBy);
+        }
 
-        purchase.setInvoiceNumber(
-                dto.getInvoiceNumber());
+        // Auto-generate the invoice number when the caller didn't supply one — a billing/purchasing
+        // system shouldn't require a person to type a unique reference by hand.
+        if (dto.getInvoiceNumber() == null || dto.getInvoiceNumber().isBlank()) {
+            Purchase saved = purchaseRepository.save(purchase);
+            purchase.setInvoiceNumber("PUR-" + saved.getPurchaseId() + "-" + System.currentTimeMillis());
+        } else {
+            purchase.setInvoiceNumber(dto.getInvoiceNumber());
+        }
 
-        purchase.setTotalAmount(
-                dto.getTotalAmount());
+        Purchase saved = purchaseRepository.save(purchase);
 
-        purchase.setTax(
-                dto.getTax());
+        List<PurchaseItem> savedItems = new ArrayList<>();
+        if (dto.getItems() != null && !dto.getItems().isEmpty()) {
+            for (PurchaseLineItemRequestDto line : dto.getItems()) {
 
-        purchase.setPaymentStatus(
-                dto.getPaymentStatus());
+                Product product = productRepository.findById(line.getProductId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + line.getProductId()));
 
-        purchase.setCreatedBy(
-                dto.getCreatedBy());
+                // A purchase brings stock in.
+                int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+                product.setStockQuantity(currentStock + line.getQuantity());
+                productRepository.save(product);
 
-        Purchase saved =
-                purchaseRepository.save(purchase);
+                BigDecimal price = line.getPurchasePrice() != null ? line.getPurchasePrice() : BigDecimal.ZERO;
+                BigDecimal tax = line.getTaxAmount() != null ? line.getTaxAmount() : BigDecimal.ZERO;
+                BigDecimal total = price.multiply(BigDecimal.valueOf(line.getQuantity())).add(tax);
 
-        return mapToDto(saved);
+                PurchaseItem item = PurchaseItem.builder()
+                        .purchase(saved)
+                        .product(product)
+                        .quantity(line.getQuantity())
+                        .purchasePrice(price)
+                        .taxAmount(tax)
+                        .total(total)
+                        .build();
+
+                savedItems.add(purchaseItemRepository.save(item));
+            }
+        }
+
+        return mapToDto(saved, savedItems);
     }
 
     // GET ALL PURCHASES
@@ -52,88 +107,96 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         return purchaseRepository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(purchase -> mapToDto(purchase, purchaseItemRepository.findByPurchase_PurchaseId(purchase.getPurchaseId())))
                 .toList();
     }
 
     // GET PURCHASE BY ID
     @Override
-    public PurchaseResponseDto getPurchaseById(
-            Long id) {
+    public PurchaseResponseDto getPurchaseById(Long id) {
 
-        Purchase purchase =
-                purchaseRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Purchase not found"));
+        Purchase purchase = purchaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found with id: " + id));
 
-        return mapToDto(purchase);
+        return mapToDto(purchase, purchaseItemRepository.findByPurchase_PurchaseId(id));
     }
 
     // UPDATE PURCHASE
     @Override
-    public PurchaseResponseDto updatePurchase(
-            Long id,
-            PurchaseRequestDto dto) {
+    @Transactional
+    public PurchaseResponseDto updatePurchase(Long id, PurchaseRequestDto dto) {
 
-        Purchase purchase =
-                purchaseRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Purchase not found"));
+        Purchase purchase = purchaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found with id: " + id));
 
-        purchase.setSupplierId(
-                dto.getSupplierId());
+        if (dto.getSupplierId() != null) {
+            Supplier supplier = supplierRepository.findById(dto.getSupplierId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Supplier not found with id: " + dto.getSupplierId()));
+            purchase.setSupplierId(supplier);
+        }
 
-        purchase.setInvoiceNumber(
-                dto.getInvoiceNumber());
+        // Only overwrite the invoice number if a real one was supplied — never blank out the
+        // auto-generated one just because the field wasn't part of this edit's payload.
+        if (dto.getInvoiceNumber() != null && !dto.getInvoiceNumber().isBlank()) {
+            purchase.setInvoiceNumber(dto.getInvoiceNumber());
+        }
 
-        purchase.setTotalAmount(
-                dto.getTotalAmount());
+        if (dto.getTotalAmount() != null) purchase.setTotalAmount(dto.getTotalAmount());
+        if (dto.getTax() != null) purchase.setTax(dto.getTax());
+        if (dto.getPaymentStatus() != null) purchase.setPaymentStatus(dto.getPaymentStatus());
 
-        purchase.setTax(
-                dto.getTax());
+        if (dto.getCreatedBy() != null) {
+            User createdBy = userRepository.findById(dto.getCreatedBy())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getCreatedBy()));
+            purchase.setCreatedBy(createdBy);
+        }
 
-        purchase.setPaymentStatus(
-                dto.getPaymentStatus());
+        Purchase updated = purchaseRepository.save(purchase);
 
-        purchase.setCreatedBy(
-                dto.getCreatedBy());
-
-        Purchase updated =
-                purchaseRepository.save(purchase);
-
-        return mapToDto(updated);
+        return mapToDto(updated, purchaseItemRepository.findByPurchase_PurchaseId(id));
     }
 
     // DELETE PURCHASE
     @Override
     public void deletePurchase(Long id) {
 
-        Purchase purchase =
-                purchaseRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Purchase not found"));
+        Purchase purchase = purchaseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found with id: " + id));
 
         purchaseRepository.delete(purchase);
     }
 
     // MAP ENTITY TO DTO
-    private PurchaseResponseDto mapToDto(
-            Purchase purchase) {
+    private PurchaseResponseDto mapToDto(Purchase purchase, List<PurchaseItem> items) {
 
-        return new PurchaseResponseDto(
-                purchase.getPurchaseId(),
-                purchase.getSupplierId()
-                        .getSupplierName(),
-                purchase.getInvoiceNumber(),
-                purchase.getPurchaseDate(),
-                purchase.getTotalAmount(),
-                purchase.getTax(),
-                purchase.getPaymentStatus(),
-                purchase.getCreatedBy()
-                        .getUsername()
-        );
+        PurchaseResponseDto dto = new PurchaseResponseDto();
+        dto.setPurchaseId(purchase.getPurchaseId());
+        dto.setSupplierName(purchase.getSupplierId() != null ? purchase.getSupplierId().getSupplierName() : null);
+        dto.setInvoiceNumber(purchase.getInvoiceNumber());
+        dto.setPurchaseDate(purchase.getPurchaseDate());
+        dto.setTotalAmount(purchase.getTotalAmount());
+        dto.setTax(purchase.getTax());
+        dto.setPaymentStatus(purchase.getPaymentStatus());
+        dto.setCreatedBy(purchase.getCreatedBy() != null ? purchase.getCreatedBy().getUsername() : null);
+
+        if (items != null) {
+            dto.setItems(items.stream().map(this::mapItemToDto).collect(Collectors.toList()));
+        }
+
+        return dto;
+    }
+
+    private PurchaseItemResponseDto mapItemToDto(PurchaseItem item) {
+        return PurchaseItemResponseDto.builder()
+                .purchaseItemId(item.getPurchaseItemId())
+                .purchaseId(item.getPurchase().getPurchaseId())
+                .invoiceNumber(item.getPurchase().getInvoiceNumber())
+                .productId(item.getProduct().getProductId())
+                .productName(item.getProduct().getProductName())
+                .quantity(item.getQuantity())
+                .purchasePrice(item.getPurchasePrice())
+                .taxAmount(item.getTaxAmount())
+                .total(item.getTotal())
+                .build();
     }
 }

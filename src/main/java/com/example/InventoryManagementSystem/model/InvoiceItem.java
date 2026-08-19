@@ -1,11 +1,16 @@
-package com.example.InventoryManagementSystem.Model;
+package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "invoice_items")
+@Getter
+@Setter
 public class InvoiceItem {
 
     @Id
@@ -16,8 +21,19 @@ public class InvoiceItem {
     @Column(name = "invoice_id")
     private Integer invoiceId;
 
+    // SERVICE or PRODUCT. If SERVICE: serviceId is populated, productId is null.
+    // If PRODUCT: productId is populated, serviceId is null.
+    @Column(name = "item_type", length = 20)
+    private String itemType;
+
+    @Column(name = "service_id")
+    private Integer serviceId;
+
     @Column(name = "product_id")
     private Integer productId;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(length = 100)
     private String barcode;
@@ -28,7 +44,7 @@ public class InvoiceItem {
     @Column(name = "unit_price", precision = 12, scale = 2)
     private BigDecimal unitPrice;
 
-    @Column(precision = 12, scale = 2)
+    @Column(name = "discount_amount", precision = 12, scale = 2)
     private BigDecimal discount = BigDecimal.ZERO;
 
     @Column(name = "tax_percentage", precision = 5, scale = 2)
@@ -40,85 +56,21 @@ public class InvoiceItem {
     @Column(name = "total_amount", precision = 12, scale = 2)
     private BigDecimal totalAmount;
 
-    // Getters and Setters
+    @Column(name = "created_at", updatable = false)
+    private OffsetDateTime createdAt;
 
-    public Long getInvoiceItemId() {
-        return invoiceItemId;
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        OffsetDateTime now = OffsetDateTime.now();
+        createdAt = now;
+        updatedAt = now;
     }
 
-    public void setInvoiceItemId(Long invoiceItemId) {
-        this.invoiceItemId = invoiceItemId;
-    }
-
-    public Integer getInvoiceId() {
-        return invoiceId;
-    }
-
-    public void setInvoiceId(Integer invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public BigDecimal getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
-
-    public BigDecimal getTaxPercentage() {
-        return taxPercentage;
-    }
-
-    public void setTaxPercentage(BigDecimal taxPercentage) {
-        this.taxPercentage = taxPercentage;
-    }
-
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
-    }
-
-    public void setTaxAmount(BigDecimal taxAmount) {
-        this.taxAmount = taxAmount;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = OffsetDateTime.now();
     }
 }

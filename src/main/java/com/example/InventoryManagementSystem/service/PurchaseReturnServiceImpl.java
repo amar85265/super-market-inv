@@ -32,10 +32,10 @@ public class PurchaseReturnServiceImpl
     public PurchaseReturnResponseDTO createPurchaseReturn(
             PurchaseReturnRequestDTO requestDTO) {
 
-        purchaseRepository.findById(requestDTO.getPurchaseId())
+        Purchase purchase = purchaseRepository.findById(requestDTO.getPurchaseId())
                 .orElseThrow(() -> new RuntimeException("Purchase not found"));
 
-        supplierRepository.findById(requestDTO.getSupplierId())
+        Supplier supplier = supplierRepository.findById(requestDTO.getSupplierId())
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
         PurchaseReturn entity = PurchaseReturn.builder()
@@ -83,8 +83,8 @@ public class PurchaseReturnServiceImpl
             return null;
         }
 
-        entity.setPurchaseId(requestDTO.getPurchaseId());
-        entity.setSupplierId(requestDTO.getSupplierId());
+        entity.setPurchaseId(Math.toIntExact(requestDTO.getPurchaseId()));
+        entity.setSupplierId(Math.toIntExact(requestDTO.getSupplierId()));
         entity.setTotalAmount(requestDTO.getTotalAmount());
         entity.setNotes(requestDTO.getNotes());
 

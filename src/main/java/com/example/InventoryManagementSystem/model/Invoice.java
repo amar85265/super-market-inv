@@ -1,12 +1,16 @@
 package com.example.InventoryManagementSystem.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "invoices")
+@Getter
+@Setter
 public class Invoice {
 
     @Id
@@ -20,8 +24,19 @@ public class Invoice {
     @Column(name = "customer_id")
     private Integer customerId;
 
+    @Column(name = "vehicle_id")
+    private Long vehicleId;
+
+    // Snapshotted at time of visit — Vehicle.odometer holds the latest reading for next-visit
+    // reference, but a printed/reprinted invoice must always show what it was AT THAT VISIT.
+    @Column(name = "odometer_reading")
+    private Integer odometerReading;
+
     @Column(name = "counter_id")
     private Integer counterId;
+
+    @Column(name = "invoice_date")
+    private OffsetDateTime invoiceDate;
 
     @Column(name = "subtotal", precision = 12, scale = 2)
     private BigDecimal subtotal = BigDecimal.ZERO;
@@ -31,6 +46,12 @@ public class Invoice {
 
     @Column(name = "tax_amount", precision = 12, scale = 2)
     private BigDecimal taxAmount = BigDecimal.ZERO;
+
+    @Column(name = "cgst_amount", precision = 12, scale = 2)
+    private BigDecimal cgstAmount = BigDecimal.ZERO;
+
+    @Column(name = "sgst_amount", precision = 12, scale = 2)
+    private BigDecimal sgstAmount = BigDecimal.ZERO;
 
     @Column(name = "grand_total", precision = 12, scale = 2)
     private BigDecimal grandTotal = BigDecimal.ZERO;
@@ -47,128 +68,32 @@ public class Invoice {
     @Column(name = "payment_status", length = 20)
     private String paymentStatus = "PAID";
 
+    // Invoice lifecycle — distinct from paymentStatus (which tracks money owed). COMPLETED or
+    // CANCELLED; a held-but-not-yet-billed cart lives in hold_invoices, never here.
+    @Column(name = "status", length = 20)
+    private String status = "COMPLETED";
+
     @Column(name = "created_by")
     private Integer createdBy;
 
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
     @PrePersist
     public void prePersist() {
-        createdAt = OffsetDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now();
+        createdAt = now;
+        updatedAt = now;
+        if (invoiceDate == null) {
+            invoiceDate = now;
+        }
     }
 
-    // Getters and Setters
-
-    public Long getInvoiceId() {
-        return invoiceId;
-    }
-
-    public void setInvoiceId(Long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
-    public Integer getCounterId() {
-        return counterId;
-    }
-
-    public void setCounterId(Integer counterId) {
-        this.counterId = counterId;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public BigDecimal getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public void setDiscountAmount(BigDecimal discountAmount) {
-        this.discountAmount = discountAmount;
-    }
-
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
-    }
-
-    public void setTaxAmount(BigDecimal taxAmount) {
-        this.taxAmount = taxAmount;
-    }
-
-    public BigDecimal getGrandTotal() {
-        return grandTotal;
-    }
-
-    public void setGrandTotal(BigDecimal grandTotal) {
-        this.grandTotal = grandTotal;
-    }
-
-    public BigDecimal getPaidAmount() {
-        return paidAmount;
-    }
-
-    public void setPaidAmount(BigDecimal paidAmount) {
-        this.paidAmount = paidAmount;
-    }
-
-    public BigDecimal getBalanceAmount() {
-        return balanceAmount;
-    }
-
-    public void setBalanceAmount(BigDecimal balanceAmount) {
-        this.balanceAmount = balanceAmount;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = OffsetDateTime.now();
     }
 }

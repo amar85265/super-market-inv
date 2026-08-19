@@ -20,6 +20,9 @@ public class Product {
     private Long categoryId;
 
     @Column(nullable = false)
+    private String itemType = "PRODUCT"; // PRODUCT / SERVICE
+
+    @Column(nullable = false)
     private String productName;
 
     @Column(unique = true)

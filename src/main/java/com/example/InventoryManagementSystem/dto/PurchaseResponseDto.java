@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +28,6 @@ public class PurchaseResponseDto {
     private String paymentStatus;
 
     private String createdBy;
+
+    private List<PurchaseItemResponseDto> items;
 }

@@ -14,8 +14,12 @@ import java.time.OffsetDateTime;
 public class HoldInvoiceResponseDto {
 
     private Long holdId;
-
+    private Long customerId;
+    private String customerName;
+    private Long vehicleId;
+    private String vehicleModel;
+    private String registrationNumber;
+    private String status;
     private String data;
-
     private OffsetDateTime createdAt;
 }

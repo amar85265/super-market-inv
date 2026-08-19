@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public class ProductRequestDTO {
 
     private Long categoryId;
+    private String itemType;
     private String productName;
     private String sku;
     private String barcode;

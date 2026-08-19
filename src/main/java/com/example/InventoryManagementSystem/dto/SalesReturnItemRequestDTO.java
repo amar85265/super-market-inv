@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 public class SalesReturnItemRequestDTO {
 
     private Long salesReturnId;
+    private Long invoiceId;
+    private Long invoiceItemId;
     private Long productId;
 
     private Integer quantity;

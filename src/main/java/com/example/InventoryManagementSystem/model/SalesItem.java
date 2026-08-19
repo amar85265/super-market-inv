@@ -21,9 +21,17 @@ public class SalesItem {
 
     private Long productId;
 
+    private String itemType; // PRODUCT / SERVICE, snapshotted at sale time
+
     private Integer quantity;
 
     private BigDecimal sellingPrice;
+
+    private BigDecimal discount = BigDecimal.ZERO;
+
+    private BigDecimal taxPercentage = BigDecimal.ZERO;
+
+    private BigDecimal taxAmount = BigDecimal.ZERO;
 
     private BigDecimal total;
 }

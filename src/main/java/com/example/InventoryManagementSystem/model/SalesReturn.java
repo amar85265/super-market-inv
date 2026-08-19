@@ -23,6 +23,11 @@ public class SalesReturn {
 
     private Long saleId;
 
+    // Set instead of saleId/salesItemId when the return is against an Invoice-based transaction
+    // (the current primary billing engine) rather than the legacy Sales module.
+    private Long invoiceId;
+    private Long invoiceItemId;
+
     private Long customerId;
 
     private Integer returnQuantity;

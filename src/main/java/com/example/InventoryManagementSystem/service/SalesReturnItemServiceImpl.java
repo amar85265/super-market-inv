@@ -37,10 +37,17 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
 
         SalesReturnItem item = new SalesReturnItem();
         item.setSalesReturnId(dto.getSalesReturnId());
+        item.setInvoiceId(dto.getInvoiceId());
+        item.setInvoiceItemId(dto.getInvoiceItemId());
         item.setProductId(dto.getProductId());
         item.setQuantity(dto.getQuantity());
         item.setPrice(price);
         item.setTotal(total);
+
+        // A returned product goes back into stock.
+        int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+        product.setStockQuantity(currentStock + dto.getQuantity());
+        productRepository.save(product);
 
         return mapToDTO(salesReturnItemRepository.save(item));
     }
@@ -70,6 +77,15 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
         SalesReturnItem item = salesReturnItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
 
+        // Undo the restock this item previously applied, against its original product/quantity,
+        // before applying the new one below — otherwise editing a return record (or switching
+        // which product it refers to) would double-count stock.
+        Product oldProduct = productRepository.findById(item.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        int oldStock = oldProduct.getStockQuantity() != null ? oldProduct.getStockQuantity() : 0;
+        oldProduct.setStockQuantity(oldStock - item.getQuantity());
+        productRepository.save(oldProduct);
+
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -79,10 +95,16 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
         }
 
         item.setSalesReturnId(dto.getSalesReturnId());
+        item.setInvoiceId(dto.getInvoiceId());
+        item.setInvoiceItemId(dto.getInvoiceItemId());
         item.setProductId(dto.getProductId());
         item.setQuantity(dto.getQuantity());
         item.setPrice(price);
         item.setTotal(price.multiply(BigDecimal.valueOf(dto.getQuantity())));
+
+        int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+        product.setStockQuantity(currentStock + dto.getQuantity());
+        productRepository.save(product);
 
         return mapToDTO(salesReturnItemRepository.save(item));
     }
@@ -92,6 +114,13 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
     public void deleteItem(Long id) {
         SalesReturnItem item = salesReturnItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        // Deleting a return record means it should no longer be counted as restocked.
+        productRepository.findById(item.getProductId()).ifPresent(product -> {
+            int currentStock = product.getStockQuantity() != null ? product.getStockQuantity() : 0;
+            product.setStockQuantity(currentStock - item.getQuantity());
+            productRepository.save(product);
+        });
 
         salesReturnItemRepository.delete(item);
     }
@@ -103,6 +132,8 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService {
 
         dto.setSalesReturnItemId(item.getSalesReturnItemId());
         dto.setSalesReturnId(item.getSalesReturnId());
+        dto.setInvoiceId(item.getInvoiceId());
+        dto.setInvoiceItemId(item.getInvoiceItemId());
         dto.setProductId(item.getProductId());
         dto.setQuantity(item.getQuantity());
         dto.setPrice(item.getPrice());

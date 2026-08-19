@@ -11,7 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
-@CrossOrigin("*")
+// CORS is already handled globally in config/CorsConfig.java. A per-controller
+// @CrossOrigin("*") here conflicts with that config's allowCredentials(true) — Spring
+// rejects "*" origins combined with credentials at request time (every call 400s).
 public class CustomerController {
 
     private final CustomerService service;

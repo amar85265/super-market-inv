@@ -16,6 +16,9 @@ public class SalesReturnResponseDTO {
 
     private Long saleId;
 
+    private Long invoiceId;
+    private Long invoiceItemId;
+
     private Long customerId;
 
     private Integer returnQuantity;

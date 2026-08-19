@@ -12,7 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/settings")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+// CORS is already handled globally in config/CorsConfig.java — see CustomerController for why
+// a per-controller @CrossOrigin("*") here would break every request (allowCredentials conflict).
 public class SettingController {
 
     private final SettingService service;

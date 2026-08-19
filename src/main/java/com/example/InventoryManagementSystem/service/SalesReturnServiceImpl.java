@@ -26,6 +26,8 @@ public class SalesReturnServiceImpl
         SalesReturn salesReturn = SalesReturn.builder()
                 .salesItemId(dto.getSalesItemId())
                 .saleId(dto.getSaleId())
+                .invoiceId(dto.getInvoiceId())
+                .invoiceItemId(dto.getInvoiceItemId())
                 .customerId(dto.getCustomerId())
                 .returnQuantity(dto.getReturnQuantity())
                 .reason(dto.getReason())
@@ -83,6 +85,12 @@ public class SalesReturnServiceImpl
         salesReturn.setSaleId(
                 dto.getSaleId());
 
+        salesReturn.setInvoiceId(
+                dto.getInvoiceId());
+
+        salesReturn.setInvoiceItemId(
+                dto.getInvoiceItemId());
+
         salesReturn.setCustomerId(
                 dto.getCustomerId());
 
@@ -131,6 +139,10 @@ public class SalesReturnServiceImpl
                         salesReturn.getSalesItemId())
                 .saleId(
                         salesReturn.getSaleId())
+                .invoiceId(
+                        salesReturn.getInvoiceId())
+                .invoiceItemId(
+                        salesReturn.getInvoiceItemId())
                 .customerId(
                         salesReturn.getCustomerId())
                 .returnQuantity(

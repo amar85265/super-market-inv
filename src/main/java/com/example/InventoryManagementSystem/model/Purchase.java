@@ -47,11 +47,4 @@ public class Purchase {
     public void setDate() {
         this.purchaseDate = LocalDateTime.now();
     }
-
-    public void setSupplierId(Long supplierId) {
-    }
-
-    public void setCreatedBy(Long createdBy) {
-
-    }
 }

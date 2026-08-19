@@ -1,55 +1,51 @@
 package com.example.InventoryManagementSystem.controllor;
 
-import com.example.InventoryManagementSystem.dto.InvoiceDto;
+import com.example.InventoryManagementSystem.dto.InvoiceRequestDTO;
+import com.example.InventoryManagementSystem.dto.InvoiceResponseDTO;
 import com.example.InventoryManagementSystem.service.InvoiceService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/invoices")
+@RequiredArgsConstructor
 public class InvoiceController {
 
-    @Autowired
-    private InvoiceService service;
+    private final InvoiceService service;
 
-    // CREATE
     @PostMapping
-    public InvoiceDto createInvoice(@RequestBody InvoiceDto dto) {
-
-        return service.createInvoice(dto);
+    public ResponseEntity<InvoiceResponseDTO> createInvoice(@Valid @RequestBody InvoiceRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createInvoice(dto));
     }
 
-    // READ ALL
     @GetMapping
-    public List<InvoiceDto> getAllInvoices() {
-
-        return service.getAllInvoices();
+    public ResponseEntity<List<InvoiceResponseDTO>> getAllInvoices() {
+        return ResponseEntity.ok(service.getAllInvoices());
     }
 
-    // READ BY ID
     @GetMapping("/{id}")
-    public InvoiceDto getInvoiceById(@PathVariable Long id) {
-
-        return service.getInvoiceById(id);
+    public ResponseEntity<InvoiceResponseDTO> getInvoiceById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getInvoiceById(id));
     }
 
-    // UPDATE
     @PutMapping("/{id}")
-    public InvoiceDto updateInvoice(@PathVariable Long id,
-                                    @RequestBody InvoiceDto dto) {
-
-        return service.updateInvoice(id, dto);
+    public ResponseEntity<InvoiceResponseDTO> updateInvoice(@PathVariable Long id, @RequestBody InvoiceRequestDTO dto) {
+        return ResponseEntity.ok(service.updateInvoice(id, dto));
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public String deleteInvoice(@PathVariable Long id) {
-
+    public ResponseEntity<String> deleteInvoice(@PathVariable Long id) {
         service.deleteInvoice(id);
+        return ResponseEntity.ok("Invoice deleted successfully");
+    }
 
-        return "Invoice deleted successfully";
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<InvoiceResponseDTO> cancelInvoice(@PathVariable Long id) {
+        return ResponseEntity.ok(service.cancelInvoice(id));
     }
 }

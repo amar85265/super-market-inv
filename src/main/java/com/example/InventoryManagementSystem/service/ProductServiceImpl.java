@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
 
         dto.setProductId(p.getProductId());
         dto.setCategoryId(p.getCategoryId());
+        dto.setItemType(p.getItemType());
         dto.setProductName(p.getProductName());
         dto.setSku(p.getSku());
         dto.setBarcode(p.getBarcode());
@@ -48,13 +49,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO dto) {
 
-        if (dto.getStockQuantity() != null && dto.getStockQuantity() < 0) {
-            throw new RuntimeException("Stock cannot be negative");
+        String itemType = normalizeItemType(dto.getItemType());
+
+        // Stock is only meaningful for physical PRODUCT rows; SERVICE rows aren't stock-tracked.
+        if ("PRODUCT".equals(itemType) && dto.getStockQuantity() != null && dto.getStockQuantity() < 0) {
+            throw new IllegalArgumentException("Stock cannot be negative");
         }
 
         Product p = new Product();
 
         p.setCategoryId(dto.getCategoryId());
+        p.setItemType(itemType);
         p.setProductName(dto.getProductName());
         p.setSku(dto.getSku());
         p.setBarcode(dto.getBarcode());
@@ -66,6 +71,17 @@ public class ProductServiceImpl implements ProductService {
         p.setStatus(dto.getStatus() != null ? dto.getStatus() : "active");
 
         return mapToDTO(repository.save(p));
+    }
+
+    private String normalizeItemType(String itemType) {
+        if (itemType == null || itemType.isBlank()) {
+            return "PRODUCT";
+        }
+        String upper = itemType.trim().toUpperCase();
+        if (!upper.equals("PRODUCT") && !upper.equals("SERVICE")) {
+            throw new IllegalArgumentException("itemType must be PRODUCT or SERVICE");
+        }
+        return upper;
     }
 
     // =======================
@@ -105,6 +121,9 @@ public class ProductServiceImpl implements ProductService {
         if (dto.getCategoryId() != null)
             product.setCategoryId(dto.getCategoryId());
 
+        if (dto.getItemType() != null)
+            product.setItemType(normalizeItemType(dto.getItemType()));
+
         if (dto.getProductName() != null)
             product.setProductName(dto.getProductName());
 
@@ -123,7 +142,7 @@ public class ProductServiceImpl implements ProductService {
         if (dto.getStockQuantity() != null) {
 
             if (dto.getStockQuantity() < 0) {
-                throw new RuntimeException("Stock cannot be negative");
+                throw new IllegalArgumentException("Stock cannot be negative");
             }
 
             product.setStockQuantity(dto.getStockQuantity());

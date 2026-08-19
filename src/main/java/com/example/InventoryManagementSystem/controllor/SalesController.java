@@ -3,7 +3,9 @@ package com.example.InventoryManagementSystem.controllor;
 import com.example.InventoryManagementSystem.dto.SalesRequestDTO;
 import com.example.InventoryManagementSystem.dto.SalesResponseDTO;
 import com.example.InventoryManagementSystem.service.SalesService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ public class SalesController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<SalesResponseDTO> createSale(@RequestBody SalesRequestDTO dto) {
-        return ResponseEntity.ok(salesService.createSale(dto));
+    public ResponseEntity<SalesResponseDTO> createSale(@Valid @RequestBody SalesRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(salesService.createSale(dto));
     }
 
     // GET BY ID

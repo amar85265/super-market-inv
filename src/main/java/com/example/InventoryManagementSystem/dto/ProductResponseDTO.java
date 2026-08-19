@@ -11,6 +11,7 @@ public class ProductResponseDTO {
 
     private Long productId;
     private Long categoryId;
+    private String itemType;
     private String productName;
     private String sku;
     private String barcode;
