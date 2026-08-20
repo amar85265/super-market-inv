@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 public class StockMovement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "movement_id")
     private String movementId;
 
